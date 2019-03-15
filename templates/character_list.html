@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	
+	<h3> Current Characters: </h3>
+
+	<ul>
+		{% for character in characters %}
+			<li>
+				{{character.NAME}}
+				{{character.RACE}}
+				{{character.LEVEL}}
+				{{character.CLASS}}
+			</li>
+			{% else %}
+				<li> No Characters found </li>
+			{% endfor %}
+	</ul>
+
+	<br><br><hr>
+
+{% endblock %}
