@@ -7,10 +7,10 @@
 	<ul>
 		{% for character in characters %}
 			<li>
-				{{character.NAME}}
+				<a href = "/info/{{character.NAME}}">{{character.NAME}}</a>
 				{{character.RACE}}
 				{{character.LEVEL}}
-				{{character.CLASS}}
+				{{character.JOB}}
 			</li>
 			{% else %}
 				<li> No Characters found </li>
@@ -18,5 +18,6 @@
 	</ul>
 
 	<br><br><hr>
+	<a href ="/add"> Add a pre-created character</a>
 
 {% endblock %}

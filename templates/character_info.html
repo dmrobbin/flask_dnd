@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h2>{{ character.NAME}}</h3>
+	<h3> Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}}</h3>
+	<ul>
+
+		<li>
+			STR: {{ character.STRENGTH }}
+		</li>
+		<li>
+			DEX: {{ character.DEXTERITY }}
+		</li>
+		<li>
+			CON: {{ character.CONSTITUTION }}
+		</li>
+		<li>
+			INT: {{ character.INTELLIGENCE }}
+		</li>
+		<li>
+			WIS: {{ character.WISDOM }}
+		</li>
+		<li>
+			CHA: {{ character.CHARISMA }}
+		</li>
+	</ul>
+
+	<form action="" method="post">
+		<input type="hidden" name="remove" value="1">
+		<input type="submit" value="Remove Character">
+	</form>
+
+	<br><br><hr>
+	<a href="/">Back to characters</a>
+
+{% endblock %}

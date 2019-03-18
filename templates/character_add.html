@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post" action="">
+	<h5>Name:</h5>
+	<input type="text" name="name">
+
+	<h5>Level:</h5>
+	<input type="text" name="level">
+
+	<h5>RACE/CLASS:</h5>
+	<select name="job">
+		<option value="bard">Bard</option>
+		<option value="barbarian">Barbarian</option>
+		<option value="cleric">Cleric</option>
+		<option value="druid">Druid</option>
+		<option value="monk">Monk</option>
+		<option value="paladin">Paladin</option>
+		<option value="ranger">Ranger</option>
+		<option value="sorcerer">Sorcerer</option>
+		<option value="fighter">Fighter</option>
+		<option value="wizard">Wizard</option>
+		<option value="warlock">Warlock</option>
+	</select>
+	
+	<select name="race">
+		<option value="dragonborn">Dragonborn</option>
+		<option value="dwarf">Dwarf</option>
+		<option value="elf">Elf</option>
+		<option value="gnome">Gnome</option>
+		<option value="halfling">Halfling</option>
+		<option value="half-elf">Half-Elf</option>
+		<option value="half-orc">Half-Orc</option>
+		<option value="human">Human</option>
+		<option value="tiefling">Tiefling</option>
+	</select>
+
+	<h5>STR:</h5>
+	<input type="text" name="STRENGTH">
+	<h5>DEX:</h5>
+	<input type="text" name="DEXTERITY">
+	<h5>CON:</h5>
+	<input type="text" name="CONSTITUTION">
+	<h5>INT:</h5>
+	<input type="text" name="INTELLIGENCE">
+	<h5>WIS:</h5>
+	<input type="text" name="WISDOM">
+	<h5>CHA:</h5>
+	<input type="text" name="CHARISMA">
+
+	<br><br>
+	<input type="submit" value="Add Character">
+</form>
+{% endblock %}
