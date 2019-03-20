@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<body>
+	<h3> Random Rolls </h3>
+<form method="post" action="">
+	<ul>
+		<li>
+			<h4>Name</h4>
+
+			<input type="text" name="name">
+
+		</li>
+		<li class='creaton'>
+			<h4>Race</h4>
+				<select name="race">
+					<option value="">Please Select</option>
+					<option value="dragonborn">Dragonborn</option>
+					<option value="dwarf">Dwarf</option>
+					<option value="elf">Elf</option>
+					<option value="gnome">Gnome</option>
+					<option value="halfling">Halfling</option>
+					<option value="half-elf">Half-Elf</option>
+					<option value="half-orc">Half-Orc</option>
+					<option value="human">Human</option>
+					<option value="tiefling">Tiefling</option>
+				</select>
+		</li>
+		<li class='creaton'>
+			<h4>Class</h4>
+				<select name="job">
+					<option value="">Please Select</option>
+					<option value="bard">Bard</option>
+					<option value="barbarian">Barbarian</option>
+					<option value="cleric">Cleric</option>
+					<option value="druid">Druid</option>
+					<option value="monk">Monk</option>
+					<option value="paladin">Paladin</option>
+					<option value="ranger">Ranger</option>
+					<option value="rogue">Rogue</option>
+					<option value="sorcerer">Sorcerer</option>
+					<option value="fighter">Fighter</option>
+					<option value="wizard">Wizard</option>
+					<option value="warlock">Warlock</option>
+				</select>
+		</li>
+		<li class='creaton'>
+			<span> <span>STR </span>
+				<select name="STRENGTH">
+					<option value={{rolls[0]}}>{{rolls[0]}}</option>
+					<option value={{rolls[1]}}>{{rolls[1]}}</option>
+					<option value={{rolls[2]}}>{{rolls[2]}}</option>
+					<option value={{rolls[3]}}>{{rolls[3]}}</option>
+					<option value={{rolls[4]}}>{{rolls[4]}}</option>
+					<option value={{rolls[5]}}>{{rolls[5]}}</option>
+				</select>
+			</span>
+		</li>
+		<li class='creaton'>
+			<span> <span>DEX </span>
+				<select name="DEXTERITY">
+					<option value={{rolls[0]}}>{{rolls[0]}}</option>
+					<option value={{rolls[1]}}>{{rolls[1]}}</option>
+					<option value={{rolls[2]}}>{{rolls[2]}}</option>
+					<option value={{rolls[3]}}>{{rolls[3]}}</option>
+					<option value={{rolls[4]}}>{{rolls[4]}}</option>
+					<option value={{rolls[5]}}>{{rolls[5]}}</option>
+				</select>
+			</span>
+		</li>
+		<li class='creaton'>
+			<span> <span>CON </span>
+				<select name="CONSTITUTION">
+					<option value={{rolls[0]}}>{{rolls[0]}}</option>
+					<option value={{rolls[1]}}>{{rolls[1]}}</option>
+					<option value={{rolls[2]}}>{{rolls[2]}}</option>
+					<option value={{rolls[3]}}>{{rolls[3]}}</option>
+					<option value={{rolls[4]}}>{{rolls[4]}}</option>
+					<option value={{rolls[5]}}>{{rolls[5]}}</option>
+				</select>
+			</span>
+		</li>
+		<li class='creaton'>
+			<span> <span>INT </span>
+				<select name="INTELLIGENCE">
+					<option value={{rolls[0]}}>{{rolls[0]}}</option>
+					<option value={{rolls[1]}}>{{rolls[1]}}</option>
+					<option value={{rolls[2]}}>{{rolls[2]}}</option>
+					<option value={{rolls[3]}}>{{rolls[3]}}</option>
+					<option value={{rolls[4]}}>{{rolls[4]}}</option>
+					<option value={{rolls[5]}}>{{rolls[5]}}</option>
+				</select>
+			</span>
+		</li>
+		<li class='creaton'>
+			<span> <span>WIS </span>
+				<select name="WISDOM">
+					<option value={{rolls[0]}}>{{rolls[0]}}</option>
+					<option value={{rolls[1]}}>{{rolls[1]}}</option>
+					<option value={{rolls[2]}}>{{rolls[2]}}</option>
+					<option value={{rolls[3]}}>{{rolls[3]}}</option>
+					<option value={{rolls[4]}}>{{rolls[4]}}</option>
+					<option value={{rolls[5]}}>{{rolls[5]}}</option>
+				</select>
+			</span>
+		</li>
+		<li class='creaton'>
+			<span> <span>CHA </span>
+				<select name="CHARISMA">
+					<option value={{rolls[0]}}>{{rolls[0]}}</option>
+					<option value={{rolls[1]}}>{{rolls[1]}}</option>
+					<option value={{rolls[2]}}>{{rolls[2]}}</option>
+					<option value={{rolls[3]}}>{{rolls[3]}}</option>
+					<option value={{rolls[4]}}>{{rolls[4]}}</option>
+					<option value={{rolls[5]}}>{{rolls[5]}}</option>
+				</select>
+			</span>
+		</li>
+	</ul>
+
+	<br><br>
+	<input type ="hidden" name="rolls[]" id="rolls">
+	<input type="submit" value="Add Character">
+</form>
+<script type="text/javascript">
+	//put stat rolls in rolls array
+	var rolls=[];
+	for(var i=1; i<=6; i++){
+		var dice=[];
+		//roll 4 random d6 into dice array
+		for(var x=1; x<=4; x++){
+			var random=Math.floor(Math.random()*6);
+			random=random+1;
+			dice.push(random);
+		}
+		//drop the lowest d6
+		dice.sort();
+		dice.reverse();
+		dice.pop();
+
+		//sum dice into rolls
+		var sum=0;
+		for(var z=0; z<dice.length;z++){
+			sum = sum +dice[z]
+		}
+
+		//add into array
+
+		rolls.push(sum);
+
+	}
+
+	rolls.sort()
+	rolls.reverse()
+
+	document.getElementById("randomOne").innerHTML="CHOOSE STAT= " +rolls[0];
+	document.getElementById("randomTwo").innerHTML="CHOOSE STAT= " +rolls[1];
+	document.getElementById("randomThree").innerHTML="CHOOSE STAT= " +rolls[2];
+	document.getElementById("randomFour").innerHTML="CHOOSE STAT= " +rolls[3];
+	document.getElementById("randomFive").innerHTML="CHOOSE STAT= " +rolls[4];
+	document.getElementById("randomSix").innerHTML="CHOOSE STAT= " +rolls[5];
+
+</script>
+<p>*NOTE: Does not apply racial bonuses automatically</p>
+</body>
+
+{% endblock %}
+

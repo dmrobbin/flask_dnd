@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<p3> Please fill out form completely to edit your character </p3>
+
 <form method="post" action="">
 	<h5>Name:</h5>
 	<input type="text" name="name">
+	<span>{{character.NAME}}</span>
 
 	<h5>Level:</h5>
 	<input type="text" name="level">
+	{{character.LEVEL}}
 
-	<h5>RACE/CLASS:</h5>
+	<h5>CLASS/RACE:</h5>
 	<select name="job">
 		<option value="">Please Select</option>
 		<option value="Bard">Bard</option>
@@ -38,21 +42,34 @@
 		<option value="tiefling">Tiefling</option>
 	</select>
 
+	{{character.JOB}}
+	{{character.RACE}}
+
 	<h5>STR:</h5>
 	<input type="text" name="STRENGTH">
+	{{character.STRENGTH}}
 	<h5>DEX:</h5>
 	<input type="text" name="DEXTERITY">
+	{{character.DEXTERITY}}
 	<h5>CON:</h5>
 	<input type="text" name="CONSTITUTION">
+	{{character.CONSTITUTION}}
 	<h5>INT:</h5>
 	<input type="text" name="INTELLIGENCE">
+	{{character.INTELLIGENCE}}
 	<h5>WIS:</h5>
 	<input type="text" name="WISDOM">
+	{{character.WISDOM}}
 	<h5>CHA:</h5>
 	<input type="text" name="CHARISMA">
+	{{character.CHARISMA}}
 
 	<br><br>
-	<input type="submit" value="Add Character">
-</form>
+
+		<input type="hidden" name="edit" value="1">
+		<input type="submit" value="Edit Character">
+	</form>
+
+<br><br>
 <p>*NOTE: Does not apply racial bonuses automatically</p>
 {% endblock %}
