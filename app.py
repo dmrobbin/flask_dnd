@@ -27,6 +27,7 @@ Base.prepare(engine,reflect = True)
 Base.metadata.create_all(engine)
 
 my_char = Base.classes.DND_5E_CHAR
+my_feat = Base.classes.DND_5E_FEAT
 
 @app.route('/')
 def character_list():
@@ -99,7 +100,14 @@ def character_info(name):
 	character = character_query.one_or_none()
 	return render_template('character_info.html', character=character)
 
-#not finished
+
+@app.route('/class_details/<job>', methods=['GET'])
+def class_details(job):
+	features_query = session.query(my_feat).filter(my_feat.JOB == job)
+	feature = features_query.one_or_none()
+	return render_template('class_details.html', feature=feature)
+
+
 @app.route('/create', methods=['POST', 'GET'])
 def character_create():
 	rolls=[]
@@ -137,11 +145,19 @@ def character_create():
 			CHARISMA = int(request.form['CHARISMA']),
 
 		))
-		session.commit()
-
+		try:
+			session.commit()
+		except:
+			print("Error commiting changes to the dbmaster")
 		return redirect('/')
 	else:
 		return render_template('character_create.html', rolls=rolls)
+
+@app.route('/class_features', methods =['GET'])
+def class_features():
+	features = session.query(my_feat).all()
+	return render_template('class_features.html', features= features)
+
 
 
 

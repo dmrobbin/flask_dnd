@@ -5,35 +5,71 @@
 	<h2>{{ character.NAME}}</h3>
 	<h3> Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}}</h3>
 	<ul>
-
-		<li>
-			STR: {{ character.STRENGTH }}
-		</li>
-		<li>
-			DEX: {{ character.DEXTERITY }}
-		</li>
-		<li>
-			CON: {{ character.CONSTITUTION }}
-		</li>
-		<li>
-			INT: {{ character.INTELLIGENCE }}
-		</li>
-		<li>
-			WIS: {{ character.WISDOM }}
-		</li>
-		<li>
-			CHA: {{ character.CHARISMA }}
-		</li>
+		<table class="table table-sm">
+			<tr class="bg-success">
+				<th scope="col"> Attribute</th>
+				<th cope="col"> Abilty Score</th>
+				<th cope="col"> Ability Modifier </th>
+			</tr>
+			<tr class=>
+				<td>STR</td> 
+				<td>{{character.STRENGTH}}</td> 
+				<td><span id="str"></span> </td>
+			</tr>
+			<tr>
+				<td>DEX</td>
+				<td>{{character.DEXTERITY}}</td>
+				<td> <span id="dex"></span></td>
+			</tr>
+			<tr>
+				<td>CON</td>
+				<td>{{character.CONSTITUTION}}</td>
+				<td> <span id="con"></span></td>
+			</tr>
+			<tr>
+				<td>INT</td>
+				<td>{{character.INTELLIGENCE}}</td>
+				<td> <span id="int"></span></td>
+			</tr>
+			<tr>
+				<td>WIS</td>
+				<td>{{character.WISDOM }}</td>
+				<td> <span id="wis"></span></td>
+			</tr>
+			<tr>
+				<td>CHA</td>
+				<td> {{character.CHARISMA}}</td>
+				<td> <span id="cha"></span></td>
+			</tr>
+		</table>
 	</ul>
+
+	
+
 
 	<form action="" method="post">
 		<input type="hidden" name="remove" value="1">
-		<input type="submit" value="Remove Character">
+		<button class="btn btn-primary" type="submit" value="Remove Character">Delete Character </button>
 	</form>
 
-	<a href="/edit/{{character.NAME}}">Edit {{character.NAME}}</a>
+	<hr>
+	<h3> <a href="/edit/{{character.NAME}}">Edit {{character.NAME}}</a></h3>
+	<h3> <a href = "/class_details/{{character.JOB}}">View features for this class </a> </h3>
 
-	<br><br><hr>
+	<br><br>
 	<a href="/">Back to characters</a>
 
+
+<script>
+	var mods = {1: -5, 2: -4, 3: -4, 4: -3, 5: -3, 6: -2, 7: -2, 8: -1, 9: -1, 10: 0, 11: 0, 12: 1, 13: 1, 14: 2, 15: 2, 16:
+            3, 17: 3, 18: 4, 19: 4, 20: 5, 21: 5, 22: 6, 23: 6, 24: 7, 25: 7, 26: 8, 27: 8, 28: 9, 29: 9, 39: 10};
+
+    document.getElementById("str").innerHTML= mods[{{character.STRENGTH}}];
+    document.getElementById("dex").innerHTML= mods[{{character.DEXTERITY}}];
+    document.getElementById("con").innerHTML= mods[{{character.CONSTITUTION}}];
+    document.getElementById("int").innerHTML= mods[{{character.INTELLIGENCE}}];
+    document.getElementById("wis").innerHTML= mods[{{character.WISDOM}}];
+    document.getElementById("cha").innerHTML= mods[{{character.CHARISMA}}];
+
+</script>
 {% endblock %}

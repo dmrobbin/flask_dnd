@@ -13,7 +13,7 @@
 	{{character.LEVEL}}
 
 	<h5>CLASS/RACE:</h5>
-	<select name="job">
+	<select name="job" class="selectpicker">
 		<option value="">Please Select</option>
 		<option value="Bard">Bard</option>
 		<option value="Barbarian">Barbarian</option>
@@ -28,8 +28,8 @@
 		<option value="Wizard">Wizard</option>
 		<option value="Warlock">Warlock</option>
 	</select>
-	
-	<select name="race">
+	{{character.JOB}}
+	<select name="race" class="selectpicker">
 		<option value="">Please Select</option>
 		<option value="dragonborn">Dragonborn</option>
 		<option value="dwarf">Dwarf</option>
@@ -42,32 +42,51 @@
 		<option value="tiefling">Tiefling</option>
 	</select>
 
-	{{character.JOB}}
+	
 	{{character.RACE}}
 
-	<h5>STR:</h5>
-	<input type="text" name="STRENGTH">
-	{{character.STRENGTH}}
-	<h5>DEX:</h5>
-	<input type="text" name="DEXTERITY">
-	{{character.DEXTERITY}}
-	<h5>CON:</h5>
-	<input type="text" name="CONSTITUTION">
-	{{character.CONSTITUTION}}
-	<h5>INT:</h5>
-	<input type="text" name="INTELLIGENCE">
-	{{character.INTELLIGENCE}}
-	<h5>WIS:</h5>
-	<input type="text" name="WISDOM">
-	{{character.WISDOM}}
-	<h5>CHA:</h5>
-	<input type="text" name="CHARISMA">
-	{{character.CHARISMA}}
+	<table class="table table-sm">
+			<tr class="bg-success">
+				<th scope="col"> Attribute</th>
+				<th cope="col"> Current Abilty Score</th>
+				<th cope="col"> New Ability Score </th>
+			</tr>
+			<tr class=>
+				<td>STR</td> 
+				<td>{{character.STRENGTH}}</td> 
+				<td><input type="text" name="STRENGTH"> </td>
+			</tr>
+			<tr>
+				<td>DEX</td>
+				<td>{{character.DEXTERITY}}</td>
+				<td> <input type="text" name="DEXTERITY"></td>
+			</tr>
+			<tr>
+				<td>CON</td>
+				<td>{{character.CONSTITUTION}}</td>
+				<td> <input type="text" name="CONSTITUTION"></td>
+			</tr>
+			<tr>
+				<td>INT</td>
+				<td>{{character.INTELLIGENCE}}</td>
+				<td> <input type="text" name="INTELLIGENCE"></td>
+			</tr>
+			<tr>
+				<td>WIS</td>
+				<td>{{character.WISDOM }}</td>
+				<td> <input type="text" name="WISDOM"></td>
+			</tr>
+			<tr>
+				<td>CHA</td>
+				<td> {{character.CHARISMA}}</td>
+				<td> <input type="text" name="CHARISMA"></td>
+			</tr>
+		</table>
 
 	<br><br>
 
 		<input type="hidden" name="edit" value="1">
-		<input type="submit" value="Edit Character">
+		<button type="submit" value="Edit Character" class="btn btn-primary">Edit Character</button>
 	</form>
 
 <br><br>

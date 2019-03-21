@@ -2,15 +2,54 @@
 
 {% block content %}
 <form method="post" action="">
-	<h5>Name:</h5>
+	<h3> New Character </h3>
+
+	<h4>Name</h4>
 	<input type="text" name="name">
 
-	<h5>Level:</h5>
-	<input type="text" name="level">
+	<h4>Level</h4>
+	<select name="level" class="form-control" size="3">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+		<option value="11">1</option>
+		<option value="12">2</option>
+		<option value="13">3</option>
+		<option value="14">4</option>
+		<option value="15">5</option>
+		<option value="16">6</option>
+		<option value="17">7</option>
+		<option value="18">8</option>
+		<option value="19">9</option>
+		<option value="20">10</option>
+	</select>
 
-	<h5>RACE/CLASS:</h5>
-	<select name="job">
-		<option value="">Please Select</option>
+	<h4>Race</h4>
+
+	<select name="race" class="custom-select" size="3">
+		<option value="dragonborn">Dragonborn</option>
+		<option value="dwarf">Dwarf</option>
+		<option value="elf">Elf</option>
+		<option value="gnome">Gnome</option>
+		<option value="halfling">Halfling</option>
+		<option value="half-elf">Half-Elf</option>
+		<option value="half-orc">Half-Orc</option>
+		<option value="human">Human</option>
+		<option value="tiefling">Tiefling</option>
+	</select>
+
+
+
+	<h4>Class</h4>
+
+	<select name="job" class="custom-select" size="3">
 		<option value="Bard">Bard</option>
 		<option value="Barbarian">Barbarian</option>
 		<option value="Cleric">Cleric</option>
@@ -24,35 +63,43 @@
 		<option value="Wizard">Wizard</option>
 		<option value="Warlock">Warlock</option>
 	</select>
-	
-	<select name="race">
-		<option value="">Please Select</option>
-		<option value="dragonborn">Dragonborn</option>
-		<option value="dwarf">Dwarf</option>
-		<option value="elf">Elf</option>
-		<option value="gnome">Gnome</option>
-		<option value="halfling">Halfling</option>
-		<option value="half-elf">Half-Elf</option>
-		<option value="half-orc">Half-Orc</option>
-		<option value="human">Human</option>
-		<option value="tiefling">Tiefling</option>
-	</select>
 
-	<h5>STR:</h5>
-	<input type="text" name="STRENGTH">
-	<h5>DEX:</h5>
-	<input type="text" name="DEXTERITY">
-	<h5>CON:</h5>
-	<input type="text" name="CONSTITUTION">
-	<h5>INT:</h5>
-	<input type="text" name="INTELLIGENCE">
-	<h5>WIS:</h5>
-	<input type="text" name="WISDOM">
-	<h5>CHA:</h5>
-	<input type="text" name="CHARISMA">
+	<br><p></p><br><hl>
+
+	<table class="table table-sm">
+			<tr class="bg-success">
+				<th scope="col"> Attribute</th>
+				<th cope="col">Abilty Score</th>
+
+			</tr>
+			<tr>
+				<td>STR</td> 
+				<td><input type="text" name="STRENGTH"> </td>
+			</tr>
+			<tr>
+				<td>DEX</td>
+				<td> <input type="text" name="DEXTERITY"></td>
+			</tr>
+			<tr>
+				<td>CON</td>
+				<td> <input type="text" name="CONSTITUTION"></td>
+			</tr>
+			<tr>
+				<td>INT</td>
+				<td> <input type="text" name="INTELLIGENCE"></td>
+			</tr>
+			<tr>
+				<td>WIS</td>
+				<td> <input type="text" name="WISDOM"></td>
+			</tr>
+			<tr>
+				<td>CHA</td>
+				<td> <input type="text" name="CHARISMA"></td>
+			</tr>
+		</table>
 
 	<br><br>
-	<input type="submit" value="Add Character">
+	<button type="submit" value="Add Character" class="btn btn-primary">Add Character</button>
 </form>
 <p>*NOTE: Does not apply racial bonuses automatically</p>
 {% endblock %}

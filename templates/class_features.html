@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	
+	<h3> Class Features: </h3>
+
+	<ul>
+
+		{% for feature in features %}
+			<li>	
+				<a href = "/class_details/{{feature.JOB}}" style='padding-top: 20px'>{{feature.JOB}}</a>
+				<h4>
+				<p></p>
+			</li>
+			{% else %}
+				<li> MAJOR ERROR NO FEATURES found </li>
+			{% endfor %}
+	</ul>
+
+
+{% endblock %}

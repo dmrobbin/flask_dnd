@@ -4,21 +4,21 @@
 	
 	<h3> Current Characters: </h3>
 
-	<ul>
+	<ul class="list_group">
 		{% for character in characters %}
 			<li>
-				<a href = "/info/{{character.NAME}}">{{character.NAME}}</a>
+				{{character.NAME}}
 				Level {{character.LEVEL}}
 				{{character.RACE}}
 				{{character.JOB}}
+
+					<a href="info/{{character.NAME}}" class="btn btn-primary"">INFO</a>
+
 			</li>
+			<br><hl>
 			{% else %}
 				<li> No Characters found </li>
 			{% endfor %}
 	</ul>
-
-	<br><br><hr>
-	<a href ="/add"> Add a pre-created character</a>
-	<a href ="/create">Create a new character </a>
 
 {% endblock %}
