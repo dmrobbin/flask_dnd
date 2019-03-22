@@ -2,8 +2,6 @@
 
 {% block content %}
 
-
-
 <body>
 	<h3> Level 1 Character </h3>
 <form method="post" action="">
@@ -15,7 +13,6 @@
 
 			<h4>Race</h4>
 				<select name="race" class="custom-select" size="3">
-					<option value="">Please Select</option>
 					<option value="dragonborn">Dragonborn</option>
 					<option value="dwarf">Dwarf</option>
 					<option value="elf">Elf</option>
@@ -29,7 +26,6 @@
 
 			<h4>Class</h4>
 				<select name="job" class="custom-select" size="3">
-					<option value="">Please Select</option>
 					<option value="bard">Bard</option>
 					<option value="barbarian">Barbarian</option>
 					<option value="cleric">Cleric</option>
@@ -64,7 +60,7 @@
 			</tr>
 			<tr>
 				<td>DEX</td>
-				<td><select name="STRENGTH">
+				<td><select name="DEXTERITY">
 					<option value={{rolls[0]}}>{{rolls[0]}}</option>
 					<option value={{rolls[1]}}>{{rolls[1]}}</option>
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>
@@ -75,7 +71,7 @@
 			</tr>
 			<tr>
 				<td>CON</td>
-				<td><select name="STRENGTH">
+				<td><select name="CONSTITUTION">
 					<option value={{rolls[0]}}>{{rolls[0]}}</option>
 					<option value={{rolls[1]}}>{{rolls[1]}}</option>
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>
@@ -86,7 +82,7 @@
 			</tr>
 			<tr>
 				<td>INT</td>
-				<td><select name="STRENGTH">
+				<td><select name="INTELLIGENCE">
 					<option value={{rolls[0]}}>{{rolls[0]}}</option>
 					<option value={{rolls[1]}}>{{rolls[1]}}</option>
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>
@@ -97,7 +93,7 @@
 			</tr>
 			<tr>
 				<td>WIS</td>
-				<td><select name="STRENGTH">
+				<td><select name="WISDOM">
 					<option value={{rolls[0]}}>{{rolls[0]}}</option>
 					<option value={{rolls[1]}}>{{rolls[1]}}</option>
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>
@@ -108,7 +104,7 @@
 			</tr>
 			<tr>
 				<td>CHA</td>
-				<td><select name="STRENGTH">
+				<td><select name="CHARISMA">
 					<option value={{rolls[0]}}>{{rolls[0]}}</option>
 					<option value={{rolls[1]}}>{{rolls[1]}}</option>
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>

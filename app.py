@@ -5,7 +5,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.automap import automap_base
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
+from user import *
 import random
+import hashlib
 
 import sqlite3
 import pymysql
@@ -28,15 +30,26 @@ Base.metadata.create_all(engine)
 
 my_char = Base.classes.DND_5E_CHAR
 my_feat = Base.classes.DND_5E_FEAT
+my_user = Base.classes.DND_USERS
+
+current_user = User()
+
+bpar = "When I was a young boy My father took me into the city To see a marching band He said, son, when you grow up Would you be the savior of the broken The beaten, and the damned? He said, will you defeat them Your demons and all the non-believers? The plans that they have made? Because one day Ill leave you A phantom to lead you in the summer To join the black parade When I was a young boy My father took me into the city To see a marching band He said, son, when you grow up You will be the savior of the broken The beaten, and the damned?"
 
 @app.route('/')
 def character_list():
-	characters = session.query(my_char).all()
+	if current_user.get_Id()==0:
+		return redirect('/login')
+
+	characters = session.query(my_char).filter(my_char.user_id==current_user.get_Id()).all()
 	return render_template('character_list.html', characters= characters)
 
 @app.route('/add', methods=['POST', 'GET'])
 def character_add():
-	character_query = session.query(my_char).all()
+
+	if current_user.get_Id()==0:
+		return redirect('/login')
+
 	if request.method == 'POST':
 
 		session.add(my_char(
@@ -50,7 +63,10 @@ def character_add():
 			INTELLIGENCE = int(request.form['INTELLIGENCE']),
 			WISDOM = int(request.form['WISDOM']),
 			CHARISMA = int(request.form['CHARISMA']),
+			user_id = current_user.get_Id(),
 		))
+
+
 		session.commit()
 
 		return redirect('/')
@@ -59,7 +75,7 @@ def character_add():
 
 @app.route('/edit/<name>', methods=['POST', 'GET'])
 def character_edit(name):
-	character = session.query(my_char).filter(my_char.NAME == name).one_or_none()
+	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
 
 	if request.method == 'POST' and request.form['edit'] == '1':
 
@@ -90,7 +106,7 @@ def character_edit(name):
 
 @app.route('/info/<name>', methods=['POST', 'GET'])
 def character_info(name):
-	character_query = session.query(my_char).filter(my_char.NAME == name)
+	character_query = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id())
 
 	if request.method == 'POST' and request.form['remove'] == '1':
 		character_query.delete()
@@ -110,6 +126,10 @@ def class_details(job):
 
 @app.route('/create', methods=['POST', 'GET'])
 def character_create():
+
+	if current_user.get_Id()==0:
+		return redirect('/login')
+
 	rolls=[]
 	#loop for each stat
 	for x in range(6):
@@ -143,6 +163,7 @@ def character_create():
 			INTELLIGENCE = int(request.form['INTELLIGENCE']),
 			WISDOM = int(request.form['WISDOM']),
 			CHARISMA = int(request.form['CHARISMA']),
+			user_id = current_user.get_Id(),
 
 		))
 		try:
@@ -158,7 +179,68 @@ def class_features():
 	features = session.query(my_feat).all()
 	return render_template('class_features.html', features= features)
 
+@app.route('/registration', methods =['GET', 'POST'])
+def registration():
 
+	if request.method == 'POST':
+		try:
+			session.add(my_user(
+				USER_NAME=request.form['user_name'],
+				PASSWORD=hashbrowns(request.form['password']),
+				))
+
+			session.commit()
+			return redirect('/login')
+		except:
+			return redirect('/invalid_registration')
+	else:
+		return render_template('registration.html')
+
+def hashbrowns(password):
+	h= hashlib.md5(password.encode())
+	return h.hexdigest()
+
+@app.route('/login', methods =['GET', 'POST'])
+def login():
+	
+	if request.method == 'POST':
+		#true username and password
+		username = request.form['user_name']
+		password = hashbrowns(request.form['password'])
+
+		#validate against database
+		try:
+			this_user=session.query(my_user).filter(my_user.USER_NAME==username and my_user.PASSWORD==password).one_or_none()
+			current_user.login(this_user.id, this_user.USER_NAME)
+		except:
+			return redirect('/invalid_login')
+		
+
+		return redirect('/')
+
+	else:
+		return render_template('login.html')
+
+def hashbrowns(password):
+	password = password + bpar
+	h= hashlib.md5(password.encode())
+	return h.hexdigest()
+
+@app.route('/logout')
+def logout():
+	current_user.logout()
+
+	return redirect('/login')
+
+@app.route('/invalid_login', methods =['GET'])
+def invalid_login():
+	
+		return render_template('invalid_login.html')
+
+@app.route('/invalid_registration', methods =['GET'])
+def invalid_registration():
+	
+		return render_template('invalid_registration.html')
 
 
 if __name__ == '__main__':
