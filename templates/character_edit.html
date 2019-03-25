@@ -4,15 +4,13 @@
 <p3> Any Blank fields will retain their previous values</p3>
 
 <form method="post" action="">
-	<h5>Name:</h5>
-	<input type="text" name="name">
-	<span>{{character.NAME}}</span>
+	<h4>Name:</h4>
+	<input type="text" name="name" value={{character.NAME}}>
+	
+	<h4>Level:</h4>
+	<input type="text" name="level" value ={{character.LEVEL}}>
 
-	<h5>Level:</h5>
-	<input type="text" name="level">
-	{{character.LEVEL}}
-
-	<h5>CLASS/RACE:</h5>
+	<h4>CLASS/RACE:</h4>
 	<select name="job" class="selectpicker">
 		<option value="">Please Select</option>
 		<option value="Bard">Bard</option>
@@ -42,8 +40,14 @@
 		<option value="tiefling">Tiefling</option>
 	</select>
 
-	
 	{{character.RACE}}
+
+	<br><br>
+ 
+	<h4>Description</h4>
+	<textarea name = "description" cols="80" rows="10" class="formcontrol">{{character.description}}</textarea>
+
+	<br><br>
 
 	<table class="table table-sm">
 			<tr class="bg-success">

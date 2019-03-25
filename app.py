@@ -6,6 +6,8 @@ from sqlalchemy.ext.automap import automap_base
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
 from user import *
+from werkzeug import secure_filename
+import os
 import random
 import hashlib
 
@@ -14,6 +16,10 @@ import pymysql
 
 app=Flask(__name__)
 
+UPLOAD_FOLDER = '/Users/daryl.robbin/desktop/mine/static/images/'
+
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #
 # Database configuration
 #
@@ -31,6 +37,7 @@ Base.metadata.create_all(engine)
 my_char = Base.classes.DND_5E_CHAR
 my_feat = Base.classes.DND_5E_FEAT
 my_user = Base.classes.DND_USERS
+my_image = Base.classes.DND_IMAGES
 
 current_user = User()
 
@@ -57,6 +64,7 @@ def character_add():
 			LEVEL=int(request.form['level']),
 			RACE = request.form['race'],
 			JOB= request.form['job'],
+			description= request.form['description'],
 			STRENGTH = int(request.form['STRENGTH']),
 			DEXTERITY = int(request.form['DEXTERITY']),
 			CONSTITUTION = int(request.form['CONSTITUTION']),
@@ -64,6 +72,7 @@ def character_add():
 			WISDOM = int(request.form['WISDOM']),
 			CHARISMA = int(request.form['CHARISMA']),
 			user_id = current_user.get_Id(),
+
 		))
 
 
@@ -76,6 +85,7 @@ def character_add():
 @app.route('/edit/<name>', methods=['POST', 'GET'])
 def character_edit(name):
 	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
+
 
 	if request.method == 'POST' and request.form['edit'] == '1':
 
@@ -97,6 +107,9 @@ def character_edit(name):
 			character.WISDOM=request.form['WISDOM']
 		if request.form['CHARISMA'] !='':
 			character.CHARISMA=request.form['CHARISMA']
+		if request.form['description'] !='':
+			character.description=request.form['description']
+
 
 		session.commit()
 		return redirect('/')
@@ -157,6 +170,7 @@ def character_create():
 			LEVEL=1,
 			RACE = request.form['race'],
 			JOB= request.form['job'],
+			description= request.form['description'],
 			STRENGTH = int(request.form['STRENGTH']),
 			DEXTERITY = int(request.form['DEXTERITY']),
 			CONSTITUTION = int(request.form['CONSTITUTION']),
@@ -221,10 +235,15 @@ def login():
 	else:
 		return render_template('login.html')
 
+#hash function for protecting passwords
 def hashbrowns(password):
 	password = password + bpar
 	h= hashlib.md5(password.encode())
 	return h.hexdigest()
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/logout')
 def logout():
@@ -242,6 +261,61 @@ def invalid_registration():
 	
 		return render_template('invalid_registration.html')
 
+### upload test
+
+@app.route('/upload/<name>')
+def upload_file(name):
+	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
+	return render_template('upload.html', character = character)
+	
+@app.route('/uploader/<name>', methods = ['GET', 'POST'])
+def upload_files(name):
+	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
+	if request.method == 'POST':
+		file = request.files['file']
+		filename = secure_filename(file.filename)
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		character.image=filename
+		session.commit()
+		return redirect('/')
+		
+if __name__ == '__main__':
+   app.run(debug = True)
+
+'''@app.route('/edit/<name>', methods=['POST', 'GET'])
+def character_edit(name):
+	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
+
+
+	if request.method == 'POST' and request.form['edit'] == '1':
+
+		if request.form['name']!='':
+			character.NAME=request.form['name']
+		if request.form['job'] !='':
+			character.JOB=request.form['job']
+		if request.form['race'] !='':
+			character.RACE=request.form['race']
+		if request.form['STRENGTH'] !='':
+			character.STRENGTH=request.form['STRENGTH']
+		if request.form['DEXTERITY'] !='':
+			character.DEXTERITY=request.form['DEXTERITY']
+		if request.form['CONSTITUTION'] !='':
+			character.CONSTITUTION=request.form['CONSTITUTION']
+		if request.form['INTELLIGENCE'] !='':
+			character.INTELLIGENCE=request.form['INTELLIGENCE']
+		if request.form['WISDOM'] !='':
+			character.WISDOM=request.form['WISDOM']
+		if request.form['CHARISMA'] !='':
+			character.CHARISMA=request.form['CHARISMA']
+		if request.form['description'] !='':
+			character.description=request.form['description']
+
+
+		session.commit()
+		return redirect('/')
+
+	return render_template('character_edit.html', character=character)  '''
+### end upload test
 
 if __name__ == '__main__':
 	app.run(debug=True)

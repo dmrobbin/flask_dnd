@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<body>
+  <form action = "/uploader/{{character.NAME}}" method = "POST" 
+     enctype = "multipart/form-data">
+     <input type = "file" name = "file" />
+     <input type = "submit"/>
+  </form>
+</body>
+
+{% endblock %}

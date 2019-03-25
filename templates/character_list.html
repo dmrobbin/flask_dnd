@@ -7,12 +7,15 @@
 	<ul class="list_group">
 		{% for character in characters %}
 			<li>
+				<img src="/static/images/{{character.image}}"" width = "50" height = "50">
 				{{character.NAME}}
 				Level {{character.LEVEL}}
 				{{character.RACE}}
 				{{character.JOB}}
 
 					<a href="info/{{character.NAME}}" class="btn btn-primary"">INFO</a>
+			<br>
+				<h5>{{character.description}}</h5>
 
 			</li>
 			<br><hl><br>
