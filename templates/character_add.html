@@ -5,70 +5,73 @@
 	<h3> New Character </h3>
 
 	<h4>Name</h4>
-	<input type="text" name="name" autocomplete="off">
+	<input type="text" name="name" autocomplete="off" id="nm">
 
 	<h4>Level</h4>
-	<select name="level" class="form-control" size="3">
-		<option value="1">1</option>
-		<option value="2">2</option>
-		<option value="3">3</option>
-		<option value="4">4</option>
-		<option value="5">5</option>
-		<option value="6">6</option>
-		<option value="7">7</option>
-		<option value="8">8</option>
-		<option value="9">9</option>
-		<option value="10">10</option>
-		<option value="11">1</option>
-		<option value="12">2</option>
-		<option value="13">3</option>
-		<option value="14">4</option>
-		<option value="15">5</option>
-		<option value="16">6</option>
-		<option value="17">7</option>
-		<option value="18">8</option>
-		<option value="19">9</option>
-		<option value="20">10</option>
-	</select>
+	<div class="form-group">
+		<select name="level" class="form-control">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+		</select>
+	</div>
 
 	<h4>Race</h4>
 
-	<select name="race" class="custom-select" size="3">
-		<option value="dragonborn">Dragonborn</option>
-		<option value="dwarf">Dwarf</option>
-		<option value="elf">Elf</option>
-		<option value="gnome">Gnome</option>
-		<option value="halfling">Halfling</option>
-		<option value="half-elf">Half-Elf</option>
-		<option value="half-orc">Half-Orc</option>
-		<option value="human">Human</option>
-		<option value="tiefling">Tiefling</option>
-	</select>
-
-
+	<div class="form-group">
+		<select name="race" class="form-control">
+			<option value="dragonborn">Dragonborn</option>
+			<option value="dwarf">Dwarf</option>
+			<option value="elf">Elf</option>
+			<option value="gnome">Gnome</option>
+			<option value="halfling">Halfling</option>
+			<option value="half-elf">Half-Elf</option>
+			<option value="half-orc">Half-Orc</option>
+			<option value="human">Human</option>
+			<option value="tiefling">Tiefling</option>
+		</select>
+	</div>
 
 	<h4>Class</h4>
 
-	<select name="job" class="custom-select" size="3">
-		<option value="Bard">Bard</option>
-		<option value="Barbarian">Barbarian</option>
-		<option value="Cleric">Cleric</option>
-		<option value="Druid">Druid</option>
-		<option value="Monk">Monk</option>
-		<option value="Paladin">Paladin</option>
-		<option value="Ranger">Ranger</option>
-		<option value="Rogue">Rogue</option>
-		<option value="Sorcerer">Sorcerer</option>
-		<option value="Fighter">Fighter</option>
-		<option value="Wizard">Wizard</option>
-		<option value="Warlock">Warlock</option>
-	</select>
+	<div class="form-group">
+		<select name="job" class="form-control">
+			<option value="bard">Bard</option>
+			<option value="barbarian">Barbarian</option>
+			<option value="cleric">Cleric</option>
+			<option value="druid">Druid</option>
+			<option value="monk">Monk</option>
+			<option value="paladin">Paladin</option>
+			<option value="ranger">Ranger</option>
+			<option value="rogue">Rogue</option>
+			<option value="sorcerer">Sorcerer</option>
+			<option value="fighter">Fighter</option>
+			<option value="wizard">Wizard</option>
+			<option value="warlock">Warlock</option>
+		</select>
+	</div>
 
-	<br><p></p>
 	<h4>Description</h4>
 
-	<textarea name = "description" cols="60" rows="10"></textarea>
-	<br><br><br><hl>
+	<textarea name = "description" cols="100" rows="10"></textarea>
+	<br><br>
 
 	<table class="table table-sm">
 			<tr class="bg-success">
@@ -105,5 +108,23 @@
 	<br><br>
 	<button type="submit" value="Add Character" class="btn btn-primary">Add Character</button>
 </form>
+
+<script type="text/javascript">
+
+	function makeid(length) {
+	  var text = "";
+	  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	  for (var i = 0; i < length; i++)
+	    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	  return text;
+}
+
+
+document.getElementById("nm").defaultValue = makeid(12);
+console.log(makeid(12));
+
+</script>
 <p>*NOTE: Does not apply racial bonuses automatically</p>
 {% endblock %}

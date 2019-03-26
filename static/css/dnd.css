@@ -54,3 +54,12 @@ h1, h2, h3, h4 {
 .post h2 a, .post h2 a:visited {
     color: #000000;
 }
+
+.card-columns {
+  @include media-breakpoint-only(lg) {
+    column-count: 4;
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 5;
+  }
+}

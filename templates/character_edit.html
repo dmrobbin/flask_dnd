@@ -1,92 +1,100 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p3> Any Blank fields will retain their previous values</p3>
+<center><p3> Any Blank fields will retain their previous values</p3></center>
 
 <form method="post" action="">
-	<h4>Name:</h4>
-	<input type="text" name="name" value={{character.NAME}}>
-	
-	<h4>Level:</h4>
-	<input type="text" name="level" value ={{character.LEVEL}}>
+	<center>
+	<div style="float:left">
+		<h4>Name:</h4>
+		<input type="text" name="name" value={{character.NAME}}>
+		
+		<h4>Level:</h4>
+		<input type="text" name="level" value ={{character.LEVEL}}>
 
-	<h4>CLASS/RACE:</h4>
-	<select name="job" class="selectpicker">
-		<option value="">Please Select</option>
-		<option value="Bard">Bard</option>
-		<option value="Barbarian">Barbarian</option>
-		<option value="Cleric">Cleric</option>
-		<option value="Druid">Druid</option>
-		<option value="Monk">Monk</option>
-		<option value="Paladin">Paladin</option>
-		<option value="Ranger">Ranger</option>
-		<option value="Rogue">Rogue</option>
-		<option value="Sorcerer">Sorcerer</option>
-		<option value="Fighter">Fighter</option>
-		<option value="Wizard">Wizard</option>
-		<option value="Warlock">Warlock</option>
-	</select>
-	{{character.JOB}}
-	<select name="race" class="selectpicker">
-		<option value="">Please Select</option>
-		<option value="dragonborn">Dragonborn</option>
-		<option value="dwarf">Dwarf</option>
-		<option value="elf">Elf</option>
-		<option value="gnome">Gnome</option>
-		<option value="halfling">Halfling</option>
-		<option value="half-elf">Half-Elf</option>
-		<option value="half-orc">Half-Orc</option>
-		<option value="human">Human</option>
-		<option value="tiefling">Tiefling</option>
-	</select>
+		<h4>CLASS/RACE:</h4>
+		<div class="form-group">
+		<select name="job" class="form-control">
+			<option value="">Please Select</option>
+			<option value="Bard">Bard</option>
+			<option value="Barbarian">Barbarian</option>
+			<option value="Cleric">Cleric</option>
+			<option value="Druid">Druid</option>
+			<option value="Monk">Monk</option>
+			<option value="Paladin">Paladin</option>
+			<option value="Ranger">Ranger</option>
+			<option value="Rogue">Rogue</option>
+			<option value="Sorcerer">Sorcerer</option>
+			<option value="Fighter">Fighter</option>
+			<option value="Wizard">Wizard</option>
+			<option value="Warlock">Warlock</option>
+		</select>
+	</div>
+		{{character.JOB}}
+		<br>
+		<div class="form-group">
+		<select name="race" class="form-control">
+			<option value="">Please Select</option>
+			<option value="dragonborn">Dragonborn</option>
+			<option value="dwarf">Dwarf</option>
+			<option value="elf">Elf</option>
+			<option value="gnome">Gnome</option>
+			<option value="halfling">Halfling</option>
+			<option value="half-elf">Half-Elf</option>
+			<option value="half-orc">Half-Orc</option>
+			<option value="human">Human</option>
+			<option value="tiefling">Tiefling</option>
+		</select>
+	</div>
+		{{character.RACE}}
 
-	{{character.RACE}}
-
-	<br><br>
- 
+	</div>
+</center>
+	<center>
 	<h4>Description</h4>
 	<textarea name = "description" cols="80" rows="10" class="formcontrol">{{character.description}}</textarea>
+	</center>
 
 	<br><br>
-
+<div style="max-width: 90%; float:center">
 	<table class="table table-sm">
 			<tr class="bg-success">
 				<th scope="col"> Attribute</th>
-				<th cope="col"> Current Abilty Score</th>
-				<th cope="col"> New Ability Score </th>
+				<th cope="col"> Abilty Score</th>
+
 			</tr>
-			<tr class=>
+			<tr class=> 
 				<td>STR</td> 
-				<td>{{character.STRENGTH}}</td> 
-				<td><input type="text" name="STRENGTH"> </td>
+
+				<td><input type="text" name="STRENGTH" value={{character.STRENGTH}}> </td>
 			</tr>
 			<tr>
 				<td>DEX</td>
-				<td>{{character.DEXTERITY}}</td>
-				<td> <input type="text" name="DEXTERITY"></td>
+
+				<td> <input type="text" name="DEXTERITY" value={{character.DEXTERITY}}></td>
 			</tr>
 			<tr>
 				<td>CON</td>
-				<td>{{character.CONSTITUTION}}</td>
-				<td> <input type="text" name="CONSTITUTION"></td>
+
+				<td> <input type="text" name="CONSTITUTION" value={{character.CONSTITUTION}}></td>
 			</tr>
 			<tr>
 				<td>INT</td>
-				<td>{{character.INTELLIGENCE}}</td>
-				<td> <input type="text" name="INTELLIGENCE"></td>
+
+				<td> <input type="text" name="INTELLIGENCE" value={{character.INTELLIGENCE}}></td>
 			</tr>
 			<tr>
 				<td>WIS</td>
-				<td>{{character.WISDOM }}</td>
-				<td> <input type="text" name="WISDOM"></td>
+
+				<td> <input type="text" name="WISDOM" value={{character.WISDOM}}></td>
 			</tr>
 			<tr>
 				<td>CHA</td>
-				<td> {{character.CHARISMA}}</td>
-				<td> <input type="text" name="CHARISMA"></td>
+
+				<td> <input type="text" name="CHARISMA" value={{character.CHARISMA}}></td>
 			</tr>
 		</table>
-
+</div>
 	<br><br>
 
 		<input type="hidden" name="edit" value="1">

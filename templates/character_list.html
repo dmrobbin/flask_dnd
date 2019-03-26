@@ -2,26 +2,36 @@
 
 {% block content %}
 	
-	<h3> Current Characters: </h3>
+	<center><h3> Current Characters: </h3></center>
 
-	<ul class="list_group">
-		{% for character in characters %}
-			<li>
-				<img src="/static/images/{{character.image}}"" width = "50" height = "50">
-				{{character.NAME}}
-				Level {{character.LEVEL}}
-				{{character.RACE}}
-				{{character.JOB}}
 
-					<a href="info/{{character.NAME}}" class="btn btn-primary"">INFO</a>
-			<br>
-				<h5>{{character.description}}</h5>
+	<div class="card-columns" style="column-count: 4;">
 
-			</li>
-			<br><hl><br>
-			{% else %}
-				<li> No Characters found </li>
-			{% endfor %}
-	</ul>
+	{% for character in characters %}
+
+  <div class="card">
+    <a href="info/{{character.NAME}}"><img class="card-img-top" src="/static/images/{{character.image}}" height = "250" alt="Card image cap"></a>
+    <div class="card-body">
+      <a href="info/{{character.NAME}}"><h5 class="card-title">{{character.NAME}} Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}}</h5></a>
+      <p class="card-text"><div class="text">{{character.description}}</div></p>
+      <p class="card-text">
+      	<small class="text-muted">
+      	Str: {{character.STRENGTH}}
+		Dex: {{character.DEXTERITY}}
+		Con: {{character.CONSTITUTION}}
+		Int: {{character.INTELLIGENCE}}
+		Wis: {{character.WISDOM}}
+		Cha: {{character.CHARISMA}}
+		</small>
+	</p>
+    </div>
+  </div>
+
+	{% else %}
+		<li> No Characters found </li>
+	{% endfor %}	  
+
+	</div>
 
 {% endblock %}
+

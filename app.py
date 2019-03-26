@@ -16,6 +16,7 @@ import pymysql
 
 app=Flask(__name__)
 
+##WILL NEED TO CHANGE WHEN UPLOADING
 UPLOAD_FOLDER = '/Users/daryl.robbin/desktop/mine/static/images/'
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -84,6 +85,8 @@ def character_add():
 
 @app.route('/edit/<name>', methods=['POST', 'GET'])
 def character_edit(name):
+	if current_user.get_Id()==0:
+		return redirect('/login')
 	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
 
 
@@ -119,6 +122,8 @@ def character_edit(name):
 
 @app.route('/info/<name>', methods=['POST', 'GET'])
 def character_info(name):
+	if current_user.get_Id()==0:
+		return redirect('/login')
 	character_query = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id())
 
 	if request.method == 'POST' and request.form['remove'] == '1':
@@ -265,11 +270,15 @@ def invalid_registration():
 
 @app.route('/upload/<name>')
 def upload_file(name):
+	if current_user.get_Id()==0:
+		return redirect('/login')
 	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
 	return render_template('upload.html', character = character)
 	
 @app.route('/uploader/<name>', methods = ['GET', 'POST'])
 def upload_files(name):
+	if current_user.get_Id()==0:
+		return redirect('/login')
 	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
 	if request.method == 'POST':
 		file = request.files['file']

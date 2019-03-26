@@ -7,12 +7,11 @@
 	<h3> Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}}</h3>
 	<br> 
 	<p>
-		<img style="float:left" src="/static/images/{{character.image}}"" width = "150" height = "150">
+		<a href = "/upload/{{character.NAME}}"><img style="float:left"  src="/static/images/{{character.image}}"" width = "250" height = "300"></a>
 
 
-		{{character.description}}
+		<p>{{character.description}}</p>
 	</p>
-	<ul>
 		<table class="table table-sm">
 			<tr class="bg-success">
 				<th scope="col"> Attribute</th>
@@ -50,9 +49,6 @@
 				<td> <span id="cha"></span></td>
 			</tr>
 		</table>
-	</ul>
-
-	
 
 
 	<form action="" method="post">

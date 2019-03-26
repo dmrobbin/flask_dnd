@@ -80,6 +80,50 @@
 
     .page-header{margin-top:0}
 
+    .card-columns {
+      @include media-breakpoint-only(lg) {
+        column-count: 1;
+      }
+      @include media-breakpoint-only(xl) {
+        column-count: 1;
+      }
+    }
+
+    .collapsible {
+        background-color: #777;
+        color: white;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+    }
+
+    .active, .collapsible:hover {
+    
+    }
+
+    .content {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+        background-color: #f1f1f1;
+    }
+
+    .text {
+      display: block;
+      width: 200px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    img{
+        padding: 10px
+    }
+
     </style>
     
     <head>

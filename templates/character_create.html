@@ -9,10 +9,12 @@
 
 			<h4>Name</h4>
 
-			<input type="text" name="name">
+			<input type="text" name="name" id='nm'>
 
 			<h4>Race</h4>
-				<select name="race" class="custom-select" size="3">
+
+			<div class="form-group">
+				<select name="race" class="form-control">
 					<option value="dragonborn">Dragonborn</option>
 					<option value="dwarf">Dwarf</option>
 					<option value="elf">Elf</option>
@@ -23,9 +25,12 @@
 					<option value="human">Human</option>
 					<option value="tiefling">Tiefling</option>
 				</select>
+			</div>
 
 			<h4>Class</h4>
-				<select name="job" class="custom-select" size="3">
+
+			<div class="form-group">
+				<select name="job" class="form-control">
 					<option value="bard">Bard</option>
 					<option value="barbarian">Barbarian</option>
 					<option value="cleric">Cleric</option>
@@ -39,10 +44,11 @@
 					<option value="wizard">Wizard</option>
 					<option value="warlock">Warlock</option>
 				</select>
-				<br><hl><br>
+			</div>
+
 				<h4>Description</h4>
 
-				<textarea name = "description" cols="60" rows="10"></textarea>
+				<textarea name = "description" cols="100" rows="10"></textarea>
 				<br><br>
 
 		<table class="table table-sm">
@@ -54,7 +60,7 @@
 			<tr>
 				<td>STR</td> 
 				<td><select name="STRENGTH">
-					<option value={{rolls[0]}}>{{rolls[0]}}</option>
+					<option value={{rolls[0]}} selected="selected">{{rolls[0]}}</option>
 					<option value={{rolls[1]}}>{{rolls[1]}}</option>
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>
 					<option value={{rolls[3]}}>{{rolls[3]}}</option>
@@ -66,7 +72,7 @@
 				<td>DEX</td>
 				<td><select name="DEXTERITY">
 					<option value={{rolls[0]}}>{{rolls[0]}}</option>
-					<option value={{rolls[1]}}>{{rolls[1]}}</option>
+					<option value={{rolls[1]}} selected="selected">{{rolls[1]}}</option>
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>
 					<option value={{rolls[3]}}>{{rolls[3]}}</option>
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
@@ -78,7 +84,7 @@
 				<td><select name="CONSTITUTION">
 					<option value={{rolls[0]}}>{{rolls[0]}}</option>
 					<option value={{rolls[1]}}>{{rolls[1]}}</option>
-					<option value={{rolls[2]}}>{{rolls[2]}}</option>
+					<option value={{rolls[2]}} selected="selected">{{rolls[2]}}</option>
 					<option value={{rolls[3]}}>{{rolls[3]}}</option>
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
@@ -90,7 +96,7 @@
 					<option value={{rolls[0]}}>{{rolls[0]}}</option>
 					<option value={{rolls[1]}}>{{rolls[1]}}</option>
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>
-					<option value={{rolls[3]}}>{{rolls[3]}}</option>
+					<option value={{rolls[3]}} selected="selected">{{rolls[3]}}</option>
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
@@ -102,7 +108,7 @@
 					<option value={{rolls[1]}}>{{rolls[1]}}</option>
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>
 					<option value={{rolls[3]}}>{{rolls[3]}}</option>
-					<option value={{rolls[4]}}>{{rolls[4]}}</option>
+					<option value={{rolls[4]}} selected="selected">{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
 			</tr>
@@ -114,7 +120,7 @@
 					<option value={{rolls[2]}}>{{rolls[2]}}</option>
 					<option value={{rolls[3]}}>{{rolls[3]}}</option>
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
-					<option value={{rolls[5]}}>{{rolls[5]}}</option>
+					<option value={{rolls[5]}} selected="selected">{{rolls[5]}}</option>
 				</select></td>
 			</tr>
 		</table>
@@ -124,43 +130,22 @@
 	<input type ="hidden" name="rolls[]" id="rolls">
 	<button type="submit" value="Add Character" class="btn btn-primary">Create Character </button>
 </form>
+
 <script type="text/javascript">
-	//put stat rolls in rolls array
-	var rolls=[];
-	for(var i=1; i<=6; i++){
-		var dice=[];
-		//roll 4 random d6 into dice array
-		for(var x=1; x<=4; x++){
-			var random=Math.floor(Math.random()*6);
-			random=random+1;
-			dice.push(random);
-		}
-		//drop the lowest d6
-		dice.sort();
-		dice.reverse();
-		dice.pop();
 
-		//sum dice into rolls
-		var sum=0;
-		for(var z=0; z<dice.length;z++){
-			sum = sum +dice[z]
-		}
+	function makeid(length) {
+	  var text = "";
+	  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-		//add into array
+	  for (var i = 0; i < length; i++)
+	    text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-		rolls.push(sum);
+	  return text;
+}
 
-	}
 
-	rolls.sort()
-	rolls.reverse()
-
-	document.getElementById("randomOne").innerHTML="CHOOSE STAT= " +rolls[0];
-	document.getElementById("randomTwo").innerHTML="CHOOSE STAT= " +rolls[1];
-	document.getElementById("randomThree").innerHTML="CHOOSE STAT= " +rolls[2];
-	document.getElementById("randomFour").innerHTML="CHOOSE STAT= " +rolls[3];
-	document.getElementById("randomFive").innerHTML="CHOOSE STAT= " +rolls[4];
-	document.getElementById("randomSix").innerHTML="CHOOSE STAT= " +rolls[5];
+document.getElementById("nm").defaultValue = makeid(12);
+console.log(makeid(12));
 
 </script>
 <p>*NOTE: Does not apply racial bonuses automatically</p>
