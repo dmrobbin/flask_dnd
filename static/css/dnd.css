@@ -1,65 +1,123 @@
-h1 a, h2 a {
-    color: #C25100;
-    font-family: 'Bangers';
-}
+   
+    body{
+        padding: 0;
+    }
 
-body {
-    padding-left: 15px;
-}
 
-.page-header {
-    background-color: #017611;
-    color: #ffffff;
-    margin-top: 0;
-    padding: 20px 20px 20px 40px;
-}
+    h1 a, h2 a, h3 a {
+        color: #C25100;
+        
+    }
 
-.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
-    color: #ffffff;
-    font-size: 36pt;
-    text-decoration: none;
-}
+    body {
+        padding-left: 15px;
+    }
 
-.content {
-    margin-left: 40px;
-}
+    .unity{
+        background-color:#fff;
+    }
 
-h1, h2, h3, h4 {
-    font-family: 'Lobster', cursive;
-}
+    .page-header {
+        background-color: #017611;
+        color: #ffffff;
+        margin-top: 0;
+        padding: 20px 20px 20px 40px;
+    }
 
-.date {
-    color: #828282;
-}
+    .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
+        color: #ffffff;
+        font-size: 36pt;
+        text-decoration: none;
+        margin-top:0;
+    }
 
-.save {
-    float: right;
-}
+    .content {
+        margin-left: 40px;
+    }
 
-.post-form textarea, .post-form input {
-    width: 100%;
-}
+    h1, h2, h3, h4 {
+         
+    }
 
-.top-menu, .top-menu:hover, .top-menu:visited {
-    color: #ffffff;
-    float: right;
-    font-size: 26pt;
-    margin-right: 20px;
-}
+    .date {
+        color: #828282;
+    }
 
-.post {
-    margin-bottom: 70px;
-}
+    .save {
+        float: right;
+    }
 
-.post h2 a, .post h2 a:visited {
-    color: #000000;
-}
+    .post-form textarea, .post-form input {
+        width: 100%;
+    }
 
-.card-columns {
-  @include media-breakpoint-only(lg) {
-    column-count: 4;
-  }
-  @include media-breakpoint-only(xl) {
-    column-count: 5;
-  }
-}
+    .top-menu, .top-menu:hover, .top-menu:visited {
+        color: #ffffff;
+        float: right;
+        font-size: 26pt;
+        margin-right: 20px;
+    }
+
+    .post {
+        margin-bottom: 70px;
+    }
+
+    .post h2 a, .post h2 a:visited {
+        color: #000000;
+    }
+
+    li{
+        
+        font-size: 18pt;
+    }
+
+    .creaton{
+        font-size: 18px;
+        
+        padding-top: 5px;
+        padding-bottom: :5px;
+    }
+
+    .card-columns {
+      @include media-breakpoint-only(lg) {
+        column-count: 1;
+      }
+      @include media-breakpoint-only(xl) {
+        column-count: 1;
+      }
+    }
+
+    .collapsible {
+        background-color: #777;
+        color: white;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+    }
+
+    .active, .collapsible:hover {
+    
+    }
+
+    .content {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+        background-color: #f1f1f1;
+    }
+
+    .text {
+      display: block;
+      width: 200px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    img{
+        padding: 10px
+    }

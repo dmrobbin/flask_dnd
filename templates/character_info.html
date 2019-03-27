@@ -1,49 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-	<h2>{{ character.NAME}}</h3>
+<div>
+	<h2>{{ character.NAME}}</h2>
 	
 	<h3> Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}}</h3>
-	<br> 
+
+		<form action = "/uploader/{{character.NAME}}" method = "POST" enctype = "multipart/form-data">
+
+			<div class="custom-file"">
+				<input type="file"  name ="file" class="custom-file-input" id="customFile" accept="image/*">
+				<label class="custom-file-label" for="customFile">Chracter Portrait</label>
+
+			</div>
+			<input type = "submit" class="btn btn-primary" style="padding:1"/>
+		</form>
+
+
 	<p>
-		<a href = "/upload/{{character.NAME}}"><img style="float:left"  src="/static/images/{{character.image}}"" width = "250" height = "300"></a>
+		<img style="float:left"  src="/static/images/{{character.image}}"" width = "250" height = "300" id="myImg">
 
 
 		<p>{{character.description}}</p>
+
 	</p>
+
 		<table class="table table-sm">
 			<tr class="bg-success">
 				<th scope="col"> Attribute</th>
 				<th cope="col"> Abilty Score</th>
 				<th cope="col"> Ability Modifier </th>
 			</tr>
-			<tr class=>
+			<tr  onclick="rollStr()">
 				<td>STR</td> 
 				<td>{{character.STRENGTH}}</td> 
 				<td><span id="str"></span> </td>
 			</tr>
-			<tr>
+			<tr onclick="rollDex()">
 				<td>DEX</td>
 				<td>{{character.DEXTERITY}}</td>
 				<td> <span id="dex"></span></td>
 			</tr>
-			<tr>
+			<tr onclick="rollCon()">
 				<td>CON</td>
 				<td>{{character.CONSTITUTION}}</td>
 				<td> <span id="con"></span></td>
 			</tr>
-			<tr>
+			<tr onclick="rollInt()">
 				<td>INT</td>
 				<td>{{character.INTELLIGENCE}}</td>
 				<td> <span id="int"></span></td>
 			</tr>
-			<tr>
+			<tr onclick="rollWis()">
 				<td>WIS</td>
 				<td>{{character.WISDOM }}</td>
 				<td> <span id="wis"></span></td>
 			</tr>
-			<tr>
+			<tr onclick="rollCha()">
 				<td>CHA</td>
 				<td> {{character.CHARISMA}}</td>
 				<td> <span id="cha"></span></td>
@@ -53,7 +66,7 @@
 
 	<form action="" method="post">
 		<input type="hidden" name="remove" value="1">
-		<button class="btn btn-primary" type="submit" value="Remove Character">Delete Character </button>
+		<button class="btn btn-primary" type="submit" value="Remove Character" onclick= "getConfirmation();" >Delete Character </button>
 	</form>
 
 	<hr>
@@ -62,8 +75,26 @@
 	<h3> <a href = "/upload/{{character.NAME}}">upload pic</a> </h3>
 	<br><br>
 
+	<!-- The Modal -->
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
 
 <script>
+
+    function getConfirmation() {
+       var retVal = confirm("Do you want to continue ?");
+       if( retVal == true ) {
+          return true;
+       } else {
+          document.write ("Character not deleted");
+          location.reload();
+          return false;
+       }
+    }
+
 	var mods = {1: -5, 2: -4, 3: -4, 4: -3, 5: -3, 6: -2, 7: -2, 8: -1, 9: -1, 10: 0, 11: 0, 12: 1, 13: 1, 14: 2, 15: 2, 16:
             3, 17: 3, 18: 4, 19: 4, 20: 5, 21: 5, 22: 6, 23: 6, 24: 7, 25: 7, 26: 8, 27: 8, 28: 9, 29: 9, 39: 10};
 
@@ -74,5 +105,64 @@
     document.getElementById("wis").innerHTML= mods[{{character.WISDOM}}];
     document.getElementById("cha").innerHTML= mods[{{character.CHARISMA}}];
 
+
+    function rollStr(){
+		var roll=Math.floor(Math.random() * 20)+1;
+		var total=roll+mods[{{character.STRENGTH}}];
+		alert("STRENGTH ROLL! \nYou rolled a: "+roll + " plus your STR MOD of: " +mods[{{character.STRENGTH}}]+ " your total is: " +total+"!");
+	}
+
+    function rollDex(){
+		var roll=Math.floor(Math.random() * 20)+1;
+		var total=roll+mods[{{character.DEXTERITY}}];
+		alert("DEXTERITY ROLL! \nYou rolled a: "+roll + " plus your DEX MOD of: " +mods[{{character.DEXTERITY}}]+ " your total is: " +total+"!");
+	}
+
+    function rollCon(){
+		var roll=Math.floor(Math.random() * 20)+1;
+		var total=roll+mods[{{character.CONSTITUTION}}];
+		alert("CONSTITUTION ROLL! \nYou rolled a: "+roll + " plus your CON MOD of: " +mods[{{character.CONSTITUTION}}]+ " your total is: " +total+"!");
+	}
+
+	function rollInt(){
+		var roll=Math.floor(Math.random() * 20)+1;
+		var total=roll+mods[{{character.INTELLIGENCE}}];
+		alert("INTELLIGENCE ROLL! \nYou rolled a: "+roll + " plus your INT MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
+	}
+
+    function rollWis(){
+		var roll=Math.floor(Math.random() * 20)+1;
+		var total=roll+mods[{{character.WISDOM}}];
+		alert("WISDOM ROLL! \nYou rolled a: "+roll + " plus your WIS MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
+	}
+
+	function rollCha(){
+		var roll=Math.floor(Math.random() * 20)+1;
+		var total=roll+mods[{{character.CHARISMA}}];
+		alert("CHARIMSA ROLL! \nYou rolled a: "+roll + " plus your CHA MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
+	}
+
+
+		// Get the modal
+	var modal = document.getElementById('myModal');
+
+	// Get the image and insert it inside the modal - use its "alt" text as a caption
+	var img = document.getElementById('myImg');
+	var modalImg = document.getElementById("img01");
+	var captionText = document.getElementById("caption");
+	img.onclick = function(){
+	  modal.style.display = "block";
+	  modalImg.src = this.src;
+	  captionText.innerHTML = this.alt;
+	}
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() { 
+	  modal.style.display = "none";
+	}
 </script>
+</div>
 {% endblock %}

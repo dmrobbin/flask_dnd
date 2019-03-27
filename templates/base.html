@@ -1,17 +1,28 @@
 <html>
-    <style>
-
+        <!--font-family: 'Julius Sans One', sans-serif; -->
+        <!-- font-family: 'Marck Script', cursive; -->
+<style>
+   
     body{
         padding: 0;
     }
 
+
     h1 a, h2 a, h3 a {
         color: #C25100;
-        font-family: 'Bangers';
+        font-family: 'Julius Sans One', sans-serif;
+        
+        
     }
 
     body {
         padding-left: 15px;
+        font-family: 'Julius Sans One', sans-serif;
+    }
+
+    .unity{
+        background-color:#fff;
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .page-header {
@@ -25,6 +36,8 @@
         color: #ffffff;
         font-size: 36pt;
         text-decoration: none;
+        margin-top:0;
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .content {
@@ -32,7 +45,7 @@
     }
 
     h1, h2, h3, h4 {
-        font-family: 'Lobster', cursive;
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .date {
@@ -52,6 +65,7 @@
         float: right;
         font-size: 26pt;
         margin-right: 20px;
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .post {
@@ -61,24 +75,28 @@
     .post h2 a, .post h2 a:visited {
         color: #000000;
     }
-
+    form{
+        font-family: 'Julius Sans One', sans-serif;
+    }
     li{
-        font-family: 'Bangers';
+        font-family: 'Julius Sans One', sans-serif;
         font-size: 18pt;
+    }
+
+    th{
+        font-family: 'Julius Sans One', sans-serif;
+    }
+
+    tr{
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .creaton{
         font-size: 18px;
-        font-family:'Nanum Gothic';
+        
         padding-top: 5px;
         padding-bottom: :5px;
     }
-
-    th{
-        color:#fff;
-    }
-
-    .page-header{margin-top:0}
 
     .card-columns {
       @include media-breakpoint-only(lg) {
@@ -112,33 +130,129 @@
         background-color: #f1f1f1;
     }
 
+    .card-title{
+        font-family: 'Julius Sans One', sans-serif;
+    }
+
     .text {
       display: block;
-      width: 200px;
+      width: 95%;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      font-size: 12;
+      font-family: 'Julius Sans One', sans-serif;
+
+    }
+    .custom-file{
+        max-width: 20%; 
     }
 
     img{
         padding: 10px
     }
 
-    </style>
+     /*MODAL START */
+    #myImg {
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #myImg:hover {opacity: 0.7;}
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    }
+
+    /* Modal Content (image) */
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 40%;
+    }
+
+    /* Caption of Modal Image */
+    #caption {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+      text-align: center;
+      color: #ccc;
+      padding: 10px 0;
+      height: 150px;
+    }
+
+    /* Add Animation */
+    .modal-content, #caption {  
+      -webkit-animation-name: zoom;
+      -webkit-animation-duration: 0.6s;
+      animation-name: zoom;
+      animation-duration: 0.6s;
+    }
+
+    @-webkit-keyframes zoom {
+      from {-webkit-transform:scale(0)} 
+      to {-webkit-transform:scale(1)}
+    }
+
+    @keyframes zoom {
+      from {transform:scale(0)} 
+      to {transform:scale(1)}
+    }
+
+    /* The Close Button */
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* 100% Image Width on Smaller Screens */
+    @media only screen and (max-width: 600px){
+      .modal-content {
+        width: 100%;
+      }
+}
+
+
+</style>
     
     <head>
         <title>DND PROFILE</title>
+       <!--<link rel="stylesheet" type = "text/css" href="static/css/dnd.css"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Cuprum" rel="stylesheet" type ="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet"">
-        <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
-        <link rel="stylesheet" href="static/css/dnd.css">
+        <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Marck+Script" rel="stylesheet">
     </head>
 	<body>
-		<div class="page-header" style="margin-top: 0">
+
+		<div class="page-header"  style="margin-top: 0">
 			<center><h1><a href="/">DND PROFILE</a></h1></center>
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -148,17 +262,17 @@
               <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a href ="/add" class="nav-link"> Add character</a>
+                    <a href ="/add" class="nav-link"> Add-character</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/create">Roll character</a>
+                    <a class="nav-link" href="/create">Roll-character</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/login">login</a>
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="/class_features" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Class Features
+                      Class-Features
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                       <a class="dropdown-item" href="/class_details/Bard">Bard</a>
@@ -179,10 +293,11 @@
               </div>
             </nav>
 		</div>
+        <div class="unity">
 		{% block content %}
 			
 		{% endblock %}
-
+        </div>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

@@ -52,6 +52,22 @@ def character_list():
 	characters = session.query(my_char).filter(my_char.user_id==current_user.get_Id()).all()
 	return render_template('character_list.html', characters= characters)
 
+
+@app.route('/info/<name>', methods=['POST', 'GET'])
+def character_info(name):
+	if current_user.get_Id()==0:
+		return redirect('/login')
+
+	character_query = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id())
+
+	if request.method == 'POST' and request.form['remove'] == '1':
+		character_query.delete()
+		session.commit()
+		return redirect('/')
+
+	character = character_query.one_or_none()
+	return render_template('character_info.html', character=character)
+
 @app.route('/add', methods=['POST', 'GET'])
 def character_add():
 
@@ -120,19 +136,7 @@ def character_edit(name):
 	return render_template('character_edit.html', character=character)
 
 
-@app.route('/info/<name>', methods=['POST', 'GET'])
-def character_info(name):
-	if current_user.get_Id()==0:
-		return redirect('/login')
-	character_query = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id())
 
-	if request.method == 'POST' and request.form['remove'] == '1':
-		character_query.delete()
-		session.commit()
-		return redirect('/')
-
-	character = character_query.one_or_none()
-	return render_template('character_info.html', character=character)
 
 
 @app.route('/class_details/<job>', methods=['GET'])
@@ -279,14 +283,16 @@ def upload_file(name):
 def upload_files(name):
 	if current_user.get_Id()==0:
 		return redirect('/login')
+
 	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
+
 	if request.method == 'POST':
 		file = request.files['file']
 		filename = secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		character.image=filename
 		session.commit()
-		return redirect('/')
+		return redirect('/info/<name>')
 		
 if __name__ == '__main__':
    app.run(debug = True)
