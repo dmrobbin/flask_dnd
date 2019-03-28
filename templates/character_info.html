@@ -4,13 +4,13 @@
 <div>
 	<h2>{{ character.NAME}}</h2>
 	
-	<h3> Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}}</h3>
+	<h3> Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}} - Proficency Bonus:<span id="prof"></span></h3>
 
 		<form action = "/uploader/{{character.NAME}}" method = "POST" enctype = "multipart/form-data">
 
 			<div class="custom-file"">
 				<input type="file"  name ="file" class="custom-file-input" id="customFile" accept="image/*">
-				<label class="custom-file-label" for="customFile">Chracter Portrait</label>
+				<label class="custom-file-label" for="customFile">Character Portrait</label>
 
 			</div>
 			<input type = "submit" class="btn btn-primary" style="padding:1"/>
@@ -63,6 +63,59 @@
 			</tr>
 		</table>
 
+		<table class="table table-sm">
+			<tr class="bg-success">
+				<th scope="col" colspan="6"><center> Skills</center></th>
+			</tr>
+			<tr>
+				<td onclick="rollAcrobatics()">Acrobatics</td> 
+				<td>{{skills.Acrobatics}}</td> 
+				<td onclick="rollInsight()">Insight</td>
+				<td>{{skills.Insight}}</td>
+				<td onclick="rollPerformance()">Performance</td>
+				<td>{{skills.Performance}}</td>
+			</tr>
+			<tr>
+				<td onclick="rollAthletics()">Athletics</td>
+				<td>{{skills.Athletics}}</td>
+				<td onclick="rollIntimidation()">Intimidation</td>
+				<td>{{skills.Intimidation}}</td>
+				<td onclick="rollReligion()">Religion</td>
+				<td>{{skills.Religion}}</td>
+			</tr>
+			<tr>
+				<td onclick="rollAnimal()">Animal Handling</td>
+				<td>{{skills.Animal_Handling}}</td>
+				<td onclick="rollInvestigation()">Investigation</td>
+				<td>{{skills.Investigation}}</td>
+				<td onclick="rollSleight()">Sleight of Hand</td>
+				<td>{{skills.Sleight_of_Hand}}</td>
+			</tr>
+			<tr>
+				<td onclick="rollArcana()">Arcana</td>
+				<td>{{skills.Arcana}}</td>
+				<td onclick="rollMedicine()">Medicine</td>
+				<td>{{skills.Medicine}}</td>
+				<td onclick="rollStealth()">Stealth</td>
+				<td>{{skills.Stealth}}</td>
+			</tr>
+			<tr>
+				<td onclick="rollDeception()">Deception</td>
+				<td>{{skills.Deception}}</td>
+				<td onclick="rollNature()">Nature</td>
+				<td>{{skills.Nature}}</td>
+				<td onclick="rollSurvival()">Survival</td>
+				<td>{{skills.Survival}}</td>
+			</tr>
+			<tr>
+				<td onclick="rollHistory()">History</td>
+				<td>{{skills.History}}</td>
+				<td onclick="rollPerception()">Perception</td>
+				<td>{{skills.Perception}}</td>
+				<td onclick="rollPersuasion()">Persuasion</td>
+				<td>{{skills.Persuasion}}</td>
+			</tr>
+		</table>
 
 	<form action="" method="post">
 		<input type="hidden" name="remove" value="1">
@@ -143,6 +196,20 @@
 	}
 
 
+	var prof=2;
+
+	if({{character.LEVEL}}>=17){
+		prof=6;
+	}else if({{character.LEVEL}}>=12){
+		prof=5;
+	}else if({{character.LEVEL}}>=9){
+		prof=4; 
+	}else if({{character.LEVEL}}>=5){
+		prof=3;
+	}
+	document.getElementById('prof').innerHTML=prof;
+
+
 		// Get the modal
 	var modal = document.getElementById('myModal');
 
@@ -163,6 +230,225 @@
 	span.onclick = function() { 
 	  modal.style.display = "none";
 	}
+	
+	function rollAcrobatics(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Acrobatics}}==1){
+			var total=roll+mods[{{character.DEXTERITY}}]+prof;
+			alert("Acrobatics ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.DEXTERITY}}];
+			alert("Acrobatics ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function  rollStealth(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Stealth}}==1){
+			var total=roll+mods[{{character.DEXTERITY}}]+prof;
+			alert("Stealth ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.DEXTERITY}}];
+			alert("Stealth ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollSleight(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Sleight_of_Hand}}==1){
+			var total=roll+mods[{{character.DEXTERITY}}]+prof;
+			alert("Sleight of Hand ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.DEXTERITY}}];
+			alert("Sleight of Hand ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollAthletics(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Athletics}}==1){
+			var total=roll+mods[{{character.STRENGTH}}]+prof;
+			alert("Athletics ROLL! \nYou rolled a: "+roll + " plus your Str MOD of: " +mods[{{character.STRENGTH}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.STRENGTH}}];
+			alert("Athletics ROLL! \nYou rolled a: "+roll + " plus your Str MOD of: " +mods[{{character.STRENGTH}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollAnimal(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Animal_Handling}}==1){
+			var total=roll+mods[{{character.WISDOM}}]+prof;
+			alert("Animal Handling ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.WISDOM}}];
+			alert("Animal Handling ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollInsight(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Insight}}==1){
+			var total=roll+mods[{{character.WISDOM}}]+prof;
+			alert("Insight ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.WISDOM}}];
+			alert("Insight ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollPerception(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Perception}}==1){
+			var total=roll+mods[{{character.WISDOM}}]+prof;
+			alert("Perception ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.WISDOM}}];
+			alert("Perception ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollSurvival(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Survival}}==1){
+			var total=roll+mods[{{character.WISDOM}}]+prof;
+			alert("Survival ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.WISDOM}}];
+			alert("Survival ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollArcana(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Arcana}}==1){
+			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
+			alert("Arcana ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.INTELLIGENCE}}];
+			alert("Arcana ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollHistory(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.History}}==1){
+			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
+			alert("History ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.INTELLIGENCE}}];
+			alert("History ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollInvestigation(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Investigation}}==1){
+			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
+			alert("Investigation ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.INTELLIGENCE}}];
+			alert("Investigation ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollMedicine(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Medicine}}==1){
+			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
+			alert("Medicine ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.INTELLIGENCE}}];
+			alert("Medicine ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollNature(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Nature}}==1){
+			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
+			alert("Nature ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.INTELLIGENCE}}];
+			alert("Nature ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollReligion(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Religion}}==1){
+			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
+			alert("Religion ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.INTELLIGENCE}}];
+			alert("Religion ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollDeception(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Deception}}==1){
+			var total=roll+mods[{{character.CHARISMA}}]+prof;
+			alert("Deception ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.CHARISMA}}];
+			alert("Deception ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollPersuasion(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Persuasion}}==1){
+			var total=roll+mods[{{character.CHARISMA}}]+prof;
+			alert("Persuasion ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.CHARISMA}}];
+			alert("Persuasion ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollPerformance(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Performance}}==1){
+			var total=roll+mods[{{character.CHARISMA}}]+prof;
+			alert("Performance ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.CHARISMA}}];
+			alert("Performance ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+	function rollIntimidation(){
+		var roll=Math.floor(Math.random() * 20)+1;
+
+		if({{skills.Intimidation}}==1){
+			var total=roll+mods[{{character.CHARISMA}}]+prof;
+			alert("Intimidation ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		}else{
+			var total=roll+mods[{{character.CHARISMA}}];
+			alert("Intimidation ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
+		}
+		
+	}
+
+
 </script>
 </div>
 {% endblock %}

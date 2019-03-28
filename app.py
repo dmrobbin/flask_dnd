@@ -8,6 +8,8 @@ from flask import request
 from user import *
 from werkzeug import secure_filename
 import os
+from flask import jsonify
+import json
 import random
 import hashlib
 
@@ -39,6 +41,7 @@ my_char = Base.classes.DND_5E_CHAR
 my_feat = Base.classes.DND_5E_FEAT
 my_user = Base.classes.DND_USERS
 my_image = Base.classes.DND_IMAGES
+my_skills = Base.classes.DND_5E_SKILLS
 
 current_user = User()
 
@@ -59,14 +62,20 @@ def character_info(name):
 		return redirect('/login')
 
 	character_query = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id())
+	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
+
+
+	skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==current_user.get_Id())
+	skills = skills_query.one_or_none()
 
 	if request.method == 'POST' and request.form['remove'] == '1':
 		character_query.delete()
+		skills_query.delete()
 		session.commit()
 		return redirect('/')
 
 	character = character_query.one_or_none()
-	return render_template('character_info.html', character=character)
+	return render_template('character_info.html', character=character, skills = skills)
 
 @app.route('/add', methods=['POST', 'GET'])
 def character_add():
@@ -92,6 +101,33 @@ def character_add():
 
 		))
 
+		session.commit()
+
+		character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==current_user.get_Id()).one_or_none()
+
+		session.add(my_skills(
+			user_id = current_user.get_Id(),
+			character_id = character.id,
+			Acrobatics = request.form.get('acrobatics'),
+			Animal_Handling = request.form.get('animalhandling'),
+			Arcana = request.form.get('arcana'),
+			Athletics = request.form.get('athletics'),
+			Deception = request.form.get('deception'),
+			History = request.form.get('history'),
+			Insight = request.form.get('insight'),
+			Intimidation = request.form.get('intimidation'),
+			Investigation = request.form.get('investigation'),
+			Medicine = request.form.get('medicine'),
+			Nature = request.form.get('nature'),
+			Perception = request.form.get('perception'),
+			Performance = request.form.get('performance'),
+			Persuasion = request.form.get('persusaion'),
+			Religion = request.form.get('religion'),
+			Sleight_of_Hand = request.form.get('sleightofhand'),
+			Stealth = request.form.get('stealth'),
+			Survival = request.form.get('survivial'),
+
+		))
 
 		session.commit()
 
@@ -104,10 +140,11 @@ def character_edit(name):
 	if current_user.get_Id()==0:
 		return redirect('/login')
 	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
-
+	skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==current_user.get_Id())
+	skills = skills_query.one_or_none()	
 
 	if request.method == 'POST' and request.form['edit'] == '1':
-
+		#name/job/desription/attribute error
 		if request.form['name']!='':
 			character.NAME=request.form['name']
 		if request.form['job'] !='':
@@ -128,12 +165,31 @@ def character_edit(name):
 			character.CHARISMA=request.form['CHARISMA']
 		if request.form['description'] !='':
 			character.description=request.form['description']
-
+		#skills edit
+		skills.Acrobatics = request.form.get('acrobatics'),
+		skills.Animal_Handling = request.form.get('animalhandling'),
+		skills.Arcana = request.form.get('arcana'),
+		skills.Athletics = request.form.get('athletics'),
+		skills.Deception = request.form.get('deception'),
+		skills.History = request.form.get('history'),
+		skills.Insight = request.form.get('insight'),
+		skills.Intimidation = request.form.get('intimidation'),
+		skills.Investigation = request.form.get('investigation'),
+		skills.Medicine = request.form.get('medicine'),
+		skills.Nature = request.form.get('nature'),
+		skills.Perception = request.form.get('perception'),
+		skills.Performance = request.form.get('performance'),
+		skills.Persuasion = request.form.get('persuasion'),
+		skills.Religion = request.form.get('religion'),
+		skills.Sleight_of_Hand = request.form.get('sleightofhand'),
+		skills.Stealth = request.form.get('stealth'),
+		skills.Survival = request.form.get('survivial'),		
 
 		session.commit()
+
 		return redirect('/')
 
-	return render_template('character_edit.html', character=character)
+	return render_template('character_edit.html', character=character, skills=skills)
 
 
 
@@ -189,10 +245,38 @@ def character_create():
 			user_id = current_user.get_Id(),
 
 		))
+
 		try:
 			session.commit()
 		except:
 			print("Error commiting changes to the dbmaster")
+
+		character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==current_user.get_Id()).one_or_none()
+
+		session.add(my_skills(
+			user_id = current_user.get_Id(),
+			character_id = character.id,
+			Acrobatics = request.form.get('acrobatics'),
+			Animal_Handling = request.form.get('animalhandling'),
+			Arcana = request.form.get('arcana'),
+			Athletics = request.form.get('athletics'),
+			Deception = request.form.get('deception'),
+			History = request.form.get('history'),
+			Insight = request.form.get('insight'),
+			Intimidation = request.form.get('intimidation'),
+			Investigation = request.form.get('investigation'),
+			Medicine = request.form.get('medicine'),
+			Nature = request.form.get('nature'),
+			Perception = request.form.get('perception'),
+			Religion = request.form.get('religion'),
+			Sleight_of_Hand = request.form.get('sleightofhand'),
+			Stealth = request.form.get('stealth'),
+			Survival = request.form.get('survivial'),
+
+		))
+
+		session.commit()
+
 		return redirect('/')
 	else:
 		return render_template('character_create.html', rolls=rolls)

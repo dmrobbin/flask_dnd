@@ -94,13 +94,115 @@
 				<td> <input type="text" name="CHARISMA" value={{character.CHARISMA}}></td>
 			</tr>
 		</table>
+
+		<table class="table table-sm">
+			<tr class="bg-success">
+				<th scope="col" colspan="6"><center> Skills</center></th>
+			</tr>
+			<tr>
+				<td>Acrobatics</td> 
+				<td><input type="checkbox" name="acrobatics" id="acrobatics" value=1></td> 
+				<td>Insight</td>
+				<td><input type="checkbox" name="insight" id="insight" value=1></td>
+				<td>Performance</td>
+				<td><input type="checkbox" name="performance" id="performance" value=1></td>
+			</tr>
+			<tr>
+				<td>Athletics</td>
+				<td><input type="checkbox" name="athletics" id="athletics" value=1></td>
+				<td>Intimidation</td>
+				<td><input type="checkbox" name="intimidation" id="intimidation" value=1></td>
+				<td>Religion</td>
+				<td><input type="checkbox" name="religion" id="religion" value=1></td>
+			</tr>
+			<tr>
+				<td>Animal Handling</td>
+				<td><input type="checkbox" name="animal_handling" id="animal_handling" value=1></td>
+				<td>Investigation</td>
+				<td><input type="checkbox" name="investigation" id="investigation" value=1></td>
+				<td>Sleight of Hand</td>
+				<td><input type="checkbox" name="sleight_of_hand" id="sleight_of_hand" value=1></td>
+			</tr>
+			<tr>
+				<td>Arcana</td>
+				<td><input type="checkbox" name="arcana" id="arcana" value=1></td>
+				<td>Medicine</td>
+				<td><input type="checkbox" name="medicine" id="medicine" value=1></td>
+				<td>Stealth</td>
+				<td><input type="checkbox" name="stealth" id="stealth" value=1></td>
+			</tr>
+			<tr>
+				<td>Deception</td>
+				<td><input type="checkbox" name="deception" id="deception" value=1></td>
+				<td>Nature</td>
+				<td><input type="checkbox" name="nature" id="nature" value=1></td>
+				<td>Survival</td>
+				<td><input type="checkbox" name="survival" id="survival" value=1></td>
+			</tr>
+			<tr>
+				<td>History</td>
+				<td><input type="checkbox" name="history" id="history" value=1></td>
+				<td>Perception</td>
+				<td><input type="checkbox" name="perception" id="perception" value=1></td>
+				<td>Persuasion</td>
+				<td><input type="checkbox" name="persuasion" id="persuasion" value=1></td>
+			</tr>
+		</table>
+
 </div>
 	<br><br>
 
 		<input type="hidden" name="edit" value="1">
 		<button type="submit" value="Edit Character" class="btn btn-primary">Edit Character</button>
 	</form>
+<script>
 
+	if({{skills.Athletics}}==1){
+		document.getElementById("athletics").checked = true;
+	}
+	if({{skills.Acrobatics}}==1){
+		document.getElementById("acrobatics").checked = true;
+	}
+	if({{skills.Animal_Handling}}==1){
+		document.getElementById("animal_handling").checked = true;
+	}
+	if({{skills.Arcana}}==1){
+		document.getElementById("arcana").checked = true;
+	}
+	if({{skills.Deception}}==1){
+		document.getElementById("deception").checked = true;
+	}
+	if({{skills.History}}==1){
+		document.getElementById("history").checked = true;
+	}
+	if({{skills.Insight}}==1){
+		document.getElementById("insight").checked = true;
+	}
+	if({{skills.Intimidation}}==1){
+		document.getElementById("intimidation").checked = true;
+	}
+	if({{skills.Investigation}}==1){
+		document.getElementById("investigation").checked = true;
+	}
+	if({{skills.Performance}}==1){
+		document.getElementById("performance").checked = true;
+	}
+	if({{skills.Religion}}==1){
+		document.getElementById("religion").checked = true;
+	}
+	if({{skills.Sleight_of_Hand}}==1){
+		document.getElementById("sleight_of_hand").checked = true;
+	}
+	if({{skills.Stealth}}==1){
+		document.getElementById("stealth").checked = true;
+	}
+	if({{skills.Survival}}==1){
+		document.getElementById("survival").checked = true;
+	}
+	if({{skills.Pursuasion}}==1){
+		document.getElementById("persuasion").checked = true;
+	}
+</script>
 <br><br>
 <p>*NOTE: Does not apply racial bonuses automatically</p>
 {% endblock %}

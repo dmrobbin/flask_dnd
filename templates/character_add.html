@@ -81,29 +81,48 @@
 			</tr>
 			<tr>
 				<td>STR</td> 
-				<td><input type="text" name="STRENGTH"> </td>
+				<td><input type="text" name="STRENGTH" value=10> </td>
 			</tr>
 			<tr>
 				<td>DEX</td>
-				<td> <input type="text" name="DEXTERITY"></td>
+				<td> <input type="text" name="DEXTERITY" value=10></td>
 			</tr>
 			<tr>
 				<td>CON</td>
-				<td> <input type="text" name="CONSTITUTION"></td>
+				<td> <input type="text" name="CONSTITUTION" value=10></td>
 			</tr>
 			<tr>
 				<td>INT</td>
-				<td> <input type="text" name="INTELLIGENCE"></td>
+				<td> <input type="text" name="INTELLIGENCE" value=10></td>
 			</tr>
 			<tr>
 				<td>WIS</td>
-				<td> <input type="text" name="WISDOM"></td>
+				<td> <input type="text" name="WISDOM" value=10></td>
 			</tr>
 			<tr>
 				<td>CHA</td>
-				<td> <input type="text" name="CHARISMA"></td>
+				<td> <input type="text" name="CHARISMA" value=10></td>
 			</tr>
 		</table>
+		
+		<input type="checkbox" name="athletics" value=1> Athletics<br>
+		<input type="checkbox" name="animal_handling" value =1> animal_handling<br>
+		<input type="checkbox" name="arcana" value =1> arcana<br>
+		<input type="checkbox" name="acrobatics" value =1> Acrobatics<br>
+		<input type="checkbox" name="deception" value =1> deception<br>
+		<input type="checkbox" name="history" value =1> history<br>
+		<input type="checkbox" name="insight" value =1> insight<br>
+		<input type="checkbox" name="intimidation" value =1> intimidation<br>
+		<input type="checkbox" name="investigation" value =1> investigation<br>
+		<input type="checkbox" name="medicine" value =1> medicine<br>
+		<input type="checkbox" name="nature" value =1> nature<br>
+		<input type="checkbox" name="preception" value =1> preception<br>
+		<input type="checkbox" name="performance" value =1> performance<br>
+		<input type="checkbox" name="religion" value =1> religion<br>
+		<input type="checkbox" name="sleight_of_hand" value =1> sleight_of_hand<br>
+		<input type="checkbox" name="stealth" value =1> stealth<br>
+		<input type="checkbox" name="survival" value =1> survival<br>
+
 
 	<br><br>
 	<button type="submit" value="Add Character" class="btn btn-primary">Add Character</button>
@@ -113,14 +132,19 @@
 
 	function makeid(length) {
 	  var text = "";
-	  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	  var random_name=  "";
+	  var capital ="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	  var connsonant = "bcdfghjklmnpqrstvwxyz";
+	  var vowel = "aeiou";
+	  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+		random_name += connsonant.charAt(Math.floor(Math.random() * vowel.length));
+		random_name += vowel.charAt(Math.floor(Math.random() * vowel.length));
+	  for (var i = 0; i < 6; i++)
+		random_name += possible.charAt(Math.floor(Math.random() * possible.length));
 
-	  for (var i = 0; i < length; i++)
-	    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-	  return text;
+	  return random_name;
 }
-
 
 document.getElementById("nm").defaultValue = makeid(12);
 console.log(makeid(12));
