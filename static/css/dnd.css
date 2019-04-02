@@ -13,12 +13,14 @@
 
     body {
         padding-left: 15px;
+        padding-right: 15px;
         font-family: 'Julius Sans One', sans-serif;
     }
 
     .unity{
         background-color:#fff;
         font-family: 'Julius Sans One', sans-serif;
+
     }
 
     .card{

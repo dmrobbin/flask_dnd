@@ -277,7 +277,6 @@ def spell_edit(name):
 		if request.form['description'] !='':
 			spell.DESCRIPTION=request.form['description']
 		session.commit()
-		print("I TRIED TO EDIT THIS")
 		return redirect('/')
 
 	return render_template('spell_edit.html', spell=spell)
@@ -294,15 +293,26 @@ def remove_spell(name):
 	if request.method == 'POST':
 		spell_query.delete()
 		session.commit()
-		print("I TRIED TO DELETE THIS")
 		return redirect('/')
 
 
 @app.route('/class_details/<job>', methods=['GET'])
 def class_details(job):
-	features_query = session.query(my_feat).filter(my_feat.JOB == job)
-	feature = features_query.one_or_none()
-	return render_template('class_details.html', feature=feature)
+
+	feats = session.query(my_feat).filter(my_feat.JOB == job).one_or_none()
+	feats_dict = dict((col,getattr(feats, col)) for col in my_feat.__table__.columns.keys())
+
+	slots = session.query(my_slots).filter(my_slots.JOB ==job).one_or_none()
+	slots_dict = dict((col,getattr(slots, col)) for col in my_slots.__table__.columns.keys())
+
+	known = session.query(my_known).filter(my_known.JOB == job).one_or_none()
+	known_dict = dict((col,getattr(known, col)) for col in my_known.__table__.columns.keys())
+
+	format_dict(slots_dict)
+	format_dict(feats_dict)
+	format_dict(known_dict)
+
+	return render_template('class_details.html', feats_dict=feats_dict, slots_dict=slots_dict, job=job, known_dict=known_dict)
 
 
 @app.route('/create', methods=['POST', 'GET'])

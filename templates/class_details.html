@@ -2,28 +2,28 @@
 
 {% block content %}
 <table class="table table-sm">
-	<tr class="bg-warning"><th colspan="2"><h2><center>{{ feature.JOB}} class features</center></h2></th></tr>	
-			<tr><td>Level 1</td><td>{{feature.LEVEL_1}}</td></tr>
-			<tr><td>Level 2</td><td>{{feature.LEVEL_2}}</td></tr>
-			<tr><td>Level 3</td><td>{{feature.LEVEL_3}}</td></tr>
-			<tr><td>Level 4</td><td>{{feature.LEVEL_4}}</td></tr>
-			<tr><td>Level 5</td><td>{{feature.LEVEL_5}}</td></tr>
-			<tr><td>Level 6</td><td>{{feature.LEVEL_6}}</td></tr>
-			<tr><td>Level 7</td><td>{{feature.LEVEL_7}}</td></tr>
-			<tr><td>Level 8</td><td>{{feature.LEVEL_8}}</td></tr>
-			<tr><td>Level 9</td><td>{{feature.LEVEL_9}}</td></tr>
-			<tr><td>Level 10</td><td>{{feature.LEVEL_10}}</td></tr>
-			<tr><td>Level 11</td><td>{{feature.LEVEL_11}}</td></tr>
-			<tr><td>Level 12</td><td>{{feature.LEVEL_12}}</td></tr>
-			<tr><td>Level 13</td><td>{{feature.LEVEL_13}}</td></tr>
-			<tr><td>Level 14</td><td>{{feature.LEVEL_14}}</td></tr>
-			<tr><td>Level 15</td><td>{feature.LEVEL_15}}</td></tr>
-			<tr><td>Level 16</td><td>{{feature.LEVEL_16}}</td></tr>
-			<tr><td>Level 17</td><td>{{feature.LEVEL_17}}</td></tr>
-			<tr><td>Level 18</td><td>{{feature.LEVEL_18}}</td></tr>
-			<tr><td>Level 19</td><td>{{feature.LEVEL_19}}</td></tr>
-			<tr><td>Level 20</td><td>{{feature.LEVEL_20}}</td></tr>
+	<tr class="bg-warning">
+		<th colspan="2"><h2><center>{{job}} class features</center></h2></th>
+		{% if job == "Warlock" or job == "Sorcerer" or job == "Bard" or job == "Ranger" %}
+				<th>Spells known</th>
+				{% endif %}
+			{% if job == "Warlock" or job == "Sorcerer" or job == "Bard" or job == "Ranger" or job == "Paladin" or job == "Wizard" or job == "Cleric" or job == "Druid"   %}
+				<th> Spell Slots</th>
+				{%endif %}</th>
+
+		{% for i in range(1, 21) %}
+		<tr>
+		<td>{{i}}</td> 
+		<td>{{feats_dict[i]}}</td>
+		{% if job == "Warlock" or job == "Sorcerer" or job == "Bard" or job == "Ranger" %}
+
+		<td>{{known_dict[i]}}</td>
+		{% endif %}
+		{% if job == "Warlock" or job == "Sorcerer" or job == "Bard" or job == "Ranger" or job == "Paladin" or job == "Wizard" or job == "Cleric" or job == "Druid"   %}
+		<td>{{slots_dict[i]}}</td>
+		{%endif %}
 		</tr>
+		{% endfor %}
 </table>
 
 
