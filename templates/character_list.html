@@ -2,18 +2,19 @@
 
 {% block content %}
 	<div>
-		<center><h3> Current Characters: </h3></center>
+		<center><h3 style="padding-top: 30"> Current Characters: </h3></center>
 
+		
 
-		<div class="card-columns" style="column-count: 4;">
+	<div>
 
 		{% for character in characters %}
 
 	  <div class="card">
-	    <a href="info/{{character.NAME}}"><img class="card-img-top" src="/static/images/{{character.image}}" height = "250" alt="Card image cap"></a>
+	    <a href="info/{{character.NAME}}"><img class="card-img-top" src="/static/images/{{character.image}}" height = "230" width="100" alt="Card image cap"></a>
 	    <div class="card-body">
-	      <a href="info/{{character.NAME}}"><h5 class="card-title"><strong>{{character.NAME}} Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}}<strong></h5></a>
-	      <p class="card-text"><div class="text" data-toggle="modal" data-target="#exampleModalLong">{{character.description}}</div></p>
+	      <a href="info/{{character.NAME}}"><h5 class="card-title"><strong>{{character.NAME}} Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}}</strong></h5></a>
+	      <p class="card-text"><div class="text">{{character.description}}</div></p>
 	      <p class="card-text">
 	      	<small class="text-muted">
 	      	Str: {{character.STRENGTH}}
@@ -27,11 +28,12 @@
 	    </div>
 	  </div>
 
+
 		{% else %}
 			<li> No Characters found </li>
 		{% endfor %}	  
 
-		</div>
+	</div>
 
 {% endblock %}
 

@@ -1,32 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-	<h2>{{ feature.JOB}} class features</h3>
-		<li>	
-			Level 1 - {{feature.LEVEL_1}}
-		</li>
-		<li>Level 2 - {{feature.LEVEL_2}} </li>
-			<li>Level 3 - {{feature.LEVEL_3}}</li>
-			<li>Level 4 - {{feature.LEVEL_4}}</li>
-			<li>Level 5 - {{feature.LEVEL_5}}</li>
-			<li>Level 6 - {{feature.LEVEL_6}}</li>
-			<li>Level 7 - {{feature.LEVEL_7}}</li>
-			<li>Level 8 - {{feature.LEVEL_8}}</li>
-			<li>Level 9 - {{feature.LEVEL_9}}</li>
-			<li>Level 10 - {{feature.LEVEL_10}}</li>
-			<li>Level 11 - {{feature.LEVEL_11}}</li>
-			<li>Level 12 - {{feature.LEVEL_12}}</li>
-			<li>Level 13 - {{feature.LEVEL_13}}</li>
-			<li>Level 14 - {{feature.LEVEL_14}}</li>
-			<li>Level 15 - {{feature.LEVEL_15}}</li>
-			<li>Level 16 - {{feature.LEVEL_16}}</li>
-			<li>Level 17 - {{feature.LEVEL_17}}</li>
-			<li>Level 18 - {{feature.LEVEL_18}}</li>
-			<li>Level 19 - {{feature.LEVEL_19}}</li>
-			<li>Level 20 - {{feature.LEVEL_20}}</li>
-		</li>
-
+<table class="table table-sm">
+	<tr class="bg-warning"><th colspan="2"><h2><center>{{ feature.JOB}} class features</center></h2></th></tr>	
+			<tr><td>Level 1</td><td>{{feature.LEVEL_1}}</td></tr>
+			<tr><td>Level 2</td><td>{{feature.LEVEL_2}}</td></tr>
+			<tr><td>Level 3</td><td>{{feature.LEVEL_3}}</td></tr>
+			<tr><td>Level 4</td><td>{{feature.LEVEL_4}}</td></tr>
+			<tr><td>Level 5</td><td>{{feature.LEVEL_5}}</td></tr>
+			<tr><td>Level 6</td><td>{{feature.LEVEL_6}}</td></tr>
+			<tr><td>Level 7</td><td>{{feature.LEVEL_7}}</td></tr>
+			<tr><td>Level 8</td><td>{{feature.LEVEL_8}}</td></tr>
+			<tr><td>Level 9</td><td>{{feature.LEVEL_9}}</td></tr>
+			<tr><td>Level 10</td><td>{{feature.LEVEL_10}}</td></tr>
+			<tr><td>Level 11</td><td>{{feature.LEVEL_11}}</td></tr>
+			<tr><td>Level 12</td><td>{{feature.LEVEL_12}}</td></tr>
+			<tr><td>Level 13</td><td>{{feature.LEVEL_13}}</td></tr>
+			<tr><td>Level 14</td><td>{{feature.LEVEL_14}}</td></tr>
+			<tr><td>Level 15</td><td>{feature.LEVEL_15}}</td></tr>
+			<tr><td>Level 16</td><td>{{feature.LEVEL_16}}</td></tr>
+			<tr><td>Level 17</td><td>{{feature.LEVEL_17}}</td></tr>
+			<tr><td>Level 18</td><td>{{feature.LEVEL_18}}</td></tr>
+			<tr><td>Level 19</td><td>{{feature.LEVEL_19}}</td></tr>
+			<tr><td>Level 20</td><td>{{feature.LEVEL_20}}</td></tr>
+		</tr>
+</table>
 
 
 {% endblock %}

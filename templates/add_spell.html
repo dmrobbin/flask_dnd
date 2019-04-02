@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post" action="">
+	<center>
+		<h3> Add Spell </h3>
+	<div style="float:left; max-width: 30%">
+	<div style="padding-bottom: 10">
+		<h4>Name</h4>
+		<input type="text" name="name" autocomplete="off" id="nm">
+	</div>
+	<h4>Level</h4>
+	<div class="form-group">
+		<select name="level" class="form-control">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+		</select>
+	</div>
+
+</div>
+</center>
+<div style="float:right; width:70%%">
+<center>
+	<h4>Description</h4>
+
+	<textarea name = "description" cols="100" rows="12"></textarea>
+</center>
+</div>
+	<br><br>
+
+	<br><br>
+	<button type="submit" value="Add Spell" class="btn btn-primary">Add Spell</button>
+</form>
+
+<script type="text/javascript">
+
+	function makeid(length) {
+	  var text = "";
+	  var random_name=  "";
+	  var capital ="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	  var connsonant = "bcdfghjklmnpqrstvwxyz";
+	  var vowel = "aeiou";
+	  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+		random_name += connsonant.charAt(Math.floor(Math.random() * vowel.length));
+		random_name += vowel.charAt(Math.floor(Math.random() * vowel.length));
+	  for (var i = 0; i < 6; i++)
+		random_name += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	  return random_name;
+}
+
+document.getElementById("nm").defaultValue = makeid(12);
+console.log(makeid(12));
+
+</script>
+{% endblock %}

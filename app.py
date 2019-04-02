@@ -42,16 +42,19 @@ my_feat = Base.classes.DND_5E_FEAT
 my_user = Base.classes.DND_USERS
 my_image = Base.classes.DND_IMAGES
 my_skills = Base.classes.DND_5E_SKILLS
+my_slots=Base.classes.DND_5E_SLOTS
+my_known=Base.classes.DND_5E_SPELLS_KNOWN
+my_spells=Base.classes.DND_5E_SPELLS
 
 current_user = User()
-
+this_char = 0
 bpar = "When I was a young boy My father took me into the city To see a marching band He said, son, when you grow up Would you be the savior of the broken The beaten, and the damned? He said, will you defeat them Your demons and all the non-believers? The plans that they have made? Because one day Ill leave you A phantom to lead you in the summer To join the black parade When I was a young boy My father took me into the city To see a marching band He said, son, when you grow up You will be the savior of the broken The beaten, and the damned?"
 
 @app.route('/')
 def character_list():
 	if current_user.get_Id()==0:
 		return redirect('/login')
-
+	this_char=0
 	characters = session.query(my_char).filter(my_char.user_id==current_user.get_Id()).all()
 	return render_template('character_list.html', characters= characters)
 
@@ -68,6 +71,23 @@ def character_info(name):
 	skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==current_user.get_Id())
 	skills = skills_query.one_or_none()
 
+	feats = session.query(my_feat).filter(my_feat.JOB == character.JOB).one_or_none()
+	feats_dict = dict((col,getattr(feats, col)) for col in my_feat.__table__.columns.keys())
+
+	slots = session.query(my_slots).filter(my_slots.JOB == character.JOB).one_or_none()
+	slots_dict = dict((col,getattr(slots, col)) for col in my_slots.__table__.columns.keys())
+
+	known = session.query(my_known).filter(my_known.JOB == character.JOB).one_or_none()
+	known_dict = dict((col,getattr(known, col)) for col in my_known.__table__.columns.keys())
+
+	spells = session.query(my_spells).filter(my_spells.CHARACTER_ID == character.id).all()
+
+	this_char = character
+
+	format_dict(known_dict)
+	format_dict(slots_dict)
+	format_dict(feats_dict)
+	
 	if request.method == 'POST' and request.form['remove'] == '1':
 		character_query.delete()
 		skills_query.delete()
@@ -75,7 +95,54 @@ def character_info(name):
 		return redirect('/')
 
 	character = character_query.one_or_none()
-	return render_template('character_info.html', character=character, skills = skills)
+	return render_template('character_info.html', character=character, skills = skills, feats=feats, feats_dict= feats_dict, slots_dict=slots_dict, known_dict=known_dict, spells=spells)
+
+
+def format_dict(dict):
+	del dict["id"]
+	del dict["JOB"]
+	dict[1] = dict.pop("LEVEL_1")
+	dict[2] = dict.pop("LEVEL_2")
+	dict[3] = dict.pop("LEVEL_3")
+	dict[4] = dict.pop("LEVEL_4")
+	dict[5] = dict.pop("LEVEL_5")
+	dict[6] = dict.pop("LEVEL_6")
+	dict[7] = dict.pop("LEVEL_7")
+	dict[8] = dict.pop("LEVEL_8")
+	dict[9] = dict.pop("LEVEL_9")
+	dict[10] = dict.pop("LEVEL_10")
+	dict[11] = dict.pop("LEVEL_11")
+	dict[12] = dict.pop("LEVEL_12")
+	dict[13] = dict.pop("LEVEL_13")
+	dict[14] = dict.pop("LEVEL_14")
+	dict[15] = dict.pop("LEVEL_15")
+	dict[16] = dict.pop("LEVEL_16")
+	dict[17] = dict.pop("LEVEL_17")
+	dict[18] = dict.pop("LEVEL_18")
+	dict[19] = dict.pop("LEVEL_19")
+	dict[20] = dict.pop("LEVEL_20")
+
+
+@app.route('/<name>/add_spell', methods=['POST', 'GET'])
+def spell_add(name):
+	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
+	if current_user.get_Id()==0:
+		return redirect('/login')
+
+	if request.method == 'POST':
+
+		session.add(my_spells(
+			NAME=request.form['name'],
+			LEVEL=int(request.form['level']),
+			DESCRIPTION = request.form['description'],
+			CHARACTER_ID = character.id,
+
+		))
+
+		session.commit()
+		return redirect('/')
+	else:
+		return render_template('add_spell.html')
 
 @app.route('/add', methods=['POST', 'GET'])
 def character_add():
@@ -144,13 +211,15 @@ def character_edit(name):
 	skills = skills_query.one_or_none()	
 
 	if request.method == 'POST' and request.form['edit'] == '1':
-		#name/job/desription/attribute error
+
 		if request.form['name']!='':
 			character.NAME=request.form['name']
 		if request.form['job'] !='':
 			character.JOB=request.form['job']
 		if request.form['race'] !='':
 			character.RACE=request.form['race']
+		if request.form['level'] !='':
+			character.LEVEL=request.form['level']
 		if request.form['STRENGTH'] !='':
 			character.STRENGTH=request.form['STRENGTH']
 		if request.form['DEXTERITY'] !='':
@@ -192,7 +261,41 @@ def character_edit(name):
 	return render_template('character_edit.html', character=character, skills=skills)
 
 
+@app.route('/spell_edit/<name>', methods=['POST', 'GET'])
+def spell_edit(name):
+	if current_user.get_Id()==0:
+		return redirect('/login')
 
+	spell_query=session.query(my_spells).filter(my_spells.NAME == name and my_spells.CHARACTER_ID == this_char.id)
+	spell=session.query(my_spells).filter(my_spells.NAME == name and my_spells.CHARACTER_ID == this_char.id).one_or_none()
+
+	if request.method == 'POST' and request.form['edit'] == '1':
+		if request.form['name']!='':
+			spell.NAME=request.form['name']
+		if request.form['level'] !='':
+			spell.LEVEL=request.form['level']
+		if request.form['description'] !='':
+			spell.DESCRIPTION=request.form['description']
+		session.commit()
+		print("I TRIED TO EDIT THIS")
+		return redirect('/')
+
+	return render_template('spell_edit.html', spell=spell)
+
+@app.route('/spell_remover/<name>', methods = ['GET', 'POST'])
+def remove_spell(name):
+
+	if current_user.get_Id()==0:
+		return redirect('/login')
+
+	spell_query=session.query(my_spells).filter(my_spells.NAME == name and my_spells.CHARACTER_ID == this_char.id)
+	spell=session.query(my_spells).filter(my_spells.NAME == name and my_spells.CHARACTER_ID == this_char.id).one_or_none()
+
+	if request.method == 'POST':
+		spell_query.delete()
+		session.commit()
+		print("I TRIED TO DELETE THIS")
+		return redirect('/')
 
 
 @app.route('/class_details/<job>', methods=['GET'])
@@ -354,14 +457,6 @@ def invalid_registration():
 	
 		return render_template('invalid_registration.html')
 
-### upload test
-
-@app.route('/upload/<name>')
-def upload_file(name):
-	if current_user.get_Id()==0:
-		return redirect('/login')
-	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
-	return render_template('upload.html', character = character)
 	
 @app.route('/uploader/<name>', methods = ['GET', 'POST'])
 def upload_files(name):
@@ -376,45 +471,7 @@ def upload_files(name):
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		character.image=filename
 		session.commit()
-		return redirect('/info/<name>')
+		return redirect('/')
 		
 if __name__ == '__main__':
    app.run(debug = True)
-
-'''@app.route('/edit/<name>', methods=['POST', 'GET'])
-def character_edit(name):
-	character = session.query(my_char).filter(my_char.NAME == name and my_char.user_id==current_user.get_Id()).one_or_none()
-
-
-	if request.method == 'POST' and request.form['edit'] == '1':
-
-		if request.form['name']!='':
-			character.NAME=request.form['name']
-		if request.form['job'] !='':
-			character.JOB=request.form['job']
-		if request.form['race'] !='':
-			character.RACE=request.form['race']
-		if request.form['STRENGTH'] !='':
-			character.STRENGTH=request.form['STRENGTH']
-		if request.form['DEXTERITY'] !='':
-			character.DEXTERITY=request.form['DEXTERITY']
-		if request.form['CONSTITUTION'] !='':
-			character.CONSTITUTION=request.form['CONSTITUTION']
-		if request.form['INTELLIGENCE'] !='':
-			character.INTELLIGENCE=request.form['INTELLIGENCE']
-		if request.form['WISDOM'] !='':
-			character.WISDOM=request.form['WISDOM']
-		if request.form['CHARISMA'] !='':
-			character.CHARISMA=request.form['CHARISMA']
-		if request.form['description'] !='':
-			character.description=request.form['description']
-
-
-		session.commit()
-		return redirect('/')
-
-	return render_template('character_edit.html', character=character)  '''
-### end upload test
-
-if __name__ == '__main__':
-	app.run(debug=True)

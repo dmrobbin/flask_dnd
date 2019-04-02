@@ -2,11 +2,13 @@
 
 {% block content %}
 <form method="post" action="">
-	<h3> New Character </h3>
-
-	<h4>Name</h4>
-	<input type="text" name="name" autocomplete="off" id="nm">
-
+	<center>
+		<h3> New Character </h3>
+	<div style="float:left; max-width: 30%">
+	<div style="padding-bottom: 10">
+		<h4>Name</h4>
+		<input type="text" name="name" autocomplete="off" id="nm">
+	</div>
 	<h4>Level</h4>
 	<div class="form-group">
 		<select name="level" class="form-control">
@@ -53,24 +55,29 @@
 
 	<div class="form-group">
 		<select name="job" class="form-control">
-			<option value="bard">Bard</option>
-			<option value="barbarian">Barbarian</option>
-			<option value="cleric">Cleric</option>
-			<option value="druid">Druid</option>
-			<option value="monk">Monk</option>
-			<option value="paladin">Paladin</option>
-			<option value="ranger">Ranger</option>
-			<option value="rogue">Rogue</option>
-			<option value="sorcerer">Sorcerer</option>
-			<option value="fighter">Fighter</option>
-			<option value="wizard">Wizard</option>
-			<option value="warlock">Warlock</option>
+			<option value="Bard">Bard</option>
+			<option value="Barbarian">Barbarian</option>
+			<option value="Cleric">Cleric</option>
+			<option value="Druid">Druid</option>
+			<option value="Monk">Monk</option>
+			<option value="Paladin">Paladin</option>
+			<option value="Ranger">Ranger</option>
+			<option value="Rogue">Rogue</option>
+			<option value="Sorcerer">Sorcerer</option>
+			<option value="Fighter">Fighter</option>
+			<option value="Wizard">Wizard</option>
+			<option value="Warlock">Warlock</option>
 		</select>
 	</div>
-
+</div>
+</center>
+<div style="float:right; width:70%%">
+<center>
 	<h4>Description</h4>
 
-	<textarea name = "description" cols="100" rows="10"></textarea>
+	<textarea name = "description" cols="100" rows="12"></textarea>
+</center>
+</div>
 	<br><br>
 
 	<table class="table table-sm">
@@ -105,23 +112,59 @@
 			</tr>
 		</table>
 		
-		<input type="checkbox" name="athletics" value=1> Athletics<br>
-		<input type="checkbox" name="animal_handling" value =1> animal_handling<br>
-		<input type="checkbox" name="arcana" value =1> arcana<br>
-		<input type="checkbox" name="acrobatics" value =1> Acrobatics<br>
-		<input type="checkbox" name="deception" value =1> deception<br>
-		<input type="checkbox" name="history" value =1> history<br>
-		<input type="checkbox" name="insight" value =1> insight<br>
-		<input type="checkbox" name="intimidation" value =1> intimidation<br>
-		<input type="checkbox" name="investigation" value =1> investigation<br>
-		<input type="checkbox" name="medicine" value =1> medicine<br>
-		<input type="checkbox" name="nature" value =1> nature<br>
-		<input type="checkbox" name="preception" value =1> preception<br>
-		<input type="checkbox" name="performance" value =1> performance<br>
-		<input type="checkbox" name="religion" value =1> religion<br>
-		<input type="checkbox" name="sleight_of_hand" value =1> sleight_of_hand<br>
-		<input type="checkbox" name="stealth" value =1> stealth<br>
-		<input type="checkbox" name="survival" value =1> survival<br>
+		<table class="table table-sm">
+			<tr class="bg-success">
+				<th scope="col" colspan="6"><center> Skills</center></th>
+			</tr>
+			<tr>
+				<td>Acrobatics</td> 
+				<td><input type="checkbox" name="acrobatics" id="acrobatics" value=1></td> 
+				<td>Insight</td>
+				<td><input type="checkbox" name="insight" id="insight" value=1></td>
+				<td>Performance</td>
+				<td><input type="checkbox" name="performance" id="performance" value=1></td>
+			</tr>
+			<tr>
+				<td>Athletics</td>
+				<td><input type="checkbox" name="athletics" id="athletics" value=1></td>
+				<td>Intimidation</td>
+				<td><input type="checkbox" name="intimidation" id="intimidation" value=1></td>
+				<td>Religion</td>
+				<td><input type="checkbox" name="religion" id="religion" value=1></td>
+			</tr>
+			<tr>
+				<td>Animal Handling</td>
+				<td><input type="checkbox" name="animal_handling" id="animal_handling" value=1></td>
+				<td>Investigation</td>
+				<td><input type="checkbox" name="investigation" id="investigation" value=1></td>
+				<td>Sleight of Hand</td>
+				<td><input type="checkbox" name="sleight_of_hand" id="sleight_of_hand" value=1></td>
+			</tr>
+			<tr>
+				<td>Arcana</td>
+				<td><input type="checkbox" name="arcana" id="arcana" value=1></td>
+				<td>Medicine</td>
+				<td><input type="checkbox" name="medicine" id="medicine" value=1></td>
+				<td>Stealth</td>
+				<td><input type="checkbox" name="stealth" id="stealth" value=1></td>
+			</tr>
+			<tr>
+				<td>Deception</td>
+				<td><input type="checkbox" name="deception" id="deception" value=1></td>
+				<td>Nature</td>
+				<td><input type="checkbox" name="nature" id="nature" value=1></td>
+				<td>Survival</td>
+				<td><input type="checkbox" name="survival" id="survival" value=1></td>
+			</tr>
+			<tr>
+				<td>History</td>
+				<td><input type="checkbox" name="history" id="history" value=1></td>
+				<td>Perception</td>
+				<td><input type="checkbox" name="perception" id="perception" value=1></td>
+				<td>Persuasion</td>
+				<td><input type="checkbox" name="persuasion" id="persuasion" value=1></td>
+			</tr>
+		</table>
 
 
 	<br><br>

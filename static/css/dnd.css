@@ -6,15 +6,28 @@
 
     h1 a, h2 a, h3 a {
         color: #C25100;
+        font-family: 'Julius Sans One', sans-serif;
+        
         
     }
 
     body {
         padding-left: 15px;
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .unity{
         background-color:#fff;
+        font-family: 'Julius Sans One', sans-serif;
+    }
+
+    .card{
+      margin:15px;
+      float:left;
+      width:300px;
+      height:400px;
+      background-color:#000;
+      
     }
 
     .page-header {
@@ -29,6 +42,7 @@
         font-size: 36pt;
         text-decoration: none;
         margin-top:0;
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .content {
@@ -36,7 +50,7 @@
     }
 
     h1, h2, h3, h4 {
-         
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .date {
@@ -56,6 +70,7 @@
         float: right;
         font-size: 26pt;
         margin-right: 20px;
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .post {
@@ -65,10 +80,20 @@
     .post h2 a, .post h2 a:visited {
         color: #000000;
     }
-
+    form{
+        font-family: 'Julius Sans One', sans-serif;
+    }
     li{
-        
+        font-family: 'Julius Sans One', sans-serif;
         font-size: 18pt;
+    }
+
+    th{
+        font-family: 'Julius Sans One', sans-serif;
+    }
+
+    tr{
+        font-family: 'Julius Sans One', sans-serif;
     }
 
     .creaton{
@@ -110,14 +135,112 @@
         background-color: #f1f1f1;
     }
 
+    .card-title{
+        font-family: 'Julius Sans One', sans-serif;
+    }
+
     .text {
       display: block;
-      width: 200px;
+      width: 95%;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      font-size: 12;
+      font-family: 'Julius Sans One', sans-serif;
+
+    }
+    .custom-file{
+        max-width: 20%; 
     }
 
     img{
         padding: 10px
     }
+
+     /*MODAL START */
+    #myImg {
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #myImg:hover {opacity: 0.7;}
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    }
+
+    /* Modal Content (image) */
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 40%;
+    }
+
+    /* Caption of Modal Image */
+    #caption {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+      text-align: center;
+      color: #ccc;
+      padding: 10px 0;
+      height: 150px;
+    }
+
+    /* Add Animation */
+    .modal-content, #caption {  
+      -webkit-animation-name: zoom;
+      -webkit-animation-duration: 0.6s;
+      animation-name: zoom;
+      animation-duration: 0.6s;
+    }
+
+    @-webkit-keyframes zoom {
+      from {-webkit-transform:scale(0)} 
+      to {-webkit-transform:scale(1)}
+    }
+
+    @keyframes zoom {
+      from {transform:scale(0)} 
+      to {transform:scale(1)}
+    }
+
+    /* The Close Button */
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* 100% Image Width on Smaller Screens */
+    @media only screen and (max-width: 600px){
+      .modal-content {
+        width: 100%;
+      }
+}
+
