@@ -19,7 +19,7 @@ import pymysql
 app=Flask(__name__)
 
 ##WILL NEED TO CHANGE WHEN UPLOADING
-UPLOAD_FOLDER = '/Users/daryl.robbin/desktop/mine/static/images/'
+UPLOAD_FOLDER = '/home/ubuntu/flask_dnd/static/images/'
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
