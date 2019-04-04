@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<center>
+	<h2>{{account.USER_NAME}}</h2>
+	<h3> Id : {{account.id}}</h3>
+	<form action="" method="post">
+	<input type="hidden" name="remove" value="1">
+	<button class="btn btn-primary" type="submit" value="Remove user" onclick= "getConfirmation();" >Delete Account</button>
+	</form>
+<h3>Characters</h3>
+{%for character in characters%}
+<ol>{{character.NAME}}</ol>
+{% endfor %}
+</center>
+<script>
+	function getConfirmation() {
+       var retVal = confirm("Do you want to continue ?");
+       if( retVal == true ) {
+          return true;
+       } else {
+          document.write ("Account not deleted");
+          location.reload();
+          return false;
+       }
+    }
+</script>
+
+{% endblock %}
