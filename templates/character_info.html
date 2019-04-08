@@ -6,9 +6,9 @@
 <div style="float:right; padding-right: 12">
 	<form action="" method="post">
 		<input type="hidden" name="remove" value="1">
-		<button class="btn btn-primary" type="submit" value="Remove Character" onclick= "getConfirmation();" >Delete {{character.NAME}}.   </button>
+		<button class="btn btn-success" id="btnsucc" type="submit" value="Remove Character" onclick= "getConfirmation();" >Delete {{character.NAME}}.   </button>
 	</form>
-	<a  href="/edit/{{character.id}}" class="btn btn-primary">Edit {{character.NAME}}</a>
+	<a  href="/edit/{{character.id}}" class="btn btn-success" id="btnsucc">Edit {{character.NAME}}</a>
 </div>
 	<h3> Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}} - Proficency Bonus:<span id="prof"></span></h3>
 
@@ -19,7 +19,7 @@
 				<label class="custom-file-label" for="customFile">Character Portrait</label>
 
 			</div>
-			<input type = "submit" class="btn btn-primary"/>
+			<input type = "submit" class="btn btn-success" id="btnsucc"/>
 		</form>
 
 

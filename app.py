@@ -3,7 +3,6 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.automap import automap_base
-from flask_sqlalchemy import SQLAlchemy
 from flask import request
 from user import *
 from werkzeug import secure_filename
@@ -26,7 +25,7 @@ login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
 ##WILL NEED TO CHANGE WHEN UPLOADING
-UPLOAD_FOLDER = '/Users/daryl.robbin/desktop/mine/static/images/'
+UPLOAD_FOLDER = '/home/ubuntu/flask_dnd/static/images/'
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -559,4 +558,4 @@ def upload_files(ida):
         return redirect('/')
         
 if __name__ == '__main__':
-   app.run(debug = True)
+   app.run()

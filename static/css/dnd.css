@@ -16,7 +16,10 @@
         padding-right: 15px;
         font-family: 'Julius Sans One', sans-serif;
     }
-
+    #btnsucc{
+      font-size: 10;
+      padding: 10px;
+    }
     .unity{
         background-color:#fff;
         font-family: 'Julius Sans One', sans-serif;

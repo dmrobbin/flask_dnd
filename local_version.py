@@ -26,7 +26,7 @@ login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
 ##WILL NEED TO CHANGE WHEN UPLOADING
-UPLOAD_FOLDER = '/home/ubuntu/flask_dnd/static/images/'
+UPLOAD_FOLDER = '/Users/daryl.robbin/desktop/mine/static/images/'
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -559,4 +559,4 @@ def upload_files(ida):
         return redirect('/')
         
 if __name__ == '__main__':
-   app.run(host='0.0.0.0', port=80)
+   app.run(debug = True)
