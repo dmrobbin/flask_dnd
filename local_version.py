@@ -3,7 +3,6 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.automap import automap_base
-from flask_sqlalchemy import SQLAlchemy
 from flask import request
 from user import *
 from werkzeug import secure_filename
@@ -33,7 +32,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #
 # Database configuration
 #
-
 pymysql.install_as_MySQLdb()
 
 engine = create_engine('mysql://dbmasteruser:P>wL5SB-;?ak&]U]xin47ZOy+|1&xml7@ls-83b76412cfb19ce97b259074e362e7e2605c6a71.cmkceejlkolu.us-west-2.rds.amazonaws.com:3306/dbmaster')
@@ -53,6 +51,7 @@ my_slots=Base.classes.DND_5E_SLOTS
 my_known=Base.classes.DND_5E_SPELLS_KNOWN
 my_spells=Base.classes.DND_5E_SPELLS
 my_inventory=Base.classes.DND_5E_INVENTORY
+my_multi=Base.classes.DND_5E_MULTI
 
 current_user = User()
 this_char = 0
@@ -64,10 +63,8 @@ def hashbrowns(password):
     h= hashlib.md5(password.encode())
     return h.hexdigest()
 
-
 user = session.query(my_user).all()
 
-###
 ids={}
 users={}
 for item in user:
@@ -87,7 +84,6 @@ def user_loader(user_name):
     user = User()
     user.id = user_name
     return user
-
 
 @login_manager.request_loader
 def request_loader(request):
@@ -124,13 +120,6 @@ def login():
 
     return redirect('/invalid_login')
 
-##test##
-@app.route('/protected')
-@flask_login.login_required
-def protected():
-    return 'Logged in as: ' + flask_login.current_user.id
-####
-
 @app.route('/logout')
 def logout():
     flask_login.logout_user()
@@ -148,14 +137,12 @@ def character_list():
     characters = session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).all()
     return render_template('character_list.html', characters= characters)
 
-
 @app.route('/info/<ida>', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_info(ida):
 
     character_query = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id])
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
-
 
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none()
@@ -172,21 +159,45 @@ def character_info(ida):
     spells = session.query(my_spells).filter(my_spells.CHARACTER_ID == character.id).all()
     items = session.query(my_inventory).filter(my_inventory.CHARACTER_ID == character.id).all()
 
+    multi_query=session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id)
+    multi = session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id).first()
+
+    if multi:
+        multi_feats=session.query(my_feat).filter(my_feat.JOB == multi.JOB).one_or_none()
+        multi_feats_dict = dict((col,getattr(multi_feats, col)) for col in my_feat.__table__.columns.keys())
+
+        multi_slots = session.query(my_slots).filter(my_slots.JOB == multi.JOB).one_or_none()
+        multi_slots_dict = dict((col,getattr(multi_slots, col)) for col in my_slots.__table__.columns.keys())
+
+        multi_known = session.query(my_known).filter(my_known.JOB == multi.JOB).one_or_none()
+        multi_known_dict = dict((col,getattr(multi_known, col)) for col in my_known.__table__.columns.keys())
+
+        format_dict(multi_feats_dict)
+        format_dict(multi_slots_dict)
+        format_dict(multi_known_dict)
+    else:
+        multi_feats_dict={}
+        multi_slots_dict={}
+        multi_known_dict={}
+
     this_char = character
 
     format_dict(known_dict)
     format_dict(slots_dict)
     format_dict(feats_dict)
-    
+
     if request.method == 'POST' and request.form['remove'] == '1':
         character_query.delete()
         skills_query.delete()
+        multi_query.delete()
         session.commit()
         return redirect('/')
 
     character = character_query.one_or_none()
-    return render_template('character_info.html', character=character, skills = skills, feats=feats, feats_dict= feats_dict, slots_dict=slots_dict, known_dict=known_dict, spells=spells, items=items)
-
+    return render_template('character_info.html', character=character, skills = skills, 
+        feats=feats, feats_dict= feats_dict, slots_dict=slots_dict, 
+        known_dict=known_dict, spells=spells, items=items, multi=multi, multi_feats_dict=multi_feats_dict,
+        multi_slots_dict=multi_slots_dict, multi_known_dict=multi_known_dict)
 
 @app.route('/account', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -209,7 +220,6 @@ def account_info():
         return redirect('/logout')
 
     return render_template('account_info.html', account=account, characters=characters)
-
 
 def format_dict(dict):
     del dict["id"]
@@ -235,6 +245,26 @@ def format_dict(dict):
     dict[19] = dict.pop("LEVEL_19")
     dict[20] = dict.pop("LEVEL_20")
 
+@app.route('/<ida>/add_spell', methods=['POST', 'GET'])
+@flask_login.login_required
+def spell_add(ida):
+    character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
+
+    if request.method == 'POST':
+
+        session.add(my_spells(
+            NAME=request.form['name'],
+            LEVEL=int(request.form['level']),
+            DESCRIPTION = request.form['description'],
+            CHARACTER_ID = character.id,
+
+        ))
+
+        session.commit()
+        return redirect('/')
+    else:
+        return render_template('add_spell.html')
+
 @app.route('/add', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_add():
@@ -256,12 +286,17 @@ def character_add():
             user_id = ids[flask_login.current_user.id],
             HP=request.form['hp'],
             AC=request.form['ac'],
-
         ))
 
         session.commit()
 
         character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
+
+        session.add(my_multi(
+            LEVEL=request.form.get('level_multi'),
+            JOB = request.form.get('job_multi'),
+            CHARACTER_ID = character.id,
+        ))
 
         session.add(my_skills(
             user_id = ids[flask_login.current_user.id],
@@ -279,12 +314,30 @@ def character_add():
             Nature = request.form.get('nature'),
             Perception = request.form.get('perception'),
             Performance = request.form.get('performance'),
-            Persuasion = request.form.get('persusaion'),
+            Persuasion = request.form.get('persuasion'),
             Religion = request.form.get('religion'),
             Sleight_of_Hand = request.form.get('sleightofhand'),
             Stealth = request.form.get('stealth'),
-            Survival = request.form.get('survivial'),
-
+            Survival = request.form.get('survival'),
+            ###Expertise###
+            Acrobatics_expert = request.form.get('acrobatics_expert'),
+            Animal_Handling_expert = request.form.get('animalhandling_expert'),
+            Arcana_expert = request.form.get('arcana_expert'),
+            Athletics_expert = request.form.get('athletics_expert'),
+            Deception_expert = request.form.get('deception_expert'),
+            History_expert = request.form.get('history_expert'),
+            Insight_expert = request.form.get('insight_expert'),
+            Intimidation_expert = request.form.get('intimidation_expert'),
+            Investigation_expert = request.form.get('investigation_expert'),
+            Medicine_expert = request.form.get('medicine_expert'),
+            Nature_expert = request.form.get('nature_expert'),
+            Perception_expert = request.form.get('perception_expert'),
+            Performance_expert = request.form.get('performance_expert'),
+            Persuasion_expert = request.form.get('persuasion_expert'),
+            Religion_expert = request.form.get('religion_expert'),
+            Sleight_of_Hand_expert = request.form.get('sleightofhand_expert'),
+            Stealth_expert = request.form.get('stealth_expert'),
+            Survival_expert = request.form.get('survival_expert'),
         ))
 
         session.commit()
@@ -300,6 +353,7 @@ def character_edit(ida):
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
+    multi = session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id).first()
 
     if request.method == 'POST' and request.form['edit'] == '1':
 
@@ -347,34 +401,50 @@ def character_edit(ida):
         skills.Religion = request.form.get('religion'),
         skills.Sleight_of_Hand = request.form.get('sleightofhand'),
         skills.Stealth = request.form.get('stealth'),
-        skills.Survival = request.form.get('survivial'),        
+        skills.Survival = request.form.get('survival'),        
+        #expert edit
+        skills.Acrobatics_expert = request.form.get('acrobatics_expert'),
+        skills.Animal_Handling_expert = request.form.get('animalhandling_expert'),
+        skills.Arcana_expert = request.form.get('arcana_expert'),
+        skills.Athletics_expert = request.form.get('athletics_expert'),
+        skills.Deception_expert = request.form.get('deception_expert'),
+        skills.History_expert = request.form.get('history_expert'),
+        skills.Insight_expert = request.form.get('insight_expert'),
+        skills.Intimidation_expert = request.form.get('intimidation_expert'),
+        skills.Investigation_expert = request.form.get('investigation_expert'),
+        skills.Medicine_expert = request.form.get('medicine_expert'),
+        skills.Nature_expert = request.form.get('nature_expert'),
+        skills.Perception_expert = request.form.get('perception_expert'),
+        skills.Performance_expert = request.form.get('performance_expert'),
+        skills.Persuasion_expert = request.form.get('persuasion_expert'),
+        skills.Religion_expert = request.form.get('religion_expert'),
+        skills.Sleight_of_Hand_expert = request.form.get('sleightofhand_expert'),
+        skills.Stealth_expert = request.form.get('stealth_expert'),
+        skills.Survival_expert = request.form.get('survival_expert'),
+        
+        #if multi exists
+        if multi:
+            if request.form.get('job_multi')!='Remove':
+                if request.form.get('job_multi')!= 'None':
+                    multi.JOB = request.form.get('job_multi'),
+                if request.form.get('level_multi')!='':
+                    multi.LEVEL = request.form.get('level_multi'),
+            else:
+                multi_query=session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id)
+                multi_query.delete()
+        else:
+            if request.form.get('job_multi')!= '' and request.form.get('level_multi')!='':
+                session.add(my_multi(
+                    LEVEL=request.form.get('level_multi'),
+                    JOB = request.form.get('job_multi'),
+                    CHARACTER_ID = character.id,
+                ))
 
         session.commit()
 
         return redirect('/')
 
-    return render_template('character_edit.html', character=character, skills=skills)
-
-
-@app.route('/<ida>/add_spell', methods=['POST', 'GET'])
-@flask_login.login_required
-def spell_add(ida):
-    character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
-
-    if request.method == 'POST':
-
-        session.add(my_spells(
-            NAME=request.form['name'],
-            LEVEL=int(request.form['level']),
-            DESCRIPTION = request.form['description'],
-            CHARACTER_ID = character.id,
-
-        ))
-
-        session.commit()
-        return redirect('/')
-    else:
-        return render_template('add_spell.html')
+    return render_template('character_edit.html', character=character, skills=skills, multi=multi)
 
 @app.route('/spell_edit/<name>', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -407,10 +477,10 @@ def remove_spell(name):
         session.commit()
         return redirect('/')
 
-### INVENTORY TESTING ###
 @app.route('/<ida>/add_item', methods=['POST', 'GET'])
 @flask_login.login_required
 def item_add(ida):
+
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
     if request.method == 'POST':
@@ -419,7 +489,6 @@ def item_add(ida):
             NAME=request.form['name'],
             DESCRIPTION = request.form['description'],
             CHARACTER_ID = character.id,
-
         ))
 
         session.commit()
@@ -455,7 +524,7 @@ def remove_item(name):
         item_query.delete()
         session.commit()
         return redirect('/')
-###/ INVENTORY TESTING /###
+
 @app.route('/class_details/<job>', methods=['GET'])
 def class_details(job):
 
@@ -474,11 +543,9 @@ def class_details(job):
 
     return render_template('class_details.html', feats_dict=feats_dict, slots_dict=slots_dict, job=job, known_dict=known_dict)
 
-
 @app.route('/create', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_create():
-
 
     rolls=[]
     #loop for each stat
@@ -517,7 +584,6 @@ def character_create():
             user_id = ids[flask_login.current_user.id],
             HP=request.form['hp'],
             AC=request.form['ac'],
-
         ))
 
         try:
@@ -542,11 +608,31 @@ def character_create():
             Medicine = request.form.get('medicine'),
             Nature = request.form.get('nature'),
             Perception = request.form.get('perception'),
+            Performance = request.form.get('performance'),
+            Persuasion = request.form.get('persuasion'),
             Religion = request.form.get('religion'),
             Sleight_of_Hand = request.form.get('sleightofhand'),
             Stealth = request.form.get('stealth'),
-            Survival = request.form.get('survivial'),
-
+            Survival = request.form.get('survival'),
+            ###Expertise###
+            Acrobatics_expert = request.form.get('acrobatics_expert'),
+            Animal_Handling_expert = request.form.get('animalhandling_expert'),
+            Arcana_expert = request.form.get('arcana_expert'),
+            Athletics_expert = request.form.get('athletics_expert'),
+            Deception_expert = request.form.get('deception_expert'),
+            History_expert = request.form.get('history_expert'),
+            Insight_expert = request.form.get('insight_expert'),
+            Intimidation_expert = request.form.get('intimidation_expert'),
+            Investigation_expert = request.form.get('investigation_expert'),
+            Medicine_expert = request.form.get('medicine_expert'),
+            Nature_expert = request.form.get('nature_expert'),
+            Perception_expert = request.form.get('perception_expert'),
+            Performance_expert = request.form.get('performance_expert'),
+            Persuasion_expert = request.form.get('persuasion_expert'),
+            Religion_expert = request.form.get('religion_expert'),
+            Sleight_of_Hand_expert = request.form.get('sleightofhand_expert'),
+            Stealth_expert = request.form.get('stealth_expert'),
+            Survival_expert = request.form.get('survival_expert'),
         ))
 
         session.commit()
@@ -594,7 +680,6 @@ def invalid_login():
 def invalid_registration():
     
         return render_template('invalid_registration.html')
-
 
 def allowed_file(filename):
     return '.' in filename and \

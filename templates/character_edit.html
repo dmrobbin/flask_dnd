@@ -54,6 +54,29 @@
 		</select>
 	</div>
 		
+<h4>Secondary Class</h4>
+
+	<div class="form-group">
+		<select name="job_multi" class="form-control">
+			<option value="None">None</option>
+			<option value="Bard">Bard</option>
+			<option value="Barbarian">Barbarian</option>
+			<option value="Cleric">Cleric</option>
+			<option value="Druid">Druid</option>
+			<option value="Monk">Monk</option>
+			<option value="Paladin">Paladin</option>
+			<option value="Ranger">Ranger</option>
+			<option value="Rogue">Rogue</option>
+			<option value="Sorcerer">Sorcerer</option>
+			<option value="Fighter">Fighter</option>
+			<option value="Wizard">Wizard</option>
+			<option value="Warlock">Warlock</option>
+			<option value="Remove">Remove secondary class</option>
+		</select>
+	</div>
+
+	<h4>Secondary classLevel:</h4>
+	<input type="text" name="level_multi" value ={{multi.LEVEL}}>
 
 	</div>
 </center>
@@ -124,11 +147,11 @@
 			</tr>
 			<tr>
 				<td>Animal Handling</td>
-				<td><input type="checkbox" name="animal_handling" id="animal_handling" value=1></td>
+				<td><input type="checkbox" name="animalhandling" id="animalhandling" value=1></td>
 				<td>Investigation</td>
 				<td><input type="checkbox" name="investigation" id="investigation" value=1></td>
 				<td>Sleight of Hand</td>
-				<td><input type="checkbox" name="sleight_of_hand" id="sleight_of_hand" value=1></td>
+				<td><input type="checkbox" name="sleightofhand" id="sleightofhand" value=1></td>
 			</tr>
 			<tr>
 				<td>Arcana</td>
@@ -156,6 +179,60 @@
 			</tr>
 		</table>
 
+		<table class="table table-sm">
+			<tr class="bg-success">
+				<th scope="col" colspan="6"><center>Expertise</center></th>
+			</tr>
+			<tr>
+				<td>Acrobatics</td> 
+				<td><input type="checkbox" name="acrobatics_expert" id="acrobatics_expert" value=1></td> 
+				<td>Insight</td>
+				<td><input type="checkbox" name="insight_expert" id="insight_expert" value=1></td>
+				<td>Performance</td>
+				<td><input type="checkbox" name="performance_expert" id="performance_expert" value=1></td>
+			</tr>
+			<tr>
+				<td>Athletics</td>
+				<td><input type="checkbox" name="athletics_expert" id="athletics_expert" value=1></td>
+				<td>Intimidation</td>
+				<td><input type="checkbox" name="intimidation_expert" id="intimidation_expert" value=1></td>
+				<td>Religion</td>
+				<td><input type="checkbox" name="religion_expert" id="religion_expert" value=1></td>
+			</tr>
+			<tr>
+				<td>Animal Handling</td>
+				<td><input type="checkbox" name="animalhandling_expert" id="animalhandling_expert" value=1></td>
+				<td>Investigation</td>
+				<td><input type="checkbox" name="investigation_expert" id="investigation_expert" value=1></td>
+				<td>Sleight of Hand</td>
+				<td><input type="checkbox" name="sleightofhand_expert" id="sleight_of_hand_expert" value=1></td>
+			</tr>
+			<tr>
+				<td>Arcana</td>
+				<td><input type="checkbox" name="arcana_expert" id="arcana_expert" value=1></td>
+				<td>Medicine</td>
+				<td><input type="checkbox" name="medicine_expert" id="medicine_expert" value=1></td>
+				<td>Stealth</td>
+				<td><input type="checkbox" name="stealth_expert" id="stealth_expert" value=1></td>
+			</tr>
+			<tr>
+				<td>Deception</td>
+				<td><input type="checkbox" name="deception_expert" id="deception_expert" value=1></td>
+				<td>Nature</td>
+				<td><input type="checkbox" name="nature_expert" id="nature_expert" value=1></td>
+				<td>Survival</td>
+				<td><input type="checkbox" name="survival_expert" id="survival_expert" value=1></td>
+			</tr>
+			<tr>
+				<td>History</td>
+				<td><input type="checkbox" name="history_expert" id="history_expert" value=1></td>
+				<td>Perception</td>
+				<td><input type="checkbox" name="perception_expert" id="perception_expert" value=1></td>
+				<td>Persuasion</td>
+				<td><input type="checkbox" name="persuasion_expert" id="persuasion_expert" value=1></td>
+			</tr>
+		</table>
+
 </div>
 	<br><br>
 
@@ -171,7 +248,7 @@
 		document.getElementById("acrobatics").checked = true;
 	}
 	if({{skills.Animal_Handling}}==1){
-		document.getElementById("animal_handling").checked = true;
+		document.getElementById("animalhandling").checked = true;
 	}
 	if({{skills.Arcana}}==1){
 		document.getElementById("arcana").checked = true;
@@ -198,7 +275,7 @@
 		document.getElementById("religion").checked = true;
 	}
 	if({{skills.Sleight_of_Hand}}==1){
-		document.getElementById("sleight_of_hand").checked = true;
+		document.getElementById("sleightofhand").checked = true;
 	}
 	if({{skills.Stealth}}==1){
 		document.getElementById("stealth").checked = true;
@@ -208,6 +285,70 @@
 	}
 	if({{skills.Persuasion}}==1){
 		document.getElementById("persuasion").checked = true;
+	}
+	if({{skills.Medicine}}==1){
+		document.getElementById("medicine").checked = true;
+	}
+	if({{skills.Nature}}==1){
+		document.getElementById("nature").checked = true;
+	}
+	if({{skills.Perception}}==1){
+		document.getElementById("perception").checked = true;
+	}
+	//Expertise
+	if({{skills.Athletics_expert}}==1){
+		document.getElementById("athletics_expert").checked = true;
+	}
+	if({{skills.Acrobatics_expert}}==1){
+		document.getElementById("acrobatics_expert").checked = true;
+	}
+	if({{skills.Animal_Handling_expert}}==1){
+		document.getElementById("animalhandling_expert").checked = true;
+	}
+	if({{skills.Arcana_expert}}==1){
+		document.getElementById("arcana_expert").checked = true;
+	}
+	if({{skills.Deception_expert}}==1){
+		document.getElementById("deception_expert").checked = true;
+	}
+	if({{skills.History_expert}}==1){
+		document.getElementById("history_expert").checked = true;
+	}
+	if({{skills.Insight_expert}}==1){
+		document.getElementById("insight_expert").checked = true;
+	}
+	if({{skills.Intimidation_expert}}==1){
+		document.getElementById("intimidation_expert").checked = true;
+	}
+	if({{skills.Investigation_expert}}==1){
+		document.getElementById("investigation_expert").checked = true;
+	}
+	if({{skills.Performance_expert}}==1){
+		document.getElementById("performance_expert").checked = true;
+	}
+	if({{skills.Religion_expert}}==1){
+		document.getElementById("religion_expert").checked = true;
+	}
+	if({{skills.Sleight_of_Hand_expert}}==1){
+		document.getElementById("sleight_of_hand_expert").checked = true;
+	}
+	if({{skills.Stealth_expert}}==1){
+		document.getElementById("stealth_expert").checked = true;
+	}
+	if({{skills.Survival_expert}}==1){
+		document.getElementById("survival_expert").checked = true;
+	}
+	if({{skills.Persuasion_expert}}==1){
+		document.getElementById("persuasion_expert").checked = true;
+	}
+	if({{skills.Medicine_expert}}==1){
+		document.getElementById("medicine_expert").checked = true;
+	}
+	if({{skills.Nature_expert}}==1){
+		document.getElementById("nature_expert").checked = true;
+	}
+	if({{skills.Perception_expert}}==1){
+		document.getElementById("perception_expert").checked = true;
 	}
 </script>
 <br><br>
