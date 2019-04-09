@@ -12,8 +12,15 @@
 		<h4>Level:</h4>
 		<input type="text" name="level" value ={{character.LEVEL}}>
 
+		<h4>HP:</h4>
+		<input type="text" name="hp" value ={{character.HP}}>
+		<h4>AC:</h4>
+		<input type="text" name="ac" value ={{character.AC}}>
+
 		<h4>CLASS/RACE:</h4>
+<br>
 		<div class="form-group">
+			{{character.JOB}}
 		<select name="job" class="form-control">
 			<option value="">Please Select</option>
 			<option value="Bard">Bard</option>
@@ -30,9 +37,9 @@
 			<option value="Warlock">Warlock</option>
 		</select>
 	</div>
-		{{character.JOB}}
-		<br>
+		
 		<div class="form-group">
+			{{character.RACE}}
 		<select name="race" class="form-control">
 			<option value="">Please Select</option>
 			<option value="dragonborn">Dragonborn</option>
@@ -46,7 +53,7 @@
 			<option value="tiefling">Tiefling</option>
 		</select>
 	</div>
-		{{character.RACE}}
+		
 
 	</div>
 </center>

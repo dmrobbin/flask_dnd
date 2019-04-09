@@ -52,6 +52,7 @@ my_skills = Base.classes.DND_5E_SKILLS
 my_slots=Base.classes.DND_5E_SLOTS
 my_known=Base.classes.DND_5E_SPELLS_KNOWN
 my_spells=Base.classes.DND_5E_SPELLS
+my_inventory=Base.classes.DND_5E_INVENTORY
 
 current_user = User()
 this_char = 0
@@ -169,6 +170,7 @@ def character_info(ida):
     known_dict = dict((col,getattr(known, col)) for col in my_known.__table__.columns.keys())
 
     spells = session.query(my_spells).filter(my_spells.CHARACTER_ID == character.id).all()
+    items = session.query(my_inventory).filter(my_inventory.CHARACTER_ID == character.id).all()
 
     this_char = character
 
@@ -183,7 +185,7 @@ def character_info(ida):
         return redirect('/')
 
     character = character_query.one_or_none()
-    return render_template('character_info.html', character=character, skills = skills, feats=feats, feats_dict= feats_dict, slots_dict=slots_dict, known_dict=known_dict, spells=spells)
+    return render_template('character_info.html', character=character, skills = skills, feats=feats, feats_dict= feats_dict, slots_dict=slots_dict, known_dict=known_dict, spells=spells, items=items)
 
 
 @app.route('/account', methods=['POST', 'GET'])
@@ -233,27 +235,6 @@ def format_dict(dict):
     dict[19] = dict.pop("LEVEL_19")
     dict[20] = dict.pop("LEVEL_20")
 
-
-@app.route('/<ida>/add_spell', methods=['POST', 'GET'])
-@flask_login.login_required
-def spell_add(ida):
-    character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
-
-    if request.method == 'POST':
-
-        session.add(my_spells(
-            NAME=request.form['name'],
-            LEVEL=int(request.form['level']),
-            DESCRIPTION = request.form['description'],
-            CHARACTER_ID = character.id,
-
-        ))
-
-        session.commit()
-        return redirect('/')
-    else:
-        return render_template('add_spell.html')
-
 @app.route('/add', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_add():
@@ -273,6 +254,8 @@ def character_add():
             WISDOM = int(request.form['WISDOM']),
             CHARISMA = int(request.form['CHARISMA']),
             user_id = ids[flask_login.current_user.id],
+            HP=request.form['hp'],
+            AC=request.form['ac'],
 
         ))
 
@@ -328,6 +311,10 @@ def character_edit(ida):
             character.RACE=request.form['race']
         if request.form['level'] !='':
             character.LEVEL=request.form['level']
+        if request.form['hp'] !='':
+            character.HP=request.form['hp']
+        if request.form['ac'] !='':
+            character.AC=request.form['ac']
         if request.form['STRENGTH'] !='':
             character.STRENGTH=request.form['STRENGTH']
         if request.form['DEXTERITY'] !='':
@@ -369,6 +356,26 @@ def character_edit(ida):
     return render_template('character_edit.html', character=character, skills=skills)
 
 
+@app.route('/<ida>/add_spell', methods=['POST', 'GET'])
+@flask_login.login_required
+def spell_add(ida):
+    character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
+
+    if request.method == 'POST':
+
+        session.add(my_spells(
+            NAME=request.form['name'],
+            LEVEL=int(request.form['level']),
+            DESCRIPTION = request.form['description'],
+            CHARACTER_ID = character.id,
+
+        ))
+
+        session.commit()
+        return redirect('/')
+    else:
+        return render_template('add_spell.html')
+
 @app.route('/spell_edit/<name>', methods=['POST', 'GET'])
 @flask_login.login_required
 def spell_edit(name):
@@ -400,7 +407,55 @@ def remove_spell(name):
         session.commit()
         return redirect('/')
 
+### INVENTORY TESTING ###
+@app.route('/<ida>/add_item', methods=['POST', 'GET'])
+@flask_login.login_required
+def item_add(ida):
+    character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
+    if request.method == 'POST':
+
+        session.add(my_inventory(
+            NAME=request.form['name'],
+            DESCRIPTION = request.form['description'],
+            CHARACTER_ID = character.id,
+
+        ))
+
+        session.commit()
+        return redirect('/')
+    else:
+        return render_template('add_item.html')
+
+@app.route('/item_edit/<name>', methods=['POST', 'GET'])
+@flask_login.login_required
+def item_edit(name):
+
+    item_query=session.query(my_inventory).filter(my_inventory.NAME == name and my_inventory.CHARACTER_ID == this_char.id)
+    item=session.query(my_inventory).filter(my_inventory.NAME == name and my_inventory.CHARACTER_ID == this_char.id).one_or_none()
+
+    if request.method == 'POST' and request.form['edit'] == '1':
+        if request.form['name']!='':
+            item.NAME=request.form['name']
+        if request.form['description'] !='':
+            item.DESCRIPTION=request.form['description']
+        session.commit()
+        return redirect('/')
+
+    return render_template('item_edit.html', item=item)
+
+@app.route('/item_remover/<name>', methods = ['GET', 'POST'])
+@flask_login.login_required
+def remove_item(name):
+
+    item_query=session.query(my_inventory).filter(my_inventory.NAME == name and my_inventory.CHARACTER_ID == this_char.id)
+    item=session.query(my_inventory).filter(my_inventory.NAME == name and my_inventory.CHARACTER_ID == this_char.id).one_or_none()
+
+    if request.method == 'POST':
+        item_query.delete()
+        session.commit()
+        return redirect('/')
+###/ INVENTORY TESTING /###
 @app.route('/class_details/<job>', methods=['GET'])
 def class_details(job):
 
@@ -460,6 +515,8 @@ def character_create():
             WISDOM = int(request.form['WISDOM']),
             CHARISMA = int(request.form['CHARISMA']),
             user_id = ids[flask_login.current_user.id],
+            HP=request.form['hp'],
+            AC=request.form['ac'],
 
         ))
 

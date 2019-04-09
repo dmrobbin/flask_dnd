@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<center><p3> Any Blank fields will retain their previous values</p3></center>
+
+	<form method="post" action="">
+
+	<center>
+	<div style="float:left">
+		<h4>Name:</h4><p style = "font-size: 10">* if multiple words only the first may appear</p>
+		<input type="text" name="name" value={{item.NAME}}> 
+
+</center>
+
+	<center>
+	<h4>Description</h4>
+	<textarea name = "description" cols="80" rows="10" class="formcontrol">{{item.DESCRIPTION}}</textarea>
+	</center>
+		<input type ="hidden" name="edit" value="1">
+		<button type="submit" value="Edit item" class="btn btn-primary">Edit item</button></input>
+
+	</form>
+
+	<br><br>	
+
+	<form action = "/item_remover/{{item.NAME}}" method= "POST">
+		<input type="hidden" name="remove" value="1">
+		<button class="btn btn-primary" type="submit" value="Remove item">Delete item </button></input>
+	</form>
+
+
+{% endblock %}

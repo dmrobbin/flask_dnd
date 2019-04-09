@@ -2,7 +2,7 @@
 
 {% block content %}
 <div>
-	<h2>{{ character.NAME}}</h2> 	
+	<span></span><h2>{{character.NAME}}</h2> <h3> HP {{character.HP}} AC {{character.AC}}</h3></span>	
 <div style="float:right; padding-right: 12">
 	<form action="" method="post">
 		<input type="hidden" name="remove" value="1">
@@ -201,7 +201,21 @@
 				{% endif %}</td>
 			</tr>
 		</table>
-	
+
+		<h3><center>Inventory <a href = "/{{character.id}}/add_item">➕</a></center></h3>
+		<table class="table table-sm">
+			<tr class="bg-success">
+				<th>Item</th>
+				<th>Description</th>
+			</tr>
+			{% for item in items %}
+			<tr>
+				<td><a href="/item_edit/{{item.NAME}}">{{item.NAME}}</td>
+				<td>{{item.DESCRIPTION}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+
 		<h3><center><a href = "/class_details/{{character.JOB}}">Class Features</a></center></h3>
 
 		<table class="table table-sm">
