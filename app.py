@@ -261,7 +261,7 @@ def spell_add(ida):
         ))
 
         session.commit()
-        return redirect('/')
+        return redirect(url_for('character_info',ida=character.id))
     else:
         return render_template('add_spell.html')
 
@@ -291,12 +291,12 @@ def character_add():
         session.commit()
 
         character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
-
-        session.add(my_multi(
-            LEVEL=request.form.get('level_multi'),
-            JOB = request.form.get('job_multi'),
-            CHARACTER_ID = character.id,
-        ))
+        if request.form.get('job_multi')!='None':
+            session.add(my_multi(
+                LEVEL=request.form.get('level_multi'),
+                JOB = request.form.get('job_multi'),
+                CHARACTER_ID = character.id,
+            ))
 
         session.add(my_skills(
             user_id = ids[flask_login.current_user.id],
@@ -341,8 +341,8 @@ def character_add():
         ))
 
         session.commit()
-
-        return redirect('/')
+                        
+        return redirect(url_for('character_info',ida=character.id))
     else:
         return render_template('character_add.html')
 
@@ -442,7 +442,7 @@ def character_edit(ida):
 
         session.commit()
 
-        return redirect('/')
+        return redirect(url_for('character_info',ida=character.id))
 
     return render_template('character_edit.html', character=character, skills=skills, multi=multi)
 
@@ -461,7 +461,7 @@ def spell_edit(name):
         if request.form['description'] !='':
             spell.DESCRIPTION=request.form['description']
         session.commit()
-        return redirect('/')
+        return redirect(url_for('character_info',ida=spell.CHARACTER_ID))
 
     return render_template('spell_edit.html', spell=spell)
 
@@ -475,7 +475,7 @@ def remove_spell(name):
     if request.method == 'POST':
         spell_query.delete()
         session.commit()
-        return redirect('/')
+        return redirect(url_for('character_info',ida=spell.CHARACTER_ID))
 
 @app.route('/<ida>/add_item', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -492,7 +492,7 @@ def item_add(ida):
         ))
 
         session.commit()
-        return redirect('/')
+        return redirect(url_for('character_info',ida=character.id))
     else:
         return render_template('add_item.html')
 
@@ -509,7 +509,7 @@ def item_edit(name):
         if request.form['description'] !='':
             item.DESCRIPTION=request.form['description']
         session.commit()
-        return redirect('/')
+        return redirect(url_for('character_info',ida=item.CHARACTER_ID))
 
     return render_template('item_edit.html', item=item)
 
@@ -523,7 +523,7 @@ def remove_item(name):
     if request.method == 'POST':
         item_query.delete()
         session.commit()
-        return redirect('/')
+        return redirect(url_for('character_info',ida=item.CHARACTER_ID))
 
 @app.route('/class_details/<job>', methods=['GET'])
 def class_details(job):
@@ -637,7 +637,7 @@ def character_create():
 
         session.commit()
 
-        return redirect('/')
+        return redirect(url_for('character_info',ida=character.id))
     else:
         return render_template('character_create.html', rolls=rolls)
 

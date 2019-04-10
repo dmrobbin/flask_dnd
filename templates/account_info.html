@@ -5,18 +5,21 @@
 <center>
 	<h2>{{account.USER_NAME}}</h2>
 	<h3> Id : {{account.id}}</h3>
-	<form action="" method="post">
-	<input type="hidden" name="remove" value="1">
-	<button class="btn btn-success" type="submit" value="Remove user" id="btnsucc" onclick= "getConfirmation();" >Delete Account</button>
-	</form>
+	<a href="/logout" class="btn btn-success" id="btnsucc">Logout </a>
+  <br><hl><br>
 <h3>Characters</h3>
 {%for character in characters%}
-<ol><a href="/info/{{character.id}}">{{character.NAME}}</a></ol>
+<p><a href="/info/{{character.id}}">{{character.NAME}}</a></p>
 {% endfor %}
+
+<form action="" method="post">
+  <input type="hidden" name="remove" value="1">
+  <button class="btn btn-success" type="submit" value="Remove user" id="btnsucc" onclick= "getConfirmation();" >Delete Account</button>
+  </form>
 </center>
 <script>
 	function getConfirmation() {
-       var retVal = confirm("Do you want to continue ?");
+       var retVal = confirm("Are you sure that you would like to delete your account? All character data will be lost.");
        if( retVal == true ) {
           return true;
        } else {
