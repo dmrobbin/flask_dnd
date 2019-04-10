@@ -366,6 +366,8 @@ def character_edit(ida):
             character.RACE=request.form['race']
         if request.form['level'] !='':
             character.LEVEL=request.form['level']
+        if request.form['exp'] !='':
+            character.EXP=request.form['exp']
         if request.form['hp'] !='':
             character.HP=request.form['hp']
         if request.form['ac'] !='':
@@ -722,5 +724,6 @@ def bug_list():
         return render_template('bugs_list.html', bugs= bugs)
     else: 
         return redirect('/')
+
 if __name__ == '__main__':
    app.run(debug = True)

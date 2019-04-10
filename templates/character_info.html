@@ -14,6 +14,17 @@
 	{%if multi%}
 	<h3> Level {{multi.LEVEL}} {{multi.JOB}}</h3>
 	{%endif%}
+
+
+	<div style="display: inline;">
+		Current Experience: {{character.EXP}}. 
+		{%if multi%}
+		<br> Experience needeed for level {{character.LEVEL+1+multi.LEVEL}}: <span id="nextExpMult"></span>
+		{%else%}
+		<br> Experience needeed for level {{character.LEVEL+1}}: <span id="nextExp"></span>
+		{%endif%}
+	</div>
+
 		<form action = "/uploader/{{character.id}}" method = "POST" enctype = "multipart/form-data">
 
 			<div class="custom-file"">
@@ -364,8 +375,18 @@
   <div id="caption"></div>
 </div>
 
+{%if multi%}
+<script>
+	var xp = {2:300, 3:900, 4:2700, 5:6500, 6:14000, 7:23000, 8:34000, 9:48000, 10:64000, 11:85000, 12:100000, 13:1200000, 14:140000, 
+    	15:165000, 16:195000, 17:225000, 18:265000, 19:305000, 20:355000}
 
-
+    if({{character.LEVEL+multi.LEVEL}}<20){
+		document.getElementById("nextExpMult").innerHTML=xp[{{multi.LEVEL+1+character.LEVEL}}]-{{character.EXP}};
+	}else{
+		document.getElementById("nextExpMult").innerHTML="MAX LEVEL";
+	}
+</script>
+{%endif%}
 <script>
 
     function getConfirmation() {
@@ -382,6 +403,9 @@
 	var mods = {1: -5, 2: -4, 3: -4, 4: -3, 5: -3, 6: -2, 7: -2, 8: -1, 9: -1, 10: 0, 11: 0, 12: 1, 13: 1, 14: 2, 15: 2, 16:
             3, 17: 3, 18: 4, 19: 4, 20: 5, 21: 5, 22: 6, 23: 6, 24: 7, 25: 7, 26: 8, 27: 8, 28: 9, 29: 9, 39: 10};
 
+    var xp = {2:300, 3:900, 4:2700, 5:6500, 6:14000, 7:23000, 8:34000, 9:48000, 10:64000, 11:85000, 12:100000, 13:1200000, 14:140000, 
+    	15:165000, 16:195000, 17:225000, 18:265000, 19:305000, 20:355000}
+
     document.getElementById("str").innerHTML= mods[{{character.STRENGTH}}];
     document.getElementById("dex").innerHTML= mods[{{character.DEXTERITY}}];
     document.getElementById("con").innerHTML= mods[{{character.CONSTITUTION}}];
@@ -389,6 +413,17 @@
     document.getElementById("wis").innerHTML= mods[{{character.WISDOM}}];
     document.getElementById("cha").innerHTML= mods[{{character.CHARISMA}}];
 
+	if({{character.LEVEL}}<20){
+		document.getElementById("nextExp").innerHTML=xp[{{character.LEVEL+1}}]-{{character.EXP}};
+	}
+	else{
+		document.getElementById("nextExp").innerHTML="MAX LEVEL";
+	}
+
+
+	
+
+	
 
     function rollStr(){
 		var roll=Math.floor(Math.random() * 20)+1;
@@ -462,7 +497,7 @@
 	  modal.style.display = "none";
 	}
 	
-	function displaySill(skill,id){
+	function displaySkill(skill,id){
 		if(skill==1){
 			document.getElementById(id).innerHTML("✓")
 		}else{
