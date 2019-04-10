@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div>
+		<center><h3 style="padding-top: 30"> BUGS: </h3></center>
+
+		
+
+	<div>
+
+		{% for bug in bugs %}
+
+	  <li>
+	  	<p>USER {{bug.USER_ID}}</p> <p>Issue {{bug.DESCRIPTION}}</p><p> Issue no# {{bug.id}}</p>
+	  </li>
+
+		{% else %}
+			<li> No Bugs found </li>
+		{% endfor %}	  
+
+	</div>
+
+{% endblock %}
+

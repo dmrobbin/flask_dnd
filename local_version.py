@@ -52,6 +52,7 @@ my_known=Base.classes.DND_5E_SPELLS_KNOWN
 my_spells=Base.classes.DND_5E_SPELLS
 my_inventory=Base.classes.DND_5E_INVENTORY
 my_multi=Base.classes.DND_5E_MULTI
+my_bugs=Base.classes.DND_BUGS
 
 current_user = User()
 this_char = 0
@@ -341,7 +342,7 @@ def character_add():
         ))
 
         session.commit()
-                        
+
         return redirect(url_for('character_info',ida=character.id))
     else:
         return render_template('character_add.html')
@@ -699,6 +700,27 @@ def upload_files(ida):
         character.image=filename
         session.commit()
         return redirect('/')
-        
+   
+@app.route('/bug_report', methods = ['GET', 'POST'])
+@flask_login.login_required
+def bug_report():
+    if request.method == 'POST':
+        session.add(my_bugs(
+            USER_ID=ids[flask_login.current_user.id],
+            DESCRIPTION=request.form.get('description'),
+            ))
+        session.commit()
+        return redirect('/')
+    else:
+        return render_template('bug_report.html')
+
+@app.route('/bugs', methods =['GET', 'POST'])    
+@flask_login.login_required
+def bug_list():
+    if ids[flask_login.current_user.id]==2:
+        bugs = session.query(my_bugs).all()
+        return render_template('bugs_list.html', bugs= bugs)
+    else: 
+        return redirect('/')
 if __name__ == '__main__':
    app.run(debug = True)
