@@ -6,7 +6,7 @@
 
     h1 a, h2 a, h3 a {
         color: #C25100;
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
         
         
     }
@@ -14,7 +14,7 @@
     body {
         padding-left: 15px;
         padding-right: 15px;
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
     #btnsucc{
       font-size: 10;
@@ -22,7 +22,7 @@
     }
     .unity{
         background-color:#fff;
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
 
     }
 
@@ -48,7 +48,7 @@
         font-size: 36pt;
         text-decoration: none;
         margin-top:0;
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
 
     .content {
@@ -56,7 +56,7 @@
     }
 
     h1, h2, h3, h4 {
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
 
     .date {
@@ -76,7 +76,7 @@
         float: right;
         font-size: 26pt;
         margin-right: 20px;
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
 
     .post {
@@ -87,19 +87,19 @@
         color: #000000;
     }
     form{
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
     li{
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
         font-size: 18pt;
     }
 
     th{
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
 
     tr{
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
 
     .creaton{
@@ -142,7 +142,7 @@
     }
 
     .card-title{
-        font-family: 'Julius Sans One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
 
     .text {
@@ -152,7 +152,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       font-size: 12;
-      font-family: 'Julius Sans One', sans-serif;
+      font-family: 'Open Sans', sans-serif;
 
     }
     .custom-file{

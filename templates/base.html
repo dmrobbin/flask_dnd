@@ -7,6 +7,7 @@
        <link rel="stylesheet" type = "text/css" href="/static/css/dnd.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Marck+Script" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i" rel="stylesheet">
     </head>
     <style> 
     #btnsucc{
@@ -28,20 +29,14 @@
                   <li class="nav-item">
                     <a href ="/" class="nav-link">Home</a>
                   </li>
-                  <li class="nav-item">
-                    <a href ="/add" class="nav-link"> Add-character</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/create">Roll-character</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/logout">logout</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/bug_report">Bug Report</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/account">account</a>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/class_features" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      New
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <a class="dropdown-item" href="/add">Existing Character</a>
+                      <a class="dropdown-item" href="/create">Roll New Character</a>
+                    </div>
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="/class_features" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,6 +57,15 @@
                       <a class="dropdown-item" href="/class_details/Wizard">Wizard</a>
                     </div>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/bug_report">Issues</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/account">Account</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                  </li>
                 </ul>
               </div>
             </nav>
@@ -74,6 +78,5 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 	</body>
 </html>

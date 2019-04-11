@@ -74,6 +74,8 @@ for item in user:
 for item in user:
     ids[str(item.USER_NAME)] = item.id
 
+admins={2}
+
 class User(flask_login.UserMixin):
     pass
 
@@ -138,6 +140,18 @@ def character_list():
     characters = session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).all()
     return render_template('character_list.html', characters= characters)
 
+
+@app.route('/admin')
+@flask_login.login_required
+def admin_list():
+
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
+
+    this_char=0
+    characters = session.query(my_char).all()
+    return render_template('character_list.html', characters= characters)
+
 @app.route('/info/<ida>', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_info(ida):
@@ -145,7 +159,7 @@ def character_info(ida):
     character_query = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id])
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
-    if ids[flask_login.current_user.id] != 2 and ids[flask_login.current_user.id] != character.user_id:
+    if ids[flask_login.current_user.id] not in admins and ids[flask_login.current_user.id] != character.user_id:
         return redirect('/')
 
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
@@ -494,7 +508,7 @@ def item_add(ida):
 
     if ids[flask_login.current_user.id] != character.user_id:
         return redirect('/')
-    
+
     if request.method == 'POST':
 
         session.add(my_inventory(
@@ -728,7 +742,7 @@ def bug_report():
 @app.route('/bugs', methods =['GET', 'POST'])    
 @flask_login.login_required
 def bug_list():
-    if ids[flask_login.current_user.id]==2:
+    if ids[flask_login.current_user.id] in admins:
         bugs = session.query(my_bugs).all()
         return render_template('bugs_list.html', bugs= bugs)
     else: 
