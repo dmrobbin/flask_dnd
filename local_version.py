@@ -145,6 +145,9 @@ def character_info(ida):
     character_query = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id])
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
+    if ids[flask_login.current_user.id] != 2 and ids[flask_login.current_user.id] != character.user_id:
+        return redirect('/')
+
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none()
 
@@ -356,6 +359,9 @@ def character_edit(ida):
     skills = skills_query.one_or_none() 
     multi = session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id).first()
 
+    if ids[flask_login.current_user.id] != character.user_id:
+        return redirect('/')
+
     if request.method == 'POST' and request.form['edit'] == '1':
 
         if request.form['name']!='':
@@ -486,6 +492,9 @@ def item_add(ida):
 
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
+    if ids[flask_login.current_user.id] != character.user_id:
+        return redirect('/')
+    
     if request.method == 'POST':
 
         session.add(my_inventory(

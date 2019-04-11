@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<center><h1>{{character.NAME}}</h1></center>
 <div>
-	<span></span><h2>{{character.NAME}}</h2> <h3> HP {{character.HP}} AC {{character.AC}}</h3></span>	
+	<h2>HP {{character.HP}} AC {{character.AC}}</h2>
 <div style="float:right; padding-right: 12">
 	<form action="" method="post">
 		<input type="hidden" name="remove" value="1">
@@ -10,11 +11,15 @@
 	</form>
 	<a  href="/edit/{{character.id}}" class="btn btn-success" id="btnsucc">Edit {{character.NAME}}</a>
 </div>
-	<h3> Level {{character.LEVEL}} {{character.RACE}} {{character.JOB}} - Proficency Bonus:<span id="prof"></span></h3>
+	<h3>{{character.RACE}}
+	Level {{character.LEVEL}} {{character.JOB}}
 	{%if multi%}
-	<h3> Level {{multi.LEVEL}} {{multi.JOB}}</h3>
+	Level {{multi.LEVEL}} {{multi.JOB}}</h3>
+	Proficency Bonus: <span id="profMult"></span>
+	{%else%}
+	Proficency Bonus: <span id="prof"></span>
 	{%endif%}
-
+	</h3>
 
 	<div style="display: inline;">
 		Current Experience: {{character.EXP}}. 
@@ -43,7 +48,6 @@
 		<p>{{character.description}}</p>
 
 	</p>
-
 		<table class="table table-sm">
 			<tr class="bg-success">
 				<th scope="col"> Attribute</th>
@@ -81,10 +85,10 @@
 				<td> <span id="cha"></span></td>
 			</tr>
 		</table>
-
+		<h3><center>Skills</center></h3>
 		<table class="table table-sm">
 			<tr class="bg-success">
-				<th scope="col" colspan="6"><center> Skills (⭐ = Expertise)</center></th>
+				<th scope="col" colspan="6"><center>(⭐ = Expertise)</center></th>
 			</tr>
 			<tr>
 				<td onclick="rollAcrobatics()"><u>Acrobatics</u></td> 
@@ -385,6 +389,20 @@
 	}else{
 		document.getElementById("nextExpMult").innerHTML="MAX LEVEL";
 	}
+
+	var prof=2;
+
+	if({{character.LEVEL+multi.LEVEL}}>=17){
+		prof=6;
+	}else if({{character.LEVEL+multi.LEVEL}}>=12){
+		prof=5;
+	}else if({{character.LEVEL+multi.LEVEL}}>=9){
+		prof=4; 
+	}else if({{character.LEVEL+multi.LEVEL}}>=5){
+		prof=3;
+	}
+	document.getElementById('profMult').innerHTML=prof;
+
 </script>
 {%endif%}
 <script>
