@@ -795,41 +795,28 @@ def class_features():
 
 @app.route('/registration', methods =['GET', 'POST'])
 def registration():
+    errors =[]
 
-    if request.method == 'POST':
+    if request.method== 'POST':
+        session.add(my_user(
+            USER_NAME=request.form['user_name'],
+            PASSWORD=hashbrowns(request.form['password']),
+            ))
         try:
-            session.add(my_user(
-                USER_NAME=request.form['user_name'],
-                PASSWORD=hashbrowns(request.form['password']),
-                ))
-            try:
-                session.commit()
-            except:
-                session.rollback()
-
-            user = session.query(my_user).all()
+            session.commit()
 
             for item in user:
                 users[str(item.USER_NAME)] = str(item.PASSWORD)
 
             for item in user:
-                ids[str(item.USER_NAME)] = item.id   
-
+                ids[str(item.USER_NAME)] = item.id
             return redirect('/login')
         except:
-            return redirect('/invalid_registration')
-    else:
-        return render_template('registration.html')
+            session.rollback()
+            errors.append("Invalid user_name or password entry")
 
-@app.route('/invalid_login', methods =['GET'])
-def invalid_login():
-    
-        return render_template('invalid_login.html')
+    return render_template('registration.html', errors=errors)
 
-@app.route('/invalid_registration', methods =['GET'])
-def invalid_registration():
-    
-        return render_template('invalid_registration.html')
 
 def allowed_file(filename):
     return '.' in filename and \
