@@ -12,9 +12,9 @@
 	<a  href="/edit/{{character.id}}" class="btn btn-success" id="btnsucc">Edit {{character.NAME}}</a>
 </div>
 	<h3>{{character.RACE}}
-	Level {{character.LEVEL}} <u>{{character.JOB}}</u>
+	Level {{character.LEVEL}} <u><a href="/class_details/{{character.JOB}}">{{character.JOB}}</a></u>
 	{%if multi%}
-	Level {{multi.LEVEL}} <u>{{multi.JOB}}</u></h3>
+	Level {{multi.LEVEL}} <u><a href="/class_details/{{multi.JOB}}">{{multi.JOB}}</a></u></h3>
 	Proficency Bonus: <span id="profMult"></span>
 	{%else%}
 	Proficency Bonus: <span id="prof"></span>
@@ -54,32 +54,32 @@
 				<th cope="col"> Abilty Score</th>
 				<th cope="col"> Ability Modifier </th>
 			</tr>
-			<tr  onclick="rollStr()">
+			<tr  onclick="rollAttribute('Strength')">
 				<td><u>STR</u></td> 
 				<td>{{character.STRENGTH}}</td> 
 				<td><span id="str"></span> </td>
 			</tr>
-			<tr onclick="rollDex()">
+			<tr onclick="rollAttribute('Dexterity')">
 				<td><u>DEX</u></td>
 				<td>{{character.DEXTERITY}}</td>
 				<td> <span id="dex"></span></td>
 			</tr>
-			<tr onclick="rollCon()">
+			<tr onclick="rollAttribute('Constitution')">
 				<td><u>CON</u></td>
 				<td>{{character.CONSTITUTION}}</td>
 				<td> <span id="con"></span></td>
 			</tr>
-			<tr onclick="rollInt()">
+			<tr onclick="rollAttribute('Intelligence')">
 				<td><u>INT</u></td>
 				<td>{{character.INTELLIGENCE}}</td>
 				<td> <span id="int"></span></td>
 			</tr>
-			<tr onclick="rollWis()">
+			<tr onclick="rollAttribute('Wisdom')">
 				<td><u>WIS</u></td>
 				<td>{{character.WISDOM }}</td>
 				<td> <span id="wis"></span></td>
 			</tr>
-			<tr onclick="rollCha()">
+			<tr onclick="rollAttribute('Charisma')">
 				<td><u>CHA</u></td>
 				<td> {{character.CHARISMA}}</td>
 				<td> <span id="cha"></span></td>
@@ -91,7 +91,7 @@
 				<th scope="col" colspan="6"><center>(⭐ = Expertise)</center></th>
 			</tr>
 			<tr>
-				<td onclick="rollAcrobatics()"><u>Acrobatics</u></td> 
+				<td onclick="rollSkill('Acrobatics',{{skills.Acrobatics_expert}},{{skills.Acrobatics}})"><u>Acrobatics</u></td> 
 				<td>
 				{% if skills.Acrobatics_expert == 1 %}
 				⭐
@@ -101,7 +101,7 @@
 				x
 				{% endif %}
 				</td> 
-				<td onclick="rollInsight()"><u>Insight</u></td>
+				<td onclick="rollSkill('Insight',{{skills.Insight_expert}},{{skills.Insight}})"><u>Insight</u></td>
 				<td>
 				{% if skills.Insight_expert == 1 %}
 				⭐
@@ -111,7 +111,7 @@
 				x
 				{% endif %}
 				</td>
-				<td onclick="rollPerformance()"><u>Performance</u></td>
+				<td onclick="rollSkill('Performance',{{skills.Performance_expert}},{{skills.Performance}})"><u>Performance</u></td>
 				<td>
 				{% if skills.Performance_expert == 1 %}
 				⭐
@@ -123,7 +123,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td onclick="rollAthletics()"><u>Athletics</u></td>
+				<td onclick="rollSkill('Athletics',{{skills.Athletics_expert}},{{skills.Athletics}})"><u>Athletics</u></td>
 				<td>
 				{% if skills.Athletics_expert == 1 %}
 				⭐
@@ -133,7 +133,7 @@
 				x
 				{% endif %}
 				</td>
-				<td onclick="rollIntimidation()"><u>Intimidation</u></td>
+				<td onclick="rollSkill('Intimidation',{{skills.Intimidation_expert}},{{skills.Intimidation}})"><u>Intimidation</u></td>
 				<td>
 				{% if skills.Intimidation_expert == 1 %}
 				⭐
@@ -143,7 +143,7 @@
 				x
 				{% endif %}
 				</td>
-				<td onclick="rollPersuasion()"><u>Persuasion</u></td>
+				<td onclick="rollSkill('Persuasion',{{skills.Persuasion_expert}},{{skills.Persuasion}})"><u>Persuasion</u></td>
 				<td>
 				{% if skills.Persuasion_expert == 1 %}
 				⭐
@@ -155,7 +155,7 @@
 			</td>
 			</tr>
 			<tr>
-				<td onclick="rollAnimal()"><u>Animal Handling</u></td>
+				<td onclick="rollSkill('Animal Handling',{{skills.Animal_Handling_expert}},{{skills.Animal_Handling}})"><u>Animal Handling</u></td>
 				<td>
 				{% if skills.Animal_Handling_expert == 1 %}
 				⭐
@@ -165,7 +165,7 @@
 				x
 				{% endif %}
 			</td>
-				<td onclick="rollInvestigation()"><u>Investigation</u></td>
+				<td onclick="rollSkill('Investigation',{{skills.Investigation_expert}},{{skills.Investigation}})"><u>Investigation</u></td>
 				<td>
 				{% if skills.Investigation_expert == 1 %}
 				⭐
@@ -174,7 +174,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollReligion()"><u>Religion</u></td>
+				<td onclick="rollSkill('Religion',{{skills.Religion_expert}},{{skills.Religion}})"><u>Religion</u></td>
 				<td>
 				{% if skills.Religion_expert == 1 %}
 				⭐
@@ -186,7 +186,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td onclick="rollArcana()"><u>Arcana</u></td>
+				<td onclick="rollSkill('Arcana',{{skills.Arcana_expert}},{{skills.Arcana}})"><u>Arcana</u></td>
 				<td>
 				{% if skills.Arcana_expert == 1 %}
 				⭐
@@ -195,7 +195,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollMedicine()"><u>Medicine</u></td>
+				<td onclick="rollSkill('Medicine',{{skills.Medicine_expert}},{{skills.Medicine}})"><u>Medicine</u></td>
 				<td>
 				{% if skills.Medicine_expert == 1 %}
 				⭐
@@ -204,7 +204,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollSleight()"><u>Sleight of Hand</u></td>
+				<td onclick="rollSkill('Sleight of Hand',{{skills.Sleight_of_Hand_expert}},{{skills.Sleight_of_Hand_expert}})"><u>Sleight of Hand</u></td>
 				<td>
 				{% if skills.Sleight_of_Hand_expert == 1 %}
 				⭐
@@ -215,7 +215,7 @@
 				{% endif %}</td>
 			</tr>
 			<tr>
-				<td onclick="rollDeception()"><u>Deception</u></td>
+				<td onclick="rollSkill('Deception',{{skills.Deception_expert}},{{skills.Deception}})"><u>Deception</u></td>
 				<td>
 				{% if skills.Deception_expert == 1 %}
 				⭐
@@ -224,7 +224,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollNature()"><u>Nature</u></td>
+				<td onclick="rollSkill('Nature',{{skills.Nature_expert}},{{skills.Nature}})"><u>Nature</u></td>
 				<td>
 				{% if skills.Nature_expert == 1 %}
 				⭐
@@ -233,7 +233,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollStealth()"><u>Stealth</u></td>
+				<td onclick="rollSkill('Stealth',{{skills.Stealth_expert}},{{skills.Stealth}})"><u>Stealth</u></td>
 				<td>
 				{% if skills.Stealth_expert == 1 %}
 				⭐
@@ -244,7 +244,7 @@
 				{% endif %}</td>
 			</tr>
 			<tr>
-				<td onclick="rollHistory()"><u>History</u></td>
+				<td onclick="rollSkill('History',{{skills.History_expert}},{{skills.History}})"><u>History</u></td>
 				<td>
 				{% if skills.History_expert == 1 %}
 				⭐
@@ -253,7 +253,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollPerception()"><u>Perception</u></td>
+				<td onclick="rollSkill('Perception',{{skills.Perception_expert}},{{skills.Perception}})"><u>Perception</u></td>
 				<td>
 				{% if skills.Perception_expert == 1 %}
 				⭐
@@ -262,7 +262,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollSurvival()"><u>Survival</u></td>
+				<td onclick="rollSkill('Survival',{{skills.Survival_expert}},{{skills.Survival}})"><u>Survival</u></td>
 				<td>
 				{% if skills.Survival_expert == 1 %}
 				⭐
@@ -410,7 +410,7 @@
 <script>
 
     function getConfirmation() {
-       var retVal = confirm("Do you want to continue ?");
+       var retVal = confirm("All information about this character will be lost.\n Delete?");
        if( retVal == true ) {
           return true;
        } else {
@@ -422,8 +422,6 @@
 
 	var mods = {1: -5, 2: -4, 3: -4, 4: -3, 5: -3, 6: -2, 7: -2, 8: -1, 9: -1, 10: 0, 11: 0, 12: 1, 13: 1, 14: 2, 15: 2, 16:
             3, 17: 3, 18: 4, 19: 4, 20: 5, 21: 5, 22: 6, 23: 6, 24: 7, 25: 7, 26: 8, 27: 8, 28: 9, 29: 9, 39: 10};
-
-
 
     document.getElementById("str").innerHTML= mods[{{character.STRENGTH}}];
     document.getElementById("dex").innerHTML= mods[{{character.DEXTERITY}}];
@@ -439,45 +437,32 @@
 		document.getElementById("nextExp").innerHTML="MAX LEVEL";
 	}
 
-
-	
-
-	
-
-    function rollStr(){
+	function rollAttribute(attribute_name){
 		var roll=Math.floor(Math.random() * 20)+1;
-		var total=roll+mods[{{character.STRENGTH}}];
-		alert("STRENGTH ROLL! \nYou rolled a: "+roll + " plus your STR MOD of: " +mods[{{character.STRENGTH}}]+ " your total is: " +total+"!");
-	}
+		var ATTRIBUTE = 0;
 
-    function rollDex(){
-		var roll=Math.floor(Math.random() * 20)+1;
-		var total=roll+mods[{{character.DEXTERITY}}];
-		alert("DEXTERITY ROLL! \nYou rolled a: "+roll + " plus your DEX MOD of: " +mods[{{character.DEXTERITY}}]+ " your total is: " +total+"!");
-	}
-
-    function rollCon(){
-		var roll=Math.floor(Math.random() * 20)+1;
-		var total=roll+mods[{{character.CONSTITUTION}}];
-		alert("CONSTITUTION ROLL! \nYou rolled a: "+roll + " plus your CON MOD of: " +mods[{{character.CONSTITUTION}}]+ " your total is: " +total+"!");
-	}
-
-	function rollInt(){
-		var roll=Math.floor(Math.random() * 20)+1;
-		var total=roll+mods[{{character.INTELLIGENCE}}];
-		alert("INTELLIGENCE ROLL! \nYou rolled a: "+roll + " plus your INT MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
-	}
-
-    function rollWis(){
-		var roll=Math.floor(Math.random() * 20)+1;
-		var total=roll+mods[{{character.WISDOM}}];
-		alert("WISDOM ROLL! \nYou rolled a: "+roll + " plus your WIS MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
-	}
-
-	function rollCha(){
-		var roll=Math.floor(Math.random() * 20)+1;
-		var total=roll+mods[{{character.CHARISMA}}];
-		alert("CHARIMSA ROLL! \nYou rolled a: "+roll + " plus your CHA MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
+		switch(attribute_name){
+			case "Strength":
+				ATTRIBUTE = {{character.STRENGTH}};
+				break;
+			case "Dexterity":
+				ATTRIBUTE = {{character.DEXTERITY}};
+				break;
+			case "Constitution":
+				ATTRIBUTE = {{character.CONSTITUTION}};
+				break;
+			case "Intelligence":
+				ATTRIBUTE = {{character.INTELLIGENCE}};
+			case "Wisdom":
+				ATTRIBUTE = {{character.WISDOM}};
+				break;
+			case "Charisma":
+				ATTRIBUTE = {{character.CHARISMA}};
+				break;
+		}
+		
+		var total=roll+mods[ATTRIBUTE];
+		alert(attribute_name+" ROLL! \nYou rolled a: "+roll + " plus your "+ attribute_name +" MOD of: " +mods[ATTRIBUTE]+ " your total is: " +total+"!");
 	}
 
 	var prof=2;
@@ -515,277 +500,51 @@
 	  modal.style.display = "none";
 	}
 	
-	function displaySkill(skill,id){
-		if(skill==1){
+	function displaySkill(expert, skilled, id){
+		if(expert==1){
+			document.getElementById(id).innerHTML("⭐")
+		}else if(skilled==1){
 			document.getElementById(id).innerHTML("✓")
 		}else{
 			document.getElementById(id).innerHTML("x")
 		}
 	}
 
-	function rollAcrobatics(){
+	function rollSkill(skill_name, expert, skilled){
 		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Acrobatics_expert}}==1){
-			var total=roll+mods[{{character.DEXTERITY}}]+(prof*2);
-			alert("Acrobatics ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Acrobatics}}==1){
-			var total=roll+mods[{{character.DEXTERITY}}]+prof;
-			alert("Acrobatics ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.DEXTERITY}}];
-			alert("Acrobatics ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+ " your total is: " +total+"!");
+	
+		switch(skill_name){
+			case "Acrobatics":ATTRIBUTE = {{character.DEXTERITY}};break;
+			case "Athletics":ATTRIBUTE = {{character.STRENGTH}};break;
+			case "Animal Handling":ATTRIBUTE = {{character.WISDOM}};break;
+			case "Arcana":ATTRIBUTE = {{character.INTELLIGENCE}};break;
+			case "Deception":ATTRIBUTE = {{character.CHARISMA}};break;
+			case "History":ATTRIBUTE = {{character.INTELLIGENCE}};break;
+			case "Insight":ATTRIBUTE = {{character.WISDOM}};break; 
+			case "Intimidation":ATTRIBUTE = {{character.CHARISMA}};break;
+			case "Investigation":ATTRIBUTE = {{character.INTELLIGENCE}};break;
+			case "Medicine":ATTRIBUTE = {{character.INTELLIGENCE}};break;
+			case "Nature":ATTRIBUTE = {{character.INTELLIGENCE}};break;
+			case "Perception":ATTRIBUTE = {{character.WISDOM}};break;
+			case "Performance":ATTRIBUTE = {{character.CHARISMA}};break;
+			case "Persuasion":ATTRIBUTE = {{character.CHARISMA}};break;
+			case "Religion":ATTRIBUTE = {{character.INTELLIGENCE}};break;
+			case "Sleight of Hand":ATTRIBUTE = {{character.DEXTERITY}};break;
+			case "Stealth":ATTRIBUTE = {{character.DEXTERITY}};break;
+			case "Survival":ATTRIBUTE = {{character.WISDOM}};
 		}
 		
-	}
-	function  rollStealth(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Stealth_expert}}==1){
-			var total=roll+mods[{{character.DEXTERITY}}]+(prof*2);
-			alert("Stealth ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Stealth}}==1){
-			var total=roll+mods[{{character.DEXTERITY}}]+prof;
-			alert("Stealth ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
+		if(expert==1){
+			var total=roll+mods[ATTRIBUTE]+(prof*2);
+			alert(skill_name+" ROLL! \nYou rolled a: "+roll + " plus your Attribute MOD of: " +mods[ATTRIBUTE]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!"); 
+		}else if(skilled==1){
+			var total=roll+mods[ATTRIBUTE]+prof;
+			alert(skill_name+" ROLL! \nYou rolled a: "+roll + " plus your Attribute MOD of: " +mods[ATTRIBUTE]+" plus your Skill modifier of: "+ prof+ " your total is: " +total+"!"); 
 		}else{
-			var total=roll+mods[{{character.DEXTERITY}}];
-			alert("Stealth ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+ " your total is: " +total+"!");
+			var total=roll+mods[ATTRIBUTE];
+			alert(skill_name+" ROLL! \nYou rolled a: "+roll + " plus your Attribute MOD of: " +mods[ATTRIBUTE]+" your total is: " +total+"!"); 
+
 		}
-		
-	}
-	function rollSleight(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Sleight_of_Hand_expert}}==1){
-			var total=roll+mods[{{character.DEXTERITY}}]+(prof*2);
-			alert("Sleight of Hand ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Sleight_of_Hand}}==1){
-			var total=roll+mods[{{character.DEXTERITY}}]+prof;
-			alert("Sleight of Hand ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.DEXTERITY}}];
-			alert("Sleight of Hand ROLL! \nYou rolled a: "+roll + " plus your Dex MOD of: " +mods[{{character.DEXTERITY}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollAthletics(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Athletics_expert}}==1){
-			var total=roll+mods[{{character.STRENGTH}}]+(prof*2);
-			alert("Athletics ROLL! \nYou rolled a: "+roll + " plus your Str MOD of: " +mods[{{character.STRENGTH}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Athletics}}==1){
-			var total=roll+mods[{{character.STRENGTH}}]+prof;
-			alert("Athletics ROLL! \nYou rolled a: "+roll + " plus your Str MOD of: " +mods[{{character.STRENGTH}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.STRENGTH}}];
-			alert("Athletics ROLL! \nYou rolled a: "+roll + " plus your Str MOD of: " +mods[{{character.STRENGTH}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollAnimal(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Animal_Handling_expert}}==1){
-			var total=roll+mods[{{character.WISDOM}}]+(prof*2);
-			alert("Animal Handling ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Animal_Handling}}==1){
-			var total=roll+mods[{{character.WISDOM}}]+prof;
-			alert("Animal Handling ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.WISDOM}}];
-			alert("Animal Handling ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollInsight(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Insight_expert}}==1){
-			var total=roll+mods[{{character.WISDOM}}]+(prof*2);
-			alert("Insight ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Insight}}==1){
-			var total=roll+mods[{{character.WISDOM}}]+prof;
-			alert("Insight ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.WISDOM}}];
-			alert("Insight ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollPerception(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Perception_expert}}==1){
-			var total=roll+mods[{{character.WISDOM}}]+(prof*2);
-			alert("Perception ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Perception}}==1){
-			var total=roll+mods[{{character.WISDOM}}]+prof;
-			alert("Perception ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.WISDOM}}];
-			alert("Perception ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollSurvival(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Survival}}==1){
-			var total=roll+mods[{{character.WISDOM}}]+prof;
-			alert("Survival ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.WISDOM}}];
-			alert("Survival ROLL! \nYou rolled a: "+roll + " plus your Wis MOD of: " +mods[{{character.WISDOM}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollArcana(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Arcana_expert}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+(prof*2);
-			alert("Arcana ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Arcana}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
-			alert("Arcana ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.INTELLIGENCE}}];
-			alert("Arcana ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollHistory(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.History_expert}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+(prof*2);
-			alert("History ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.History}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
-			alert("History ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.INTELLIGENCE}}];
-			alert("History ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollInvestigation(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Investigation_expert}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+(prof*2);
-			alert("Investigation ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Investigation}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
-			alert("Investigation ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.INTELLIGENCE}}];
-			alert("Investigation ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollMedicine(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Medicine_expert}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+(prof*2);
-			alert("Medicine ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Medicine}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
-			alert("Medicine ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.INTELLIGENCE}}];
-			alert("Medicine ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollNature(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Nature_expert}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+(prof*2);
-			alert("Nature ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Nature}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
-			alert("Nature ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.INTELLIGENCE}}];
-			alert("Nature ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollReligion(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Religion_expert}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+(prof*2);
-			alert("Religion ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Religion}}==1){
-			var total=roll+mods[{{character.INTELLIGENCE}}]+prof;
-			alert("Religion ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.INTELLIGENCE}}];
-			alert("Religion ROLL! \nYou rolled a: "+roll + " plus your Int MOD of: " +mods[{{character.INTELLIGENCE}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollDeception(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Deception_expert}}==1){
-			var total=roll+mods[{{character.CHARISMA}}]+(prof*2);
-			alert("Deception ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Deception}}==1){
-			var total=roll+mods[{{character.CHARISMA}}]+prof;
-			alert("Deception ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.CHARISMA}}];
-			alert("Deception ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
-		}
-		
-	}
-	function rollPersuasion(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Persuasion_expert}}==1){
-			var total=roll+mods[{{character.CHARISMA}}]+(prof*2);
-			alert("Persuasion ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Persuasion}}==1){
-			var total=roll+mods[{{character.CHARISMA}}]+prof;
-			alert("Persuasion ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.CHARISMA}}];
-			alert("Persuasion ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
-		}	
-	}
-	function rollPerformance(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Performance_expert}}==1){
-			var total=roll+mods[{{character.CHARISMA}}]+(prof*2);
-			alert("Performance ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Performance}}==1){
-			var total=roll+mods[{{character.CHARISMA}}]+prof;
-			alert("Performance ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.CHARISMA}}];
-			alert("Performance ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
-		}	
-	}
-	function rollIntimidation(){
-		var roll=Math.floor(Math.random() * 20)+1;
-
-		if({{skills.Intimidation_expert}}==1){
-			var total=roll+mods[{{character.CHARISMA}}]+(prof*2);
-			alert("Intimidation ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Expertise modifier of: "+ prof*2 + " your total is: " +total+"!");
-		}else if({{skills.Intimidation}}==1){
-			var total=roll+mods[{{character.CHARISMA}}]+prof;
-			alert("Intimidation ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+" plus your Proficency modifier of: "+ prof + " your total is: " +total+"!");
-		}else{
-			var total=roll+mods[{{character.CHARISMA}}];
-			alert("Intimidation ROLL! \nYou rolled a: "+roll + " plus your Cha MOD of: " +mods[{{character.CHARISMA}}]+ " your total is: " +total+"!");
-		}	
 	}
 
 </script>

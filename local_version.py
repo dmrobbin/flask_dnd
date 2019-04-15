@@ -79,6 +79,16 @@ admins={2}
 class User(flask_login.UserMixin):
     pass
 
+
+def re_run_users():
+    user = session.query(my_user).all()
+
+    for item in user:
+        users[str(item.USER_NAME)] = str(item.PASSWORD)
+
+    for item in user:
+        ids[str(item.USER_NAME)] = item.id
+
 @login_manager.user_loader
 def user_loader(user_name):
     if user_name not in users:
@@ -99,29 +109,42 @@ def request_loader(request):
 
     # DO NOT ever store passwords in plaintext and always compare password
     # hashes using constant-time comparison!
-    user.is_authenticated = request.form['password'] == users[user_name]
+    try:
+        user.is_authenticated = request.form['password'] == users[user_name]
+    except:
+        print("attr err")
 
     return user
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if flask.request.method == 'GET':
-        return render_template('login.html')
+    errors = []
+    user = None
 
-    user_name = request.form['user_name']
+    re_run_users()
 
-    try:
-        users[user_name]
-    except:
-        return redirect('/invalid_login')
+    if request.method == 'POST':
+        user_name = request.form['user_name']
+        password = request.form['password']
+        hashed_password = hashbrowns(password)
 
-    if hashbrowns(flask.request.form['password']) == users[user_name]:
-        user = User()
-        user.id = user_name
-        flask_login.login_user(user)
-        return redirect('/')
+        if session.query(my_user).filter(my_user.USER_NAME==user_name).one_or_none():
+            
+            re_run_users()
 
-    return redirect('/invalid_login')
+            if hashed_password == users[user_name]:
+                user = User()
+                user.id = user_name
+                flask_login.login_user(user)
+                return redirect('/')
+
+            else: 
+                errors.append('Invalid Username or Password')
+
+        else:
+            errors.append('Username not found')
+
+    return render_template('login.html', errors=errors)
 
 @app.route('/logout')
 def logout():
@@ -135,7 +158,7 @@ def unauthorized_handler():
 @app.route('/')
 @flask_login.login_required
 def character_list():
-
+    print(flask_login.current_user.is_authenticated)
     this_char=0
     characters = session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).all()
     return render_template('character_list.html', characters= characters)
@@ -151,6 +174,57 @@ def admin_list():
     this_char=0
     characters = session.query(my_char).all()
     return render_template('character_list.html', characters= characters)
+
+@app.route('/command')
+@flask_login.login_required
+def command():
+    feats = session.query(my_feat).all()
+    users=session.query(my_user).all()
+
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
+
+    return render_template('command.html', users=users, feats=feats)
+
+@app.route('/edit_class/<job>', methods=['POST', 'GET'])
+def edit_class(job):
+
+    feats = session.query(my_feat).filter(my_feat.JOB == job).one_or_none()
+    feats_dict = dict((col,getattr(feats, col)) for col in my_feat.__table__.columns.keys())
+
+    format_dict(feats_dict)
+
+    if request.method == 'POST' and request.form['edit'] == '1':
+
+        feats.LEVEL_1=request.form['LEVEL_1'],
+        feats.LEVEL_2=request.form['LEVEL_2'],
+        feats.LEVEL_3=request.form['LEVEL_3'],
+        feats.LEVEL_4=request.form['LEVEL_4'],
+        feats.LEVEL_5=request.form['LEVEL_5'],
+        feats.LEVEL_6=request.form['LEVEL_6'],
+        feats.LEVEL_7=request.form['LEVEL_7'],
+        feats.LEVEL_8=request.form['LEVEL_8'],
+        feats.LEVEL_9=request.form['LEVEL_9'],
+        feats.LEVEL_10=request.form['LEVEL_10'],
+        feats.LEVEL_11=request.form['LEVEL_11'],
+        feats.LEVEL_12=request.form['LEVEL_12'],
+        feats.LEVEL_13=request.form['LEVEL_13'],
+        feats.LEVEL_14=request.form['LEVEL_14'],
+        feats.LEVEL_15=request.form['LEVEL_15'],
+        feats.LEVEL_16=request.form['LEVEL_16'],
+        feats.LEVEL_17=request.form['LEVEL_17'],
+        feats.LEVEL_18=request.form['LEVEL_18'],
+        feats.LEVEL_19=request.form['LEVEL_19'],
+        feats.LEVEL_20=request.form['LEVEL_20'],
+
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
+        return redirect('/command')
+
+    return render_template('class_edit.html', feats_dict=feats_dict)
 
 @app.route('/info/<ida>', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -208,10 +282,14 @@ def character_info(ida):
         character_query.delete()
         skills_query.delete()
         multi_query.delete()
-        session.commit()
+        try:
+            session.commit()
+        except:
+            session.rollback()
         return redirect('/')
 
     character = character_query.one_or_none()
+
     return render_template('character_info.html', character=character, skills = skills, 
         feats=feats, feats_dict= feats_dict, slots_dict=slots_dict, 
         known_dict=known_dict, spells=spells, items=items, multi=multi, multi_feats_dict=multi_feats_dict,
@@ -234,7 +312,12 @@ def account_info():
         character_query.delete()
         skills_query.delete()
 
-        session.commit()
+        try: 
+            session.commit()
+            re_run_users()
+        except:
+            session.rollback()
+
         return redirect('/logout')
 
     return render_template('account_info.html', account=account, characters=characters)
@@ -277,8 +360,10 @@ def spell_add(ida):
             CHARACTER_ID = character.id,
 
         ))
+        try:
+            session.commit()
+        except: session.rollback()
 
-        session.commit()
         return redirect(url_for('character_info',ida=character.id))
     else:
         return render_template('add_spell.html')
@@ -305,8 +390,10 @@ def character_add():
             HP=request.form['hp'],
             AC=request.form['ac'],
         ))
-
-        session.commit()
+        try:
+            session.commit()
+        except:
+            session.rollback()
 
         character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
         if request.form.get('job_multi')!='None':
@@ -357,8 +444,10 @@ def character_add():
             Stealth_expert = request.form.get('stealth_expert'),
             Survival_expert = request.form.get('survival_expert'),
         ))
-
-        session.commit()
+        try:
+            session.commit()
+        except:
+            session.rollback()
 
         return redirect(url_for('character_info',ida=character.id))
     else:
@@ -463,7 +552,10 @@ def character_edit(ida):
                     CHARACTER_ID = character.id,
                 ))
 
-        session.commit()
+        try:
+            session.commit()
+        except:
+            session.rollback()
 
         return redirect(url_for('character_info',ida=character.id))
 
@@ -483,7 +575,11 @@ def spell_edit(name):
             spell.LEVEL=request.form['level']
         if request.form['description'] !='':
             spell.DESCRIPTION=request.form['description']
-        session.commit()
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
         return redirect(url_for('character_info',ida=spell.CHARACTER_ID))
 
     return render_template('spell_edit.html', spell=spell)
@@ -497,7 +593,12 @@ def remove_spell(name):
 
     if request.method == 'POST':
         spell_query.delete()
-        session.commit()
+
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
         return redirect(url_for('character_info',ida=spell.CHARACTER_ID))
 
 @app.route('/<ida>/add_item', methods=['POST', 'GET'])
@@ -517,7 +618,11 @@ def item_add(ida):
             CHARACTER_ID = character.id,
         ))
 
-        session.commit()
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
         return redirect(url_for('character_info',ida=character.id))
     else:
         return render_template('add_item.html')
@@ -534,7 +639,11 @@ def item_edit(name):
             item.NAME=request.form['name']
         if request.form['description'] !='':
             item.DESCRIPTION=request.form['description']
-        session.commit()
+        try:     
+            session.commit()
+        except:
+            session.rollback()
+
         return redirect(url_for('character_info',ida=item.CHARACTER_ID))
 
     return render_template('item_edit.html', item=item)
@@ -548,7 +657,12 @@ def remove_item(name):
 
     if request.method == 'POST':
         item_query.delete()
-        session.commit()
+
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
         return redirect(url_for('character_info',ida=item.CHARACTER_ID))
 
 @app.route('/class_details/<job>', methods=['GET'])
@@ -615,6 +729,7 @@ def character_create():
         try:
             session.commit()
         except:
+            session.rollback()
             print("Error commiting changes to the dbmaster")
 
         character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
@@ -660,8 +775,10 @@ def character_create():
             Stealth_expert = request.form.get('stealth_expert'),
             Survival_expert = request.form.get('survival_expert'),
         ))
-
-        session.commit()
+        try:
+            session.commit()
+        except:
+            session.rollback()
 
         return redirect(url_for('character_info',ida=character.id))
     else:
@@ -681,8 +798,11 @@ def registration():
                 USER_NAME=request.form['user_name'],
                 PASSWORD=hashbrowns(request.form['password']),
                 ))
+            try:
+                session.commit()
+            except:
+                session.rollback()
 
-            session.commit()
             user = session.query(my_user).all()
 
             for item in user:
@@ -723,7 +843,12 @@ def upload_files(ida):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         character.image=filename
-        session.commit()
+
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
         return redirect('/')
    
 @app.route('/bug_report', methods = ['GET', 'POST'])
@@ -734,7 +859,11 @@ def bug_report():
             USER_ID=ids[flask_login.current_user.id],
             DESCRIPTION=request.form.get('description'),
             ))
-        session.commit()
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
         return redirect('/')
     else:
         return render_template('bug_report.html')

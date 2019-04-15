@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Users</h3>
+<table class="table table-sm">
+	<tr class ="bg-success">
+		<th>
+			User Name
+		</th>
+		<th>
+			ID
+		</th>
+	</tr>
+{% for user in users %}
+<tr>
+	<td>{{user.USER_NAME}}</td>
+	<td>{{user.id}}</td>
+</tr>
+
+{%endfor%}
+</table>
+
+<table class="table table-sm">
+	<tr class="bg-success">
+		<th>Edit Classes</th>
+	</tr>
+	{%for feat in feats%}
+	<tr><td><a href="edit_class/{{feat.JOB}}">{{feat.JOB}}</a></td></tr>
+	{%endfor%}
+</table>
+
+{% endblock %}
