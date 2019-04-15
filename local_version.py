@@ -187,7 +187,11 @@ def command():
     return render_template('command.html', users=users, feats=feats)
 
 @app.route('/edit_class/<job>', methods=['POST', 'GET'])
+@flask_login.login_required
 def edit_class(job):
+
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
 
     feats = session.query(my_feat).filter(my_feat.JOB == job).one_or_none()
     feats_dict = dict((col,getattr(feats, col)) for col in my_feat.__table__.columns.keys())
