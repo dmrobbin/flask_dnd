@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post" style="padding-top: 10">
+
+	<h4>Sub Class</h4>
+		<input type="text" name="sub_job" value="{{subs.SUB_JOB}}">
+
+	
+	{%for i in range(1, 21)%}
+
+	<li style="padding:10"> LEVEL {{i}} - <textarea type = "text" name="LEVEL_{{i}}" cols="50" class="formcontrol">{{subs_dict[i]}}</textarea></li>
+
+
+	{%endfor%}
+
+	<input type="hidden" name="edit" value="1">
+	<button type="submit" value="Edit Sub Class" class="btn btn-success" id="btnsucc">Edit Sub class</button>
+</form>
+
+<br><br>	
+
+	<form action = "/sub_remover/{{subs.SUB_JOB}}" method= "POST">
+		<input type="hidden" name="remove" value="1">
+		<button class="btn btn-primary" type="submit" value="Remove Subclass">Delete Sub Class </button></input>
+	</form>
+{% endblock %}

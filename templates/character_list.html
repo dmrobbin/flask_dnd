@@ -3,7 +3,9 @@
 {% block content %}
 	<div>
 		<center><h3 style="padding-top: 30"> Current Characters: </h3></center>
-
+		{%if admin%}
+		<h5><a href="/command">Admin Console</a></h5>
+		{%endif%}
 		
 
 	<div>

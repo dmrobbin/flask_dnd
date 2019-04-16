@@ -19,15 +19,9 @@
 
 			<div class="form-group">
 				<select name="race" class="form-control">
-					<option value="dragonborn">Dragonborn</option>
-					<option value="dwarf">Dwarf</option>
-					<option value="elf">Elf</option>
-					<option value="gnome">Gnome</option>
-					<option value="halfling">Halfling</option>
-					<option value="half-elf">Half-Elf</option>
-					<option value="half-orc">Half-Orc</option>
-					<option value="human">Human</option>
-					<option value="tiefling">Tiefling</option>
+					{%for race in races%}
+					<option value="{{race.RACE}}">{{race.RACE}}</option>
+					{%endfor%}
 				</select>
 			</div>
 
@@ -262,7 +256,7 @@ document.getElementById("nm").defaultValue = makeid(12);
 console.log(makeid(12));
 
 </script>
-<p>*NOTE: Does not apply racial bonuses automatically</p>
+<h3 style="color:red"><strong>*NOTE:</strong> Racial bonuses applied after creation</h3>
 </body>
 
 {% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table class="table table-sm">
+	<tr class="bg-warning">
+		<th>
+			Race
+		</th>
+		<th>
+			STR Bonus
+		</th>
+		<th>
+			DEX Bonus
+		</th>
+		<th>
+			CON Bonus
+		</th>
+		<th>
+			INT Bonus
+		</th>
+		<th>
+			WIS Bonus
+		</th>
+		<th>
+			CHA Bonus
+		</th>
+	</tr>
+	{% for race in races%}
+	<tr>
+		<td>{{race.RACE}}</td>
+		<td>
+			{{race.STR_BONUS}}
+		</td>
+		<td>
+			{{race.DEX_BONUS}}
+		</td>
+		<td>
+			{{race.CON_BONUS}}
+		</td>
+		<td>
+			{{race.INT_BONUS}}
+		</td>
+		<td>
+			{{race.WIS_BONUS}}
+		</td>
+		<td>
+			{{race.CHA_BONUS}}
+		</td>
+	</tr>
+	{%endfor%}
+</table>
+
+{% endblock %}

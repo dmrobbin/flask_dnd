@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post" action="">
+
+	<div style="float:left">
+
+			<h4>Race</h4>
+			<input type="text" name="race">
+			<h4>STR_BONUS</h4>
+			<div class="form-group">
+				<select name="str_bonus" class="form-control">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</div>
+			<h4>DEX_BONUS</h4>
+			<div class="form-group">
+				<select name="dex_bonus" class="form-control">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</div>
+			<h4>CON_BONUS</h4>
+			<div class="form-group">
+				<select name="con_bonus" class="form-control">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</div>
+			<h4>INT_BONUS</h4>
+			<div class="form-group">
+				<select name="int_bonus" class="form-control">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</div>
+			<h4>WIS_BONUS</h4>
+			<div class="form-group">
+				<select name="wis_bonus" class="form-control">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</div>
+			<h4>CHA_BONUS</h4>
+			<div class="form-group">
+				<select name="cha_bonus" class="form-control">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</div>
+
+			
+
+	<br><br>
+	<button type="submit" value="Add Race" class="btn btn-primary">Add Race</button>
+</form>
+
+
+{% endblock %}

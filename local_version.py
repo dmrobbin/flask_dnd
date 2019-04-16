@@ -53,6 +53,8 @@ my_spells=Base.classes.DND_5E_SPELLS
 my_inventory=Base.classes.DND_5E_INVENTORY
 my_multi=Base.classes.DND_5E_MULTI
 my_bugs=Base.classes.DND_BUGS
+my_race=Base.classes.DND_5E_RACES
+my_sub=Base.classes.DND_5E_SUB
 
 current_user = User()
 this_char = 0
@@ -158,11 +160,20 @@ def unauthorized_handler():
 @app.route('/')
 @flask_login.login_required
 def character_list():
-    print(flask_login.current_user.is_authenticated)
+
+    admin =False
+
     this_char=0
     characters = session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).all()
-    return render_template('character_list.html', characters= characters)
 
+    if ids[flask_login.current_user.id] in admins:
+        admin=True
+
+    return render_template('character_list.html', characters= characters, admin=admin)
+
+#######################
+#####ADMIN POWERS######
+#######################
 
 @app.route('/admin')
 @flask_login.login_required
@@ -178,13 +189,17 @@ def admin_list():
 @app.route('/command')
 @flask_login.login_required
 def command():
+
+    races=session.query(my_race).all()
     feats = session.query(my_feat).all()
     users=session.query(my_user).all()
+    subs=session.query(my_sub).all()
+
 
     if ids[flask_login.current_user.id] not in admins:
         return redirect('/')
 
-    return render_template('command.html', users=users, feats=feats)
+    return render_template('command.html', users=users, feats=feats, races=races, subs=subs)
 
 @app.route('/edit_class/<job>', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -229,6 +244,189 @@ def edit_class(job):
         return redirect('/command')
 
     return render_template('class_edit.html', feats_dict=feats_dict)
+
+
+@app.route('/add_race', methods=['POST', 'GET'])
+@flask_login.login_required
+def add_race():
+
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
+
+    if request.method == 'POST':
+
+        session.add(my_race(
+            RACE=request.form['race'],
+            STR_BONUS=int(request.form['str_bonus']),
+            DEX_BONUS=int(request.form['dex_bonus']),
+            CON_BONUS=int(request.form['con_bonus']),
+            INT_BONUS=int(request.form['int_bonus']),
+            WIS_BONUS=int(request.form['wis_bonus']),
+            CHA_BONUS=int(request.form['cha_bonus']),
+        ))
+        try:
+            session.commit()
+        except: 
+            session.rollback()
+
+        return redirect('/command')
+    else:
+        return render_template('add_race.html')
+
+@app.route('/add_sub', methods=['POST', 'GET'])
+@flask_login.login_required
+def add_sub():
+
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')   
+
+    feats=session.query(my_feat).all()
+    
+    if request.method=='POST':
+        session.add(my_sub(
+            SUB_JOB=request.form['sub_job'],
+            JOB=request.form['job'],
+            LEVEL_1=request.form['LEVEL_1'],
+            LEVEL_2=request.form['LEVEL_2'],
+            LEVEL_3=request.form['LEVEL_3'],
+            LEVEL_4=request.form['LEVEL_4'],
+            LEVEL_5=request.form['LEVEL_5'],
+            LEVEL_6=request.form['LEVEL_6'],
+            LEVEL_7=request.form['LEVEL_7'],
+            LEVEL_8=request.form['LEVEL_8'],
+            LEVEL_9=request.form['LEVEL_9'],
+            LEVEL_10=request.form['LEVEL_10'],
+            LEVEL_11=request.form['LEVEL_11'],
+            LEVEL_12=request.form['LEVEL_12'],
+            LEVEL_13=request.form['LEVEL_13'],
+            LEVEL_14=request.form['LEVEL_14'],
+            LEVEL_15=request.form['LEVEL_15'],
+            LEVEL_16=request.form['LEVEL_16'],
+            LEVEL_17=request.form['LEVEL_17'],
+            LEVEL_18=request.form['LEVEL_18'],
+            LEVEL_19=request.form['LEVEL_19'],
+            LEVEL_20=request.form['LEVEL_20'],
+            ))
+        try:
+            session.commit()
+            return redirect('/command')
+        except:
+            session.rollback()
+
+    return render_template('add_sub.html', feats=feats)
+
+@app.route('/edit_sub/<sub>', methods=['POST', 'GET'])
+@flask_login.login_required
+def edit_sub(sub):
+
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
+
+    subs = session.query(my_sub).filter(my_sub.SUB_JOB == sub).one_or_none()
+    subs_dict = dict((col,getattr(subs, col)) for col in my_sub.__table__.columns.keys())
+    feats=session.query(my_feat).all()
+
+    del subs_dict["SUB_JOB"]
+    format_dict(subs_dict)
+
+    if request.method == 'POST' and request.form['edit'] == '1':
+
+        subs.LEVEL_1=request.form['LEVEL_1'],
+        subs.LEVEL_2=request.form['LEVEL_2'],
+        subs.LEVEL_3=request.form['LEVEL_3'],
+        subs.LEVEL_4=request.form['LEVEL_4'],
+        subs.LEVEL_5=request.form['LEVEL_5'],
+        subs.LEVEL_6=request.form['LEVEL_6'],
+        subs.LEVEL_7=request.form['LEVEL_7'],
+        subs.LEVEL_8=request.form['LEVEL_8'],
+        subs.LEVEL_9=request.form['LEVEL_9'],
+        subs.LEVEL_10=request.form['LEVEL_10'],
+        subs.LEVEL_11=request.form['LEVEL_11'],
+        subs.LEVEL_12=request.form['LEVEL_12'],
+        subs.LEVEL_13=request.form['LEVEL_13'],
+        subs.LEVEL_14=request.form['LEVEL_14'],
+        subs.LEVEL_15=request.form['LEVEL_15'],
+        subs.LEVEL_16=request.form['LEVEL_16'],
+        subs.LEVEL_17=request.form['LEVEL_17'],
+        subs.LEVEL_18=request.form['LEVEL_18'],
+        subs.LEVEL_19=request.form['LEVEL_19'],
+        subs.LEVEL_20=request.form['LEVEL_20'],
+
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
+        return redirect('/command')
+
+    return render_template('sub_edit.html', subs_dict=subs_dict, feats=feats, subs=subs)
+
+@app.route('/sub_remover/<sub>', methods = ['GET', 'POST'])
+@flask_login.login_required
+def remove_sub(sub):
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
+
+    sub_query=session.query(my_sub).filter(my_sub.SUB_JOB == sub)
+
+    if request.method == 'POST':
+        sub_query.delete()
+
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
+        return redirect('/command')
+
+@app.route('/edit_race/<race>', methods=['POST', 'GET'])
+@flask_login.login_required
+def edit_race(race):
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
+
+    this_race=session.query(my_race).filter(my_race.RACE==race).one_or_none()
+    print (this_race.RACE)
+    print (race)
+
+    if request.method == 'POST' and request.form['edit'] == '1':
+        this_race.RACE=request.form['race'],
+        this_race.STR_BONUS=int(request.form['str_bonus']),
+        this_race.DEX_BONUS=int(request.form['dex_bonus']),
+        this_race.CON_BONUS=int(request.form['con_bonus']),
+        this_race.INT_BONUS=int(request.form['int_bonus']),
+        this_race.WIS_BONUS=int(request.form['wis_bonus']),
+        this_race.CHA_BONUS=int(request.form['cha_bonus']),
+        try:
+            session.commit()
+        except:
+            session.rollback()
+        return redirect('/command')
+
+    return render_template('edit_race.html', this_race=this_race)
+
+@app.route('/race_remover/<race>', methods = ['GET', 'POST'])
+@flask_login.login_required
+def remove_race(race):
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
+
+    race_query=session.query(my_race).filter(my_race.RACE == race)
+
+    if request.method == 'POST':
+        race_query.delete()
+
+        try:
+            session.commit()
+        except:
+            session.rollback()
+
+        return redirect('/command')
+
+#######################
+###END ADMIN POWERS####
+#######################
+
 
 @app.route('/info/<ida>', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -375,7 +573,7 @@ def spell_add(ida):
 @app.route('/add', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_add():
-
+    races = session.query(my_race).all()
     if request.method == 'POST':
 
         session.add(my_char(
@@ -455,28 +653,44 @@ def character_add():
 
         return redirect(url_for('character_info',ida=character.id))
     else:
-        return render_template('character_add.html')
+        return render_template('character_add.html', races=races)
 
 @app.route('/edit/<ida>', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_edit(ida):
-    
+    races = session.query(my_race).all()
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
     multi = session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id).first()
-
-    if ids[flask_login.current_user.id] != character.user_id:
+    addR=0
+    if ids[flask_login.current_user.id] not in admins and ids[flask_login.current_user.id] != character.user_id:
         return redirect('/')
 
     if request.method == 'POST' and request.form['edit'] == '1':
-
+        
+        if request.form['STRENGTH'] !='':
+            character.STRENGTH=int(request.form['STRENGTH'])
+        if request.form['DEXTERITY'] !='':
+            character.DEXTERITY=int(request.form['DEXTERITY'])
+        if request.form['CONSTITUTION'] !='':
+            character.CONSTITUTION=int(request.form['CONSTITUTION'])
+        if request.form['INTELLIGENCE'] !='':
+            character.INTELLIGENCE=int(request.form['INTELLIGENCE'])
+        if request.form['WISDOM'] !='':
+            character.WISDOM=int(request.form['WISDOM'])
+        if request.form['CHARISMA'] !='':
+            character.CHARISMA=int(request.form['CHARISMA'])
+        if request.form['description'] !='':
+            character.description=request.form['description']
         if request.form['name']!='':
             character.NAME=request.form['name']
         if request.form['job'] !='':
             character.JOB=request.form['job']
         if request.form['race'] !='':
+            subtract_racial(character)
             character.RACE=request.form['race']
+            addR=1
         if request.form['level'] !='':
             character.LEVEL=request.form['level']
         if request.form['exp'] !='':
@@ -485,20 +699,9 @@ def character_edit(ida):
             character.HP=request.form['hp']
         if request.form['ac'] !='':
             character.AC=request.form['ac']
-        if request.form['STRENGTH'] !='':
-            character.STRENGTH=request.form['STRENGTH']
-        if request.form['DEXTERITY'] !='':
-            character.DEXTERITY=request.form['DEXTERITY']
-        if request.form['CONSTITUTION'] !='':
-            character.CONSTITUTION=request.form['CONSTITUTION']
-        if request.form['INTELLIGENCE'] !='':
-            character.INTELLIGENCE=request.form['INTELLIGENCE']
-        if request.form['WISDOM'] !='':
-            character.WISDOM=request.form['WISDOM']
-        if request.form['CHARISMA'] !='':
-            character.CHARISMA=request.form['CHARISMA']
-        if request.form['description'] !='':
-            character.description=request.form['description']
+        
+
+
         #skills edit
         skills.Acrobatics = request.form.get('acrobatics'),
         skills.Animal_Handling = request.form.get('animalhandling'),
@@ -558,12 +761,15 @@ def character_edit(ida):
 
         try:
             session.commit()
+            if addR==1:
+                add_racial(character)
+            session.commit()
         except:
             session.rollback()
 
         return redirect(url_for('character_info',ida=character.id))
 
-    return render_template('character_edit.html', character=character, skills=skills, multi=multi)
+    return render_template('character_edit.html', character=character, skills=skills, multi=multi, races=races)
 
 @app.route('/spell_edit/<name>', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -669,6 +875,13 @@ def remove_item(name):
 
         return redirect(url_for('character_info',ida=item.CHARACTER_ID))
 
+
+@app.route('/view_races', methods=['GET'])
+def view_races():
+    races=session.query(my_race).all()
+
+    return render_template('view_races.html', races=races)
+
 @app.route('/class_details/<job>', methods=['GET'])
 def class_details(job):
 
@@ -710,6 +923,8 @@ def character_create():
 
     rolls.sort(reverse=True)
 
+    races = session.query(my_race).all()
+
     if request.method == 'POST':
 
         
@@ -737,6 +952,8 @@ def character_create():
             print("Error commiting changes to the dbmaster")
 
         character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
+
+        add_racial(character)
 
         session.add(my_skills(
             user_id = ids[flask_login.current_user.id],
@@ -778,15 +995,39 @@ def character_create():
             Sleight_of_Hand_expert = request.form.get('sleightofhand_expert'),
             Stealth_expert = request.form.get('stealth_expert'),
             Survival_expert = request.form.get('survival_expert'),
+
         ))
         try:
+            
             session.commit()
         except:
             session.rollback()
 
         return redirect(url_for('character_info',ida=character.id))
     else:
-        return render_template('character_create.html', rolls=rolls)
+        return render_template('character_create.html', rolls=rolls, races=races)
+
+def add_racial(character):
+
+    race=session.query(my_race).filter(my_race.RACE==character.RACE).one_or_none()
+
+    character.STRENGTH+=race.STR_BONUS
+    character.DEXTERITY+=race.DEX_BONUS
+    character.CONSTITUTION+=race.CON_BONUS
+    character.INTELLIGENCE+=race.INT_BONUS
+    character.WISDOM+=race.WIS_BONUS
+    character.CHARISMA+=race.CHA_BONUS
+
+def subtract_racial(character):
+
+    race=session.query(my_race).filter(my_race.RACE==character.RACE).one_or_none()
+
+    character.STRENGTH-=race.STR_BONUS
+    character.DEXTERITY-=race.DEX_BONUS
+    character.CONSTITUTION-=race.CON_BONUS
+    character.INTELLIGENCE-=race.INT_BONUS
+    character.WISDOM-=race.WIS_BONUS
+    character.CHARISMA-=race.CHA_BONUS
 
 @app.route('/class_features', methods =['GET'])
 def class_features():
