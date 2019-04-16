@@ -39,9 +39,23 @@
 			<option value="Warlock">Warlock</option>
 		</select>
 	</div>
+
+
+	<div class="form-group">
+		{%if character.SUB%}
+			{{character.SUB}}
+		{%endif%}
+		<select name="sub" class="form-control">
+			<option value="">Please Select</option>
+			{%for sub in subs%}
+				<option value="{{sub.SUB_JOB}}">{{sub.SUB_JOB}}</option>
+			{%endfor%}
+		</select>
+	</div>
+
 		
-		<div class="form-group">
-			{{character.RACE}}
+	<div class="form-group">
+		{{character.RACE}}
 		<select name="race" class="form-control">
 			<option value="">Please Select</option>
 			{%for race in races%}
@@ -70,6 +84,23 @@
 			<option value="Remove">Remove secondary class</option>
 		</select>
 	</div>
+
+	{%if multi%}
+
+	<div class="form-group">
+		{%if multi.SUB%}
+			{{multi.SUB}}
+		{%endif%}
+		<select name="multi_sub" class="form-control">
+			<option value="">Please Select</option>
+			{%for sub in multi_subs%}
+				<option value="{{sub.SUB_JOB}}">{{sub.SUB_JOB}}</option>
+			{%endfor%}
+			<option value="Remove">Remove secondary Sub class</option>
+		</select>
+	</div>
+
+	{%endif%}
 
 	<h4>Secondary classLevel:</h4>
 	<input type="text" name="level_multi" value ={{multi.LEVEL}}>

@@ -330,7 +330,7 @@ def edit_sub(sub):
     format_dict(subs_dict)
 
     if request.method == 'POST' and request.form['edit'] == '1':
-
+        subs.SUB_JOB=request.form['sub_job']
         subs.LEVEL_1=request.form['LEVEL_1'],
         subs.LEVEL_2=request.form['LEVEL_2'],
         subs.LEVEL_3=request.form['LEVEL_3'],
@@ -663,7 +663,13 @@ def character_edit(ida):
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
     multi = session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id).first()
+
+    if multi:
+        multi_subs=session.query(my_sub).filter(my_sub.JOB==multi.JOB).all()
+    else:
+        multi_subs=None
     addR=0
+    subs= session.query(my_sub).filter(my_sub.JOB==character.JOB).all()
     if ids[flask_login.current_user.id] not in admins and ids[flask_login.current_user.id] != character.user_id:
         return redirect('/')
 
@@ -687,6 +693,8 @@ def character_edit(ida):
             character.NAME=request.form['name']
         if request.form['job'] !='':
             character.JOB=request.form['job']
+        if request.form['sub'] != '':
+            character.SUB=request.form['sub']
         if request.form['race'] !='':
             subtract_racial(character)
             character.RACE=request.form['race']
@@ -743,6 +751,7 @@ def character_edit(ida):
         
         #if multi exists
         if multi:
+
             if request.form.get('job_multi')!='Remove':
                 if request.form.get('job_multi')!= 'None':
                     multi.JOB = request.form.get('job_multi'),
@@ -751,6 +760,12 @@ def character_edit(ida):
             else:
                 multi_query=session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id)
                 multi_query.delete()
+
+            if request.form['multi_sub']!='Remove':
+                if request.form['multi_sub'] != '':
+                    multi.SUB=request.form['multi_sub'],
+            else:
+                multi.SUB=''
         else:
             if request.form.get('job_multi')!= '' and request.form.get('level_multi')!='':
                 session.add(my_multi(
@@ -769,7 +784,7 @@ def character_edit(ida):
 
         return redirect(url_for('character_info',ida=character.id))
 
-    return render_template('character_edit.html', character=character, skills=skills, multi=multi, races=races)
+    return render_template('character_edit.html', character=character, skills=skills, multi=multi, races=races, subs=subs, multi_subs=multi_subs)
 
 @app.route('/spell_edit/<name>', methods=['POST', 'GET'])
 @flask_login.login_required
