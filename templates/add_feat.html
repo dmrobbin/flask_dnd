@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="post" action="">
+
+	<div style="float:left">
+
+			<h4>Feat Name</h4>
+			<input type="text" name="name">
+			<h4>Description</h4>
+			<textarea type = "text" name="description" cols="80" rows="15" class="formcontrol"></textarea>
+
+	<br><br>
+	<button type="submit" value="Add Feat" class="btn btn-primary">Add Feat</button>
+</form>
+
+{% endblock %}

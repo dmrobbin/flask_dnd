@@ -10,6 +10,7 @@
 		<button class="btn btn-success" id="btnsucc" type="submit" value="Remove Character" onclick= "getConfirmation();" >Delete {{character.NAME}}.   </button>
 	</form>
 	<a  href="/edit/{{character.id}}" class="btn btn-success" id="btnsucc">Edit {{character.NAME}}</a>
+	<a  href="/add_to_features_known/{{character.id}}" class="btn btn-success" id="btnsucc">Add Feat</a>
 </div>
 	<h3>{{character.RACE}}
 	Level {{character.LEVEL}} {%if character.SUB%} {{character.SUB}} {%endif%} 
@@ -22,6 +23,8 @@
 		<u>{{character.JOB}}</u>
 	{%endif%}
 
+
+
 	{%if multi%}
 	Level {{multi.LEVEL}} {%if multi.SUB%} {{multi.SUB}} {%endif%} <u><a href="/class_details/{{multi.JOB}}">{{multi.JOB}}</a></u></h3>
 	Proficency Bonus: <span id="profMult"></span>
@@ -31,6 +34,11 @@
 	</h3>
 
 	<div style="display: inline;">
+	{%if has_features%}
+		{%for feature in features_known%}
+			{{feature.NAME}}
+		{%endfor%}
+	{%endif%}
 		<br>Current Experience: {{character.EXP}}. 
 		{%if multi%}
 		<br> Experience needeed for level {{character.LEVEL+1+multi.LEVEL}}: <span id="nextExpMult"></span>

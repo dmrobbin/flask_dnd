@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="post" action="">
+
+	<div style="float:left">
+
+			<h4>Feature</h4>
+			
+			<div class="form-group">
+				
+				<select name="feat" class="form-control">
+					{%for feat in features%}
+					<option value="{{feat.id}}">{{feat.NAME}}</option>
+					{%endfor%}
+				</select>
+
+			</div>
+
+	<br><br>
+	<button type="submit" value="Add Feat" class="btn btn-primary">Add Feature</button>
+</form>
+<br><hl><br>
+<span>{%for feat in features%} <a href="#{{feat.NAME}}">{{feat.NAME}}</a> - {%endfor%}</span>
+
+<table class="table table-sm">
+	<tr class="bg-warning">
+		<th>Feat Name</th>
+		<th>Feat Description</th>
+	</tr>
+{%for feat in features%}
+<tr>
+	<td id="{{feat.NAME}}">{{feat.NAME}}</td>
+	<td>{{feat.DESCRIPTION}}</td>
+</tr>
+{%endfor%}
+</table>
+
+{% endblock %}

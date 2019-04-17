@@ -55,6 +55,8 @@ my_multi=Base.classes.DND_5E_MULTI
 my_bugs=Base.classes.DND_BUGS
 my_race=Base.classes.DND_5E_RACES
 my_sub=Base.classes.DND_5E_SUB
+my_features=Base.classes.DND_5E_FEATURES
+my_features_known=Base.classes.DND_5E_FEATURES_KNOWN
 
 current_user = User()
 this_char = 0
@@ -197,6 +199,7 @@ def command():
     users=session.query(my_user).all()
     subs=session.query(my_sub).all()
 
+    subs.sort(key=lambda x: x.JOB, reverse=False)
 
     if ids[flask_login.current_user.id] not in admins:
         return redirect('/')
@@ -247,6 +250,27 @@ def edit_class(job):
 
     return render_template('class_edit.html', feats_dict=feats_dict)
 
+@app.route('/add_features', methods=['POST', 'GET'])
+@flask_login.login_required
+def add_features():
+
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
+
+    if request.method == 'POST':
+
+        session.add(my_features(
+            NAME=request.form['name'],
+            DESCRIPTION=request.form['description'],
+        ))
+        try:
+            session.commit()
+        except: 
+            session.rollback()
+
+        return redirect('/add_features')
+    else:
+        return render_template('add_feat.html')
 
 @app.route('/add_race', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -430,6 +454,7 @@ def remove_race(race):
 #######################
 
 
+
 @app.route('/info/<ida>', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_info(ida):
@@ -457,6 +482,14 @@ def character_info(ida):
 
     multi_query=session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id)
     multi = session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id).first()
+
+    features=session.query(my_features_known).filter(my_features_known.character_id==character.id).all()
+    features_known=[]
+    has_features=False
+    if features:
+        has_features=True
+        for feat in features:
+            features_known.append(session.query(my_features).filter(feat.feature_id==my_features.id).one_or_none())
 
     if character.SUB and character.SUB!='':
         sub=session.query(my_sub).filter(character.SUB==my_sub.SUB_JOB).one_or_none()
@@ -515,7 +548,38 @@ def character_info(ida):
     return render_template('character_info.html', character=character, skills = skills, 
         feats=feats, feats_dict= feats_dict, slots_dict=slots_dict, 
         known_dict=known_dict, spells=spells, items=items, multi=multi, multi_feats_dict=multi_feats_dict,
-        multi_slots_dict=multi_slots_dict, multi_known_dict=multi_known_dict, sub_dict=sub_dict, multi_sub_dict=multi_sub_dict)
+        multi_slots_dict=multi_slots_dict, multi_known_dict=multi_known_dict, sub_dict=sub_dict, multi_sub_dict=multi_sub_dict,
+        features_known=features_known, has_features=has_features)
+
+@app.route('/add_to_features_known/<ida>', methods=['POST', 'GET'])
+@flask_login.login_required
+def add_to_features_known(ida):
+
+    character_query = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id])
+    character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
+
+    if ids[flask_login.current_user.id] not in admins and ids[flask_login.current_user.id] != character.user_id:
+        return redirect('/')
+
+    features=session.query(my_features).all()
+
+    if request.method == 'POST':
+
+        session.add(my_features_known(
+            user_id=character.user_id,
+            character_id=character.id,
+            feature_id=request.form['feat'],
+            ))
+
+        try:
+            session.commit()
+            return redirect(url_for('character_info', ida=character.id))
+
+        except:
+            session.rollback()
+            print ("session fail")
+    return render_template('add_to_features.html', features=features)
+
 
 @app.route('/account', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -1086,6 +1150,11 @@ def subtract_racial(character):
 def class_features():
     features = session.query(my_feat).all()
     return render_template('class_features.html', features= features)
+
+@app.route('/view_features', methods =['GET'])
+def view_features():
+    features = session.query(my_features).all()
+    return render_template('view_features.html', features= features)
 
 @app.route('/registration', methods =['GET', 'POST'])
 def registration():
