@@ -304,14 +304,19 @@
 
 		{% for i in range(1, character.LEVEL+1) %}
 		<tr>
-		<td>{{i}}</td> 
-		<td>{{feats_dict[i]}}</td>
+		<td>{{i}}</td>
+		{%if sub_dict[i]%}
+			<td><strong style="color:red">{{character.SUB}}<strong> - {{sub_dict[i]}}
+		{%else%}
+			<td>{{feats_dict[i]}}</td>
+		
+		{%endif%}
 		{% if character.JOB == "Warlock" or character.JOB == "Sorcerer" or character.JOB == "Bard" or character.JOB == "Ranger" %}
-
-		<td>{{known_dict[i]}}</td>
+			<td>{{known_dict[i]}}</td>
 		{% endif %}
+
 		{% if character.JOB == "Warlock" or character.JOB == "Sorcerer" or character.JOB == "Bard" or character.JOB == "Ranger" or character.JOB == "Paladin" or character.JOB == "Wizard" or character.JOB == "Cleric" or character.JOB == "Druid"   %}
-		<td>{{slots_dict[i]}}</td>
+			<td>{{slots_dict[i]}}</td>
 		{%endif %}
 		</tr>
 		{% endfor %}	 
@@ -337,13 +342,20 @@
 		{% for i in range(1, multi.LEVEL+1) %}
 		<tr>
 		<td>{{i}}</td> 
-		<td>{{multi_feats_dict[i]}}</td>
-		{% if multi.JOB == "Warlock" or multi.JOB == "Sorcerer" or multi.JOB == "Bard" or multi.JOB == "Ranger" %}
+		{%if multi_sub_dict[i]%}
+			<td><strong style="color:red">{{multi.SUB}}<strong> - {{multi_sub_dict[i]}}
+		{%else%}
+			<td>{{multi_feats_dict[i]}}</td>
+		
+		{%endif%}
 
-		<td>{{multi_known_dict[i]}}</td>
+
+		{% if multi.JOB == "Warlock" or multi.JOB == "Sorcerer" or multi.JOB == "Bard" or multi.JOB == "Ranger" %}
+			<td>{{multi_known_dict[i]}}</td>
 		{% endif %}
+
 		{% if multi.JOB == "Warlock" or multi.JOB == "Sorcerer" or multi.JOB == "Bard" or multi.JOB == "Ranger" or multi.JOB == "Paladin" or multi.JOB == "Wizard" or multi.JOB == "Cleric" or multi.JOB == "Druid"   %}
-		<td>{{multi_slots_dict[i]}}</td>
+			<td>{{multi_slots_dict[i]}}</td>
 		{%endif %}
 		</tr>
 		{% endfor %}	 

@@ -456,6 +456,14 @@ def character_info(ida):
     multi_query=session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id)
     multi = session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id).first()
 
+    if character.SUB and character.SUB!='':
+        sub=session.query(my_sub).filter(character.SUB==my_sub.SUB_JOB).one_or_none()
+        sub_dict=dict((col,getattr(sub,col)) for col in my_sub.__table__.columns.keys())
+        del sub_dict["SUB_JOB"]
+        format_dict(sub_dict)
+    else:
+        sub_dict ={}
+
     if multi:
         multi_feats=session.query(my_feat).filter(my_feat.JOB == multi.JOB).one_or_none()
         multi_feats_dict = dict((col,getattr(multi_feats, col)) for col in my_feat.__table__.columns.keys())
@@ -469,10 +477,20 @@ def character_info(ida):
         format_dict(multi_feats_dict)
         format_dict(multi_slots_dict)
         format_dict(multi_known_dict)
+
+        if multi.SUB and multi.SUB!='':
+            sub=session.query(my_sub).filter(multi.SUB==my_sub.SUB_JOB).one_or_none()
+            multi_sub_dict=dict((col,getattr(sub,col)) for col in my_sub.__table__.columns.keys())
+            del multi_sub_dict["SUB_JOB"]
+            format_dict(multi_sub_dict)
+        else:
+            multi_sub_dict ={}        
+
     else:
         multi_feats_dict={}
         multi_slots_dict={}
         multi_known_dict={}
+        multi_sub_dict ={}  
 
     this_char = character
 
@@ -495,7 +513,7 @@ def character_info(ida):
     return render_template('character_info.html', character=character, skills = skills, 
         feats=feats, feats_dict= feats_dict, slots_dict=slots_dict, 
         known_dict=known_dict, spells=spells, items=items, multi=multi, multi_feats_dict=multi_feats_dict,
-        multi_slots_dict=multi_slots_dict, multi_known_dict=multi_known_dict)
+        multi_slots_dict=multi_slots_dict, multi_known_dict=multi_known_dict, sub_dict=sub_dict, multi_sub_dict=multi_sub_dict)
 
 @app.route('/account', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -909,11 +927,13 @@ def class_details(job):
     known = session.query(my_known).filter(my_known.JOB == job).one_or_none()
     known_dict = dict((col,getattr(known, col)) for col in my_known.__table__.columns.keys())
 
+    subs=session.query(my_sub).filter(my_sub.JOB==job).all()
+
     format_dict(slots_dict)
     format_dict(feats_dict)
     format_dict(known_dict)
 
-    return render_template('class_details.html', feats_dict=feats_dict, slots_dict=slots_dict, job=job, known_dict=known_dict)
+    return render_template('class_details.html', feats_dict=feats_dict, slots_dict=slots_dict, job=job, known_dict=known_dict, subs=subs)
 
 @app.route('/create', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -969,6 +989,17 @@ def character_create():
         character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
         add_racial(character)
+        if character.RACE=='Half Elf':
+            if request.form.get('H_E_Strength'):
+                character.STRENGTH+=1
+            if request.form.get('H_E_Dexterity'):
+                character.DEXTERITY += 1
+            if request.form.get('H_E_Constitution'):
+                character.CONSTITUTION += 1
+            if request.form.get('H_E_Intelligence'):
+                character.INTELLIGENCE += 1
+            if request.form.get('H_E_Wisdom'):
+                character.WISDOM += 1
 
         session.add(my_skills(
             user_id = ids[flask_login.current_user.id],

@@ -53,9 +53,11 @@
 				<br><br>
 
 		<table class="table table-sm">
+			
 			<tr class="bg-success">
 				<th scope="col"> Attribute</th>
-				<th cope="col">Abilty Score</th>
+				<th scope="col">Abilty Score</th>
+				<th> Half Elf Racial choice </th>
 
 			</tr>
 			<tr>
@@ -68,6 +70,7 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				<td><input type="checkbox" name="H_E_Strength" value=1></td>
 			</tr>
 			<tr>
 				<td>DEX</td>
@@ -79,6 +82,7 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				<td><input type="checkbox" name="H_E_Dexterity" value=1></td> 
 			</tr>
 			<tr>
 				<td>CON</td>
@@ -90,6 +94,7 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				<td><input type="checkbox" name="H_E_Constitution" value=1></td> 
 			</tr>
 			<tr>
 				<td>INT</td>
@@ -101,6 +106,7 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				<td><input type="checkbox" name="H_E_Intelligence" value=1></td> 
 			</tr>
 			<tr>
 				<td>WIS</td>
@@ -112,6 +118,7 @@
 					<option value={{rolls[4]}} selected="selected">{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				<td><input type="checkbox" name="H_E_Wisdom" value=1></td>
 			</tr>
 			<tr>
 				<td>CHA</td>
@@ -123,9 +130,11 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}} selected="selected">{{rolls[5]}}</option>
 				</select></td>
+				<td>X</td>
 			</tr>
+		  
 		</table>
-
+		<span style="font-size:10">Half elves get to add +1 to two different stats of their choice<span>
 		<table class="table table-sm">
 			<tr class="bg-success">
 				<th scope="col" colspan="6"><center> Skills</center></th>
