@@ -1,106 +1,169 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .card{
+      margin:15px;
+      float:left;
+      width:auto;
+      height:auto;
+	}
+	div{
+		padding: 10
+	}
+</style>
 <h3><a href="/admin">View all characters</a></h3>
-<h3>Users</h3>
-<table class="table table-sm">
-	<tr class ="bg-success">
-		<th>
-			User Name
-		</th>
-		<th>
-			ID
-		</th>
-	</tr>
-{% for user in users %}
-<tr>
-	<td>{{user.USER_NAME}}</td>
-	<td>{{user.id}}</td>
-</tr>
-
-{%endfor%}
-</table>
-
-<table class="table table-sm">
-	<tr class="bg-success">
-		<th>Classes</th>
-	</tr>
-	{%for feat in feats%}
-	<tr><td><a href="edit_class/{{feat.JOB}}">{{feat.JOB}}</a></td></tr>
-	{%endfor%}
-</table>
 <h3><a href="/add_sub"> Add Sub-class</a></h3>
-<table class="table table-sm">
-	<tr class="bg-success">
-		<th>
-			Sub Class
-		</th>
-		<th>
-			Parent Class
-		</th>
-
-	</tr>
-	{%for sub in subs%}
-	<tr>
-		<td>
-			<a href="edit_sub/{{sub.SUB_JOB}}">{{sub.SUB_JOB}}</a>
-		</td>
-		<td>
-			{{sub.JOB}}
-		</td>
-	</tr>
-	{%endfor%}
-</table>
 <h3><a href="/add_race"> Add race</a></h3>
-<table class="table table-sm">
-	<tr class="bg-success">
-		<th>
-			Race
-		</th>
-		<th>
-			STR Bonus
-		</th>
-		<th>
-			DEX Bonus
-		</th>
-		<th>
-			CON Bonus
-		</th>
-		<th>
-			INT Bonus
-		</th>
-		<th>
-			WIS Bonus
-		</th>
-		<th>
-			CHA Bonus
-		</th>
-	</tr>
-	{%for race in races%}
+<h3><a href="/bugs">Bugs</a></h3> 
+
+<div style="float:left;">
+
+<p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="false" aria-controls="collapseUsers">
+    Users
+  </button>
+</p>
+<div class="collapse" id="collapseUsers">
+  <div class="card card-body">
+	 <table class="table table-sm">
+		<tr class ="bg-success">
+			<th>
+				User Name
+			</th>
+			<th>
+				ID
+			</th>
+		</tr>
+	{% for user in users %}
 	<tr>
-		<td>
-			<a href="edit_race/{{race.RACE}}">{{race.RACE}}</a>
-		</td>
-		<td>
-			{{race.STR_BONUS}}
-		</td>
-		<td>
-			{{race.DEX_BONUS}}
-		</td>
-		<td>
-			{{race.CON_BONUS}}
-		</td>
-		<td>
-			{{race.INT_BONUS}}
-		</td>
-		<td>
-			{{race.WIS_BONUS}}
-		</td>
-		<td>
-			{{race.CHA_BONUS}}
-		</td>
+		<td>{{user.USER_NAME}}</td>
+		<td>{{user.id}}</td>
 	</tr>
+
 	{%endfor%}
-</table>
+	</table>
+  </div>
+</div>
+
+</div>
+<div style="float:left;">
+
+<p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseClasses" aria-expanded="false" aria-controls="collapseClasses">
+    Classes
+  </button>
+</p>
+<div class="collapse" id="collapseClasses">
+  <div class="card card-body">
+	<table class="table table-sm">
+		<tr class="bg-success">
+			<th>Classes</th>
+		</tr>
+		{%for feat in feats%}
+			<tr><td><a href="edit_class/{{feat.JOB}}">{{feat.JOB}}</a></td></tr>
+		{%endfor%}
+	</table>
+  </div>
+</div>
+
+</div>
+<div style="float:left;">
+
+<p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSubClasses" aria-expanded="false" aria-controls="collapseSubClasses">
+    Sub Classes
+  </button>
+</p>
+<div class="collapse" id="collapseSubClasses">
+  <div class="card card-body">
+	<table class="table table-sm">
+		<tr class="bg-success">
+			<th>
+				Sub Class
+			</th>
+			<th>
+				Parent Class
+			</th>
+
+		</tr>
+		{%for sub in subs%}
+		<tr>
+			<td>
+				<a href="edit_sub/{{sub.SUB_JOB}}">{{sub.SUB_JOB}}</a>
+			</td>
+			<td>
+				{{sub.JOB}}
+			</td>
+		</tr>
+		{%endfor%}
+	</table>
+  </div>
+</div>
+
+</div>
+<div style="float:left;">
+
+<p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseRace" aria-expanded="false" aria-controls="collapseRace">
+    Race
+  </button>
+</p>
+<div class="collapse" id="collapseRace">
+  <div class="card card-body">
+	<table class="table table-sm">
+		<tr class="bg-success">
+			<th>
+				Race
+			</th>
+			<th>
+				STR Bonus
+			</th>
+			<th>
+				DEX Bonus
+			</th>
+			<th>
+				CON Bonus
+			</th>
+			<th>
+				INT Bonus
+			</th>
+			<th>
+				WIS Bonus
+			</th>
+			<th>
+				CHA Bonus
+			</th>
+		</tr>
+		{%for race in races%}
+		<tr>
+			<td>
+				<a href="edit_race/{{race.RACE}}">{{race.RACE}}</a>
+			</td>
+			<td>
+				{{race.STR_BONUS}}
+			</td>
+			<td>
+				{{race.DEX_BONUS}}
+			</td>
+			<td>
+				{{race.CON_BONUS}}
+			</td>
+			<td>
+				{{race.INT_BONUS}}
+			</td>
+			<td>
+				{{race.WIS_BONUS}}
+			</td>
+			<td>
+				{{race.CHA_BONUS}}
+			</td>
+		</tr>
+		{%endfor%}
+	</table>
+  </div>
+</div>
+
+</div>
 
 {% endblock %}
