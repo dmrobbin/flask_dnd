@@ -12,7 +12,16 @@
 	<a  href="/edit/{{character.id}}" class="btn btn-success" id="btnsucc">Edit {{character.NAME}}</a>
 </div>
 	<h3>{{character.RACE}}
-	Level {{character.LEVEL}} {%if character.SUB%} {{character.SUB}} {%endif%} <u><a href="/class_details/{{character.JOB}}">{{character.JOB}}</a></u>
+	Level {{character.LEVEL}} {%if character.SUB%} {{character.SUB}} {%endif%} 
+
+	{%if character.SUB%}
+		{%if character.JOB != 'Rogue' and character.JOB != 'Fighter' and character.JOB != 'Ranger'%}
+			<u>{{character.JOB}}</u>
+		{%endif%}
+	{%else%}
+		<u>{{character.JOB}}</u>
+	{%endif%}
+
 	{%if multi%}
 	Level {{multi.LEVEL}} {%if multi.SUB%} {{multi.SUB}} {%endif%} <u><a href="/class_details/{{multi.JOB}}">{{multi.JOB}}</a></u></h3>
 	Proficency Bonus: <span id="profMult"></span>

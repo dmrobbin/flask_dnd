@@ -50,6 +50,7 @@
 			{%for sub in subs%}
 				<option value="{{sub.SUB_JOB}}">{{sub.SUB_JOB}}</option>
 			{%endfor%}
+			<option value="Remove">Remove Sub class</option>
 		</select>
 	</div>
 
@@ -115,7 +116,7 @@
 	<br><br>
 
 <div style="max-width: 90%; float:center">
-	<h4 style="color:red"><strong>*NOTE:</strong> If switching to Half Elf add your +1 to two non Charisma Stat bonus manually</h4>
+	
 	<table class="table table-sm">
 			<tr class="bg-success">
 				<th scope="col"> Attribute</th>
@@ -153,7 +154,7 @@
 				<td> <input type="text" name="CHARISMA" value={{character.CHARISMA}}></td>
 			</tr>
 		</table>
-
+		<h5 style="color:red"><strong>*NOTE:</strong> If switching to Half Elf or Warforged Envoy add your two stat +1 bonus manually</h5>
 		<table class="table table-sm">
 			<tr class="bg-success">
 				<th scope="col" colspan="6"><center> Skills</center></th>

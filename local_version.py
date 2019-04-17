@@ -165,7 +165,9 @@ def character_list():
 
     this_char=0
     characters = session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).all()
-
+    if len(characters)==1:
+        character= session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
+        return redirect(url_for('character_info',ida=character.id))
     if ids[flask_login.current_user.id] in admins:
         admin=True
 
@@ -711,8 +713,11 @@ def character_edit(ida):
             character.NAME=request.form['name']
         if request.form['job'] !='':
             character.JOB=request.form['job']
-        if request.form['sub'] != '':
-            character.SUB=request.form['sub']
+        if request.form['sub']!='Remove':
+            if request.form['sub'] != '':
+                character.SUB=request.form['sub']
+        else:
+            character.SUB=''
         if request.form['race'] !='':
             subtract_racial(character)
             character.RACE=request.form['race']
@@ -989,7 +994,7 @@ def character_create():
         character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
         add_racial(character)
-        if character.RACE=='Half Elf':
+        if character.RACE=='Half Elf' or character.RACE=='Warforged Envoy':
             if request.form.get('H_E_Strength'):
                 character.STRENGTH+=1
             if request.form.get('H_E_Dexterity'):
@@ -1000,6 +1005,8 @@ def character_create():
                 character.INTELLIGENCE += 1
             if request.form.get('H_E_Wisdom'):
                 character.WISDOM += 1
+            if request.form.get('H_E_Charisma'):
+                character.CHARISMA += 1
 
         session.add(my_skills(
             user_id = ids[flask_login.current_user.id],

@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{%if job=='Ranger'%}
+<p>Note * Using Ranger revised</p>
+{%endif%}
 <table class="table table-sm">
 	<tr class="bg-warning">
 		<th colspan="2"><h2><center>{{job}} class features</center></h2></th>

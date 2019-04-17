@@ -15,7 +15,19 @@
 	  <div class="card">
 	    <a href="info/{{character.id}}"><img class="card-img-top" src="/static/images/{{character.image}}" height = "230" width="100" alt="Card image cap"></a>
 	    <div class="card-body">
-	      <a href="info/{{character.id}}"><h5 class="card-title"><strong>{{character.NAME}} Level {{character.LEVEL}} {{character.RACE}} {%if character.SUB%} {{character.SUB}} {%endif%} {{character.JOB}}</strong></h5></a>
+	      <a href="info/{{character.id}}"><h5 class="card-title">
+	      	<strong style="font-size: 16">{{character.NAME}} Level {{character.LEVEL}} {{character.RACE}} 
+		      	{%if character.SUB%} 
+			  		{{character.SUB}} 
+				{%endif%} 
+				{%if character.SUB%}
+					{%if character.JOB != 'Rogue' and character.JOB != 'Fighter' and character.JOB != 'Ranger'%}
+						<u>{{character.JOB}}</u>
+					{%endif%}
+				{%else%}
+					<u>{{character.JOB}}</u>
+				{%endif%}
+			</strong></h5></a>
 	      <p class="card-text"><div class="text">{{character.description}}</div></p>
 	      <p class="card-text">
 	      	<small class="text-muted">
