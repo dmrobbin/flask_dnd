@@ -7,10 +7,13 @@
 <div style="float:right; padding-right: 12">
 	<form action="" method="post">
 		<input type="hidden" name="remove" value="1">
-		<button class="btn btn-success" id="btnsucc" type="submit" value="Remove Character" onclick= "getConfirmation();" >Delete {{character.NAME}}.   </button>
+		<button class="btn btn-success" id="btnsucc" type="submit" value="Remove Character" onclick= "getConfirmation();" >Delete {{character.NAME}}.  </button>
 	</form>
 	<a  href="/edit/{{character.id}}" class="btn btn-success" id="btnsucc">Edit {{character.NAME}}</a>
 	<a  href="/add_to_features_known/{{character.id}}" class="btn btn-success" id="btnsucc">Add Feat</a>
+	{%if has_features%}
+	<a href="/remove_from_features_known/{{character.id}}" class = "btn btn-success" id ="btnsucc">Remove Feat </a>
+	{%endif%}
 </div>
 	<h3>{{character.RACE}}
 	Level {{character.LEVEL}} {%if character.SUB%} {{character.SUB}} {%endif%} 
@@ -36,7 +39,7 @@
 	<div style="display: inline;">
 	{%if has_features%}
 		{%for feature in features_known%}
-			{{feature.NAME}}
+			<a href='/view_features#{{feature.NAME}}'>{{feature.NAME}}</a>; 
 		{%endfor%}
 	{%endif%}
 		<br>Current Experience: {{character.EXP}}. 
@@ -323,7 +326,7 @@
 		<tr>
 		<td>{{i}}</td>
 		{%if sub_dict[i]%}
-			<td><strong style="color:red">{{character.SUB}}<strong> - {{sub_dict[i]}}
+			<td>{{feats_dict[i]}} <strong style="color:red">{{character.SUB}}<strong> - {{sub_dict[i]}}
 		{%else%}
 			<td>{{feats_dict[i]}}</td>
 		

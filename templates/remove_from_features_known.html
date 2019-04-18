@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="" method="post">
+	<div class="form-group">
+		<h3>Select feature to remove</h3>
+		<select name="feat" class="form-control">
+			{% for key, value in final_features.items() %}
+				<option value="{{key}}">{{value}}</option>
+			{% endfor %}
+		</select>
+
+
+		<input type="hidden" name="remove" value="1">
+		<button class="btn btn-success" id="btnsucc" type="submit" value="Remove Feat" onclick= "getConfirmation();" >Delete Feat</button>
+</form>
+{% endblock %}

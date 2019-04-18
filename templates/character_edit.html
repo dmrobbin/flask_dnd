@@ -12,6 +12,7 @@
 		<h4>Level:</h4>
 		<div class="form-group">
 				<select name="level" class="form-control">
+					<option value="">Please Select</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -29,10 +30,11 @@
 					<option value="16">16</option>
 					<option value="17">17</option>
 					<option value="18">18</option>
-					<option value="19">20</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
 				</select>
 			</div>
-			
+
 		<h4>EXP </h4>
 		<input type="text" name="exp" value={{character.EXP}}>
 
@@ -91,7 +93,7 @@
 
 	<div class="form-group">
 		<select name="job_multi" class="form-control">
-			<option value="None">None</option>
+			<option value="None">Please Select</option>
 			<option value="Bard">Bard</option>
 			<option value="Barbarian">Barbarian</option>
 			<option value="Cleric">Cleric</option>
@@ -126,7 +128,30 @@
 	{%endif%}
 
 	<h4>Secondary classLevel:</h4>
-	<input type="text" name="level_multi" value ={{multi.LEVEL}}>
+	<div class="form-group">
+				<select name="level_multi" class="form-control">
+					<option value="">Please Select</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+					<option value="16">16</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+				</select>
+			</div>
 	<br><hl><br>
 	</div>
 </center>
@@ -289,7 +314,7 @@
 	<br><br>
 
 		<input type="hidden" name="edit" value="1">
-		<button type="submit" value="Edit Character" href="/info/{{character.id}}" class="btn btn-success" id="btnsucc">Edit Character</button>
+		<button type="submit" value="Edit Character" href="/info/{{character.id}}" class="btn btn-success" id="btnsucc">Save Character</button>
 	</form>
 <script>
 

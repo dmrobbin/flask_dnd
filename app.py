@@ -580,6 +580,41 @@ def add_to_features_known(ida):
             print ("session fail")
     return render_template('add_to_features.html', features=features)
 
+@app.route('/remove_from_features_known/<ida>', methods=['POST', 'GET'])
+@flask_login.login_required
+def remove_from_features_known(ida):
+
+    character=session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
+
+    #GOAL features_known only needs my_features_known.id and my_featues.NAME
+    # SO TODO get feature_id and id from features_known then create list of Name ID combos for feature_id in featues_known so that I can delete by id 
+    # features known can be a dictionary of feature_known id: feature name
+
+    features=session.query(my_features_known).filter(my_features_known.character_id==character.id).all()
+    features_known=[]
+    final_features={}
+
+    for feat in features:
+        this_known=session.query(my_features).filter(feat.feature_id==my_features.id).one_or_none()
+        final_features[feat.id]=this_known.NAME
+        print (final_features)
+    
+    if request.method == 'POST' and request.form['remove'] == '1':
+        to_delete= int(request.form['feat']),
+
+        if session.query(my_features_known).filter(my_features_known.id==to_delete and my_features_known.user_id==ids[flask_login.current_user.id]).first():
+            feat_query=session.query(my_features_known).filter(my_features_known.id==to_delete)
+            feat_query.delete()
+        else:
+            return "Nice try"
+        try:
+            session.commit()
+            return redirect(url_for('character_info', ida=ida))
+        except:
+            session.rollback()
+
+    return render_template('remove_from_features_known.html', final_features=final_features)
+
 
 @app.route('/account', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -856,8 +891,8 @@ def character_edit(ida):
         else:
             if request.form.get('job_multi')!= '' and request.form.get('level_multi')!='':
                 session.add(my_multi(
-                    LEVEL=request.form.get('level_multi'),
                     JOB = request.form.get('job_multi'),
+                    LEVEL=request.form.get('level_multi'),
                     CHARACTER_ID = character.id,
                 ))
 

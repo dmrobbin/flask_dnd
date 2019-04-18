@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+:target {
+  border: 2px solid #D4D4D4;
+  background-color: #017611;
+  color: #FFF;
 
+}
+</style>
 <span>{%for feat in features%} <a href="#{{feat.NAME}}">{{feat.NAME}}</a> - {%endfor%}</span>
 
 <table class="table table-sm">
@@ -10,9 +17,11 @@
 		<th>Feat Description</th>
 	</tr>
 {%for feat in features%}
-<tr>
-	<td id="{{feat.NAME}}">{{feat.NAME}}</td>
+<tr  id="{{feat.NAME}}">
+	<span>
+	<td>{{feat.NAME}}</td>
 	<td>{{feat.DESCRIPTION}}</td>
+</span>
 </tr>
 {%endfor%}
 </table>
