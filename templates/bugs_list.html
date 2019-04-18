@@ -7,17 +7,36 @@
 		
 
 	<div>
-
+	<table class="table table-sm">
+		<tr class="bg-success">
+			<th>
+				User
+			</th>
+			<th>
+				Issue
+			</th>
+			<th>
+				DELETE
+			</th>
+		</tr>
 		{% for bug in bugs %}
+		<tr>
+			<td>
+				{{bug.USER_ID}}
+			</td>
+			<td>
+				{{bug.DESCRIPTION}}
+			</td>
+			<td>
+				<a href="bug_remover/{{bug.id}}" class="btn btn-success">Delete Bug</a>
+			</td>
+		</tr>
 
-	  <li>
-	  	<p>USER {{bug.USER_ID}}</p> <p>Issue {{bug.DESCRIPTION}}</p><p> Issue no# {{bug.id}}</p>
-	  </li>
 
 		{% else %}
-			<li> No Bugs found </li>
+			<li> No Bugs found </li><br>
 		{% endfor %}	  
-
+	</table>
 	</div>
 
 {% endblock %}

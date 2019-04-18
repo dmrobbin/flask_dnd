@@ -449,6 +449,32 @@ def remove_race(race):
 
         return redirect('/command')
 
+
+@app.route('/bugs', methods =['GET', 'POST'])    
+@flask_login.login_required
+def bug_list():
+    if ids[flask_login.current_user.id] in admins:
+        bugs = session.query(my_bugs).all()
+        return render_template('bugs_list.html', bugs= bugs)
+    else: 
+        return redirect('/')
+
+@app.route('/bug_remover/<ida>', methods=['GET','POST'])
+@flask_login.login_required
+def bug_remover(ida):
+    if ids[flask_login.current_user.id] not in admins:
+        return redirect('/')
+
+    bugs_query=session.query(my_bugs).filter(my_bugs.id==ida)
+    bugs_query.delete()
+
+    try:
+        session.commit()
+    except:
+        sesison.rollback()
+
+    return redirect('/command')
+
 #######################
 ###END ADMIN POWERS####
 #######################
@@ -1256,15 +1282,6 @@ def bug_report():
         return redirect('/')
     else:
         return render_template('bug_report.html')
-
-@app.route('/bugs', methods =['GET', 'POST'])    
-@flask_login.login_required
-def bug_list():
-    if ids[flask_login.current_user.id] in admins:
-        bugs = session.query(my_bugs).all()
-        return render_template('bugs_list.html', bugs= bugs)
-    else: 
-        return redirect('/')
 
 if __name__ == '__main__':
    app.run()
