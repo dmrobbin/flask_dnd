@@ -80,6 +80,25 @@ for item in user:
 
 admins={2}
 
+###Create sub job dictionary###
+sub_job_dict={}
+
+jobs=session.query(my_feat).all()
+
+def get_subs(job_name):
+    return session.query(my_sub).filter(my_sub.JOB==job_name).all() 
+    
+for job in jobs:
+
+    subs = get_subs(job.JOB)
+
+    sub_list = []
+    for sub in subs:
+        sub_list.append(sub.SUB_JOB)
+
+    sub_job_dict[job.JOB]=sub_list
+###End create sub job dictiionary###
+
 class User(flask_login.UserMixin):
     pass
 
@@ -808,9 +827,10 @@ def character_edit(ida):
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
     multi = session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id).first()
-
+    multi_bool = False
     if multi:
         multi_subs=session.query(my_sub).filter(my_sub.JOB==multi.JOB).all()
+        multi_bool=True
     else:
         multi_subs=None
     addR=0
@@ -932,7 +952,8 @@ def character_edit(ida):
 
         return redirect(url_for('character_info',ida=character.id))
 
-    return render_template('character_edit.html', character=character, skills=skills, multi=multi, races=races, subs=subs, multi_subs=multi_subs)
+    return render_template('character_edit.html', character=character, skills=skills, multi=multi, races=races, subs=subs, multi_subs=multi_subs,
+        sub_job_dict=sub_job_dict, multi_bool=multi_bool)
 
 @app.route('/spell_edit/<name>', methods=['POST', 'GET'])
 @flask_login.login_required

@@ -11,7 +11,7 @@
 		
 		<h4>Level:</h4>
 		<div class="form-group">
-				<select name="level" class="form-control">
+				<select name="level" class="form-control" id ="level">
 					<option value="">Please Select</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -46,8 +46,8 @@
 		<h4>CLASS/RACE:</h4>
 <br>
 		<div class="form-group">
-			{{character.JOB}}
-		<select name="job" class="form-control">
+
+		<select name="job" class="form-control" id="job" onchange="setSubClasses()">
 			<option value="">Please Select</option>
 			<option value="Bard">Bard</option>
 			<option value="Barbarian">Barbarian</option>
@@ -66,12 +66,14 @@
 
 
 	<div class="form-group">
-		{%if character.SUB%}
-			{{character.SUB}}
-		{%endif%}
-		<select name="sub" class="form-control">
+
+		<select name="sub" class="form-control" id="sub_job">
 			<option value="">Please Select</option>
-			{%for sub in subs%}
+			<!-- {%for sub in sub_job_dict[job]%}
+					option value = "{{sub}}"> {{sub}}</option>
+			     {%endfor%}
+				/-->
+			{%for sub in subs%} 
 				<option value="{{sub.SUB_JOB}}">{{sub.SUB_JOB}}</option>
 			{%endfor%}
 			<option value="Remove">Remove Sub class</option>
@@ -80,8 +82,8 @@
 
 		
 	<div class="form-group">
-		{{character.RACE}}
-		<select name="race" class="form-control">
+
+		<select name="race" class="form-control" id="race">
 			<option value="">Please Select</option>
 			{%for race in races%}
 				<option value="{{race.RACE}}">{{race.RACE}}</option>
@@ -92,7 +94,7 @@
 <h4>Secondary Class</h4>
 
 	<div class="form-group">
-		<select name="job_multi" class="form-control">
+		<select name="job_multi" class="form-control" id ="job_multi">
 			<option value="None">Please Select</option>
 			<option value="Bard">Bard</option>
 			<option value="Barbarian">Barbarian</option>
@@ -113,10 +115,8 @@
 	{%if multi%}
 
 	<div class="form-group">
-		{%if multi.SUB%}
-			{{multi.SUB}}
-		{%endif%}
-		<select name="multi_sub" class="form-control">
+
+		<select name="multi_sub" class="form-control" id ="multi_sub">
 			<option value="">Please Select</option>
 			{%for sub in multi_subs%}
 				<option value="{{sub.SUB_JOB}}">{{sub.SUB_JOB}}</option>
@@ -129,7 +129,7 @@
 
 	<h4>Secondary classLevel:</h4>
 	<div class="form-group">
-				<select name="level_multi" class="form-control">
+				<select name="level_multi" class="form-control" id ="multi_level">
 					<option value="">Please Select</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -316,7 +316,27 @@
 		<input type="hidden" name="edit" value="1">
 		<button type="submit" value="Edit Character" href="/info/{{character.id}}" class="btn btn-success" id="btnsucc">Save Character</button>
 	</form>
+
+{%if multi%}
+	<script>
+		document.getElementById("multi_sub").value="{{multi.SUB}}";
+		document.getElementById("job_multi").value="{{multi.JOB}}";
+		document.getElementById("multi_level").value="{{multi.LEVEL}}";
+	</script>
+{%endif%}
+
 <script>
+	document.getElementById("level").value= "{{character.LEVEL}}";
+	document.getElementById("job").value = "{{character.JOB}}";
+	document.getElementById("race").value = "{{character.RACE}}";
+	document.getElementById("sub_job").value = "{{character.SUB}}";
+	
+	document.getElementById("job").onchange = function() {change_sub()}
+
+	function setSubClasses(){
+		
+	}
+
 
 	if({{skills.Athletics}}==1){
 		document.getElementById("athletics").checked = true;
