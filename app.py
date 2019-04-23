@@ -103,7 +103,6 @@ for job in jobs:
     sub_job_dict[job.JOB]=sub_list
     option_sub_dict[job.JOB]=option_sub_string
 
-print(option_sub_dict['Warlock'])
 ###End create sub job dictiionary###
 
 class User(flask_login.UserMixin):
@@ -438,8 +437,6 @@ def edit_race(race):
         return redirect('/')
 
     this_race=session.query(my_race).filter(my_race.RACE==race).one_or_none()
-    print (this_race.RACE)
-    print (race)
 
     if request.method == 'POST' and request.form['edit'] == '1':
         this_race.RACE=request.form['race'],
@@ -744,87 +741,93 @@ def spell_add(ida):
 @app.route('/add', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_add():
+    errors=[]
     races = session.query(my_race).all()
+
     if request.method == 'POST':
 
-        session.add(my_char(
-            NAME=request.form['name'],
-            LEVEL=int(request.form['level']),
-            RACE = request.form['race'],
-            JOB= request.form['job'],
-            description= request.form['description'],
-            STRENGTH = int(request.form['STRENGTH']),
-            DEXTERITY = int(request.form['DEXTERITY']),
-            CONSTITUTION = int(request.form['CONSTITUTION']),
-            INTELLIGENCE = int(request.form['INTELLIGENCE']),
-            WISDOM = int(request.form['WISDOM']),
-            CHARISMA = int(request.form['CHARISMA']),
-            user_id = ids[flask_login.current_user.id],
-            HP=request.form['hp'],
-            AC=request.form['ac'],
-        ))
-        try:
-            session.commit()
-        except:
-            session.rollback()
+        if int(request.form['level'])<20 and int(request.form['level'])>0:
 
-        character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
-        if request.form.get('job_multi')!='None':
-            session.add(my_multi(
-                LEVEL=request.form.get('level_multi'),
-                JOB = request.form.get('job_multi'),
-                CHARACTER_ID = character.id,
+            session.add(my_char(
+                NAME=request.form['name'],
+                LEVEL=int(request.form['level']),
+                RACE = request.form['race'],
+                JOB= request.form['job'],
+                description= request.form['description'],
+                STRENGTH = int(request.form['STRENGTH']),
+                DEXTERITY = int(request.form['DEXTERITY']),
+                CONSTITUTION = int(request.form['CONSTITUTION']),
+                INTELLIGENCE = int(request.form['INTELLIGENCE']),
+                WISDOM = int(request.form['WISDOM']),
+                CHARISMA = int(request.form['CHARISMA']),
+                user_id = ids[flask_login.current_user.id],
+                HP=request.form['hp'],
+                AC=request.form['ac'],
             ))
+            try:
+                session.commit()
+            except:
+                session.rollback()
 
-        session.add(my_skills(
-            user_id = ids[flask_login.current_user.id],
-            character_id = character.id,
-            Acrobatics = request.form.get('acrobatics'),
-            Animal_Handling = request.form.get('animalhandling'),
-            Arcana = request.form.get('arcana'),
-            Athletics = request.form.get('athletics'),
-            Deception = request.form.get('deception'),
-            History = request.form.get('history'),
-            Insight = request.form.get('insight'),
-            Intimidation = request.form.get('intimidation'),
-            Investigation = request.form.get('investigation'),
-            Medicine = request.form.get('medicine'),
-            Nature = request.form.get('nature'),
-            Perception = request.form.get('perception'),
-            Performance = request.form.get('performance'),
-            Persuasion = request.form.get('persuasion'),
-            Religion = request.form.get('religion'),
-            Sleight_of_Hand = request.form.get('sleightofhand'),
-            Stealth = request.form.get('stealth'),
-            Survival = request.form.get('survival'),
-            ###Expertise###
-            Acrobatics_expert = request.form.get('acrobatics_expert'),
-            Animal_Handling_expert = request.form.get('animalhandling_expert'),
-            Arcana_expert = request.form.get('arcana_expert'),
-            Athletics_expert = request.form.get('athletics_expert'),
-            Deception_expert = request.form.get('deception_expert'),
-            History_expert = request.form.get('history_expert'),
-            Insight_expert = request.form.get('insight_expert'),
-            Intimidation_expert = request.form.get('intimidation_expert'),
-            Investigation_expert = request.form.get('investigation_expert'),
-            Medicine_expert = request.form.get('medicine_expert'),
-            Nature_expert = request.form.get('nature_expert'),
-            Perception_expert = request.form.get('perception_expert'),
-            Performance_expert = request.form.get('performance_expert'),
-            Persuasion_expert = request.form.get('persuasion_expert'),
-            Religion_expert = request.form.get('religion_expert'),
-            Sleight_of_Hand_expert = request.form.get('sleightofhand_expert'),
-            Stealth_expert = request.form.get('stealth_expert'),
-            Survival_expert = request.form.get('survival_expert'),
-        ))
+            character = session.query(my_char).filter(my_char.NAME == request.form['name'] and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
+            if request.form.get('job_multi')!='None':
+                session.add(my_multi(
+                    LEVEL=request.form.get('level_multi'),
+                    JOB = request.form.get('job_multi'),
+                    CHARACTER_ID = character.id,
+                ))
+
+            session.add(my_skills(
+                user_id = ids[flask_login.current_user.id],
+                character_id = character.id,
+                Acrobatics = request.form.get('acrobatics'),
+                Animal_Handling = request.form.get('animalhandling'),
+                Arcana = request.form.get('arcana'),
+                Athletics = request.form.get('athletics'),
+                Deception = request.form.get('deception'),
+                History = request.form.get('history'),
+                Insight = request.form.get('insight'),
+                Intimidation = request.form.get('intimidation'),
+                Investigation = request.form.get('investigation'),
+                Medicine = request.form.get('medicine'),
+                Nature = request.form.get('nature'),
+                Perception = request.form.get('perception'),
+                Performance = request.form.get('performance'),
+                Persuasion = request.form.get('persuasion'),
+                Religion = request.form.get('religion'),
+                Sleight_of_Hand = request.form.get('sleightofhand'),
+                Stealth = request.form.get('stealth'),
+                Survival = request.form.get('survival'),
+                ###Expertise###
+                Acrobatics_expert = request.form.get('acrobatics_expert'),
+                Animal_Handling_expert = request.form.get('animalhandling_expert'),
+                Arcana_expert = request.form.get('arcana_expert'),
+                Athletics_expert = request.form.get('athletics_expert'),
+                Deception_expert = request.form.get('deception_expert'),
+                History_expert = request.form.get('history_expert'),
+                Insight_expert = request.form.get('insight_expert'),
+                Intimidation_expert = request.form.get('intimidation_expert'),
+                Investigation_expert = request.form.get('investigation_expert'),
+                Medicine_expert = request.form.get('medicine_expert'),
+                Nature_expert = request.form.get('nature_expert'),
+                Perception_expert = request.form.get('perception_expert'),
+                Performance_expert = request.form.get('performance_expert'),
+                Persuasion_expert = request.form.get('persuasion_expert'),
+                Religion_expert = request.form.get('religion_expert'),
+                Sleight_of_Hand_expert = request.form.get('sleightofhand_expert'),
+                Stealth_expert = request.form.get('stealth_expert'),
+                Survival_expert = request.form.get('survival_expert'),
+            ))
+        else:
+            errors.append("Invalid level")
+
         try:
             session.commit()
+            return redirect(url_for('character_info',ida=character.id))
         except:
             session.rollback()
 
-        return redirect(url_for('character_info',ida=character.id))
-    else:
-        return render_template('character_add.html', races=races)
+    return render_template('character_add.html', races=races, errors=errors)
 
 @app.route('/edit/<ida>', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -842,125 +845,143 @@ def character_edit(ida):
         multi_subs=None
     addR=0
     subs= session.query(my_sub).filter(my_sub.JOB==character.JOB).all()
+
+    errors=[]
+
     if ids[flask_login.current_user.id] not in admins and ids[flask_login.current_user.id] != character.user_id:
         return redirect('/')
 
     if request.method == 'POST' and request.form['edit'] == '1':
         
-        if request.form['STRENGTH'] !='':
-            character.STRENGTH=int(request.form['STRENGTH'])
-        if request.form['DEXTERITY'] !='':
-            character.DEXTERITY=int(request.form['DEXTERITY'])
-        if request.form['CONSTITUTION'] !='':
-            character.CONSTITUTION=int(request.form['CONSTITUTION'])
-        if request.form['INTELLIGENCE'] !='':
-            character.INTELLIGENCE=int(request.form['INTELLIGENCE'])
-        if request.form['WISDOM'] !='':
-            character.WISDOM=int(request.form['WISDOM'])
-        if request.form['CHARISMA'] !='':
-            character.CHARISMA=int(request.form['CHARISMA'])
-        if request.form['description'] !='':
-            character.description=request.form['description']
-        if request.form['name']!='':
-            character.NAME=request.form['name']
-        if request.form['job'] !='':
-            character.JOB=request.form['job']
-        if request.form['sub']!='Remove':
-            if request.form['sub'] != '':
-                character.SUB=request.form['sub']
-        else:
-            character.SUB=''
-        if request.form['race'] !='':
-            subtract_racial(character)
-            character.RACE=request.form['race']
-            addR=1
-        if request.form['level'] !='':
-            character.LEVEL=request.form['level']
-        if request.form['exp'] !='':
-            character.EXP=request.form['exp']
-        if request.form['hp'] !='':
-            character.HP=request.form['hp']
-        if request.form['ac'] !='':
-            character.AC=request.form['ac']
-        
+        if int(request.form['level'])<20 and int(request.form['level'])>0:
 
-
-        #skills edit
-        skills.Acrobatics = request.form.get('acrobatics'),
-        skills.Animal_Handling = request.form.get('animalhandling'),
-        skills.Arcana = request.form.get('arcana'),
-        skills.Athletics = request.form.get('athletics'),
-        skills.Deception = request.form.get('deception'),
-        skills.History = request.form.get('history'),
-        skills.Insight = request.form.get('insight'),
-        skills.Intimidation = request.form.get('intimidation'),
-        skills.Investigation = request.form.get('investigation'),
-        skills.Medicine = request.form.get('medicine'),
-        skills.Nature = request.form.get('nature'),
-        skills.Perception = request.form.get('perception'),
-        skills.Performance = request.form.get('performance'),
-        skills.Persuasion = request.form.get('persuasion'),
-        skills.Religion = request.form.get('religion'),
-        skills.Sleight_of_Hand = request.form.get('sleightofhand'),
-        skills.Stealth = request.form.get('stealth'),
-        skills.Survival = request.form.get('survival'),        
-        #expert edit
-        skills.Acrobatics_expert = request.form.get('acrobatics_expert'),
-        skills.Animal_Handling_expert = request.form.get('animalhandling_expert'),
-        skills.Arcana_expert = request.form.get('arcana_expert'),
-        skills.Athletics_expert = request.form.get('athletics_expert'),
-        skills.Deception_expert = request.form.get('deception_expert'),
-        skills.History_expert = request.form.get('history_expert'),
-        skills.Insight_expert = request.form.get('insight_expert'),
-        skills.Intimidation_expert = request.form.get('intimidation_expert'),
-        skills.Investigation_expert = request.form.get('investigation_expert'),
-        skills.Medicine_expert = request.form.get('medicine_expert'),
-        skills.Nature_expert = request.form.get('nature_expert'),
-        skills.Perception_expert = request.form.get('perception_expert'),
-        skills.Performance_expert = request.form.get('performance_expert'),
-        skills.Persuasion_expert = request.form.get('persuasion_expert'),
-        skills.Religion_expert = request.form.get('religion_expert'),
-        skills.Sleight_of_Hand_expert = request.form.get('sleightofhand_expert'),
-        skills.Stealth_expert = request.form.get('stealth_expert'),
-        skills.Survival_expert = request.form.get('survival_expert'),
-        
-        #if multi exists
-        if multi:
-
-            if request.form.get('job_multi')!='Remove':
-                if request.form.get('job_multi')!= 'None':
-                    multi.JOB = request.form.get('job_multi'),
-                if request.form.get('level_multi')!='':
-                    multi.LEVEL = request.form.get('level_multi'),
+            if request.form['STRENGTH'] !='':
+                character.STRENGTH=int(request.form['STRENGTH'])
+            if request.form['DEXTERITY'] !='':
+                character.DEXTERITY=int(request.form['DEXTERITY'])
+            if request.form['CONSTITUTION'] !='':
+                character.CONSTITUTION=int(request.form['CONSTITUTION'])
+            if request.form['INTELLIGENCE'] !='':
+                character.INTELLIGENCE=int(request.form['INTELLIGENCE'])
+            if request.form['WISDOM'] !='':
+                character.WISDOM=int(request.form['WISDOM'])
+            if request.form['CHARISMA'] !='':
+                character.CHARISMA=int(request.form['CHARISMA'])
+            if request.form['description'] !='':
+                character.description=request.form['description']
+            if request.form['name']!='':
+                character.NAME=request.form['name']
+            if request.form['job'] !='':
+                character.JOB=request.form['job']
+            if request.form['sub']!='Remove':
+                if request.form['sub'] != '':
+                    character.SUB=request.form['sub']
             else:
-                multi_query=session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id)
-                multi_query.delete()
+                character.SUB=''
+            if request.form['race'] !='':
+                subtract_racial(character)
+                character.RACE=request.form['race']
+                addR=1
+            if request.form['level'] !='':
+                character.LEVEL=request.form['level']
+            if request.form['exp'] !='':
+                character.EXP=request.form['exp']
+            if request.form['hp'] !='':
+                character.HP=request.form['hp']
+            if request.form['ac'] !='':
+                character.AC=request.form['ac']
+            
+            #skills edit
+            skills_edit(character)
+            
+            #if multi exists
+            if multi:
 
-            if request.form['multi_sub']!='Remove':
-                if request.form['multi_sub'] != '':
-                    multi.SUB=request.form['multi_sub'],
+                if request.form.get('job_multi')!='Remove':
+                    if request.form.get('job_multi')!= 'None':
+                        multi.JOB = request.form.get('job_multi'),
+                    if request.form.get('level_multi')!='':
+                        if request.form['level_multi']>20 or request.form['level_multi']<1:
+                            errors.append("Invalid multi class level")
+                        else:
+                            multi.LEVEL = request.form.get('level_multi'),
+                else:
+                    multi_query=session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id)
+                    multi_query.delete()
+
+                if request.form['multi_sub']!='Remove':
+                    if request.form['multi_sub'] != '':
+                        multi.SUB=request.form['multi_sub'],
+                else:
+                    multi.SUB=''
             else:
-                multi.SUB=''
+                if request.form.get('job_multi')!= '' and request.form.get('level_multi')!='':
+                    if request.form['level_multi']>20 or request.form['level_multi']<1:
+                        session.add(my_multi(
+                            JOB = request.form.get('job_multi'),
+                            LEVEL=request.form.get('level_multi'),
+                            CHARACTER_ID = character.id,
+                        ))
+                    else:
+                        errors.append("Invalid multi class level")
+
+            try:
+                session.commit()
+                if addR==1:
+                    add_racial(character)
+                session.commit()
+                return redirect(url_for('character_info',ida=character.id))
+            except:
+                session.rollback()
+
         else:
-            if request.form.get('job_multi')!= '' and request.form.get('level_multi')!='':
-                session.add(my_multi(
-                    JOB = request.form.get('job_multi'),
-                    LEVEL=request.form.get('level_multi'),
-                    CHARACTER_ID = character.id,
-                ))
-
-        try:
-            session.commit()
-            if addR==1:
-                add_racial(character)
-            session.commit()
-        except:
-            session.rollback()
-
-        return redirect(url_for('character_info',ida=character.id))
+            errors.append("Invalid character Level")
 
     return render_template('character_edit.html', character=character, skills=skills, multi=multi, races=races, subs=subs, multi_subs=multi_subs,
-        sub_job_dict=sub_job_dict, multi_bool=multi_bool, option_sub_dict=option_sub_dict)
+        sub_job_dict=sub_job_dict, multi_bool=multi_bool, option_sub_dict=option_sub_dict, errors=errors)
+
+def skills_edit(character):
+    skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
+    skills = skills_query.one_or_none() 
+
+    skills.Acrobatics = request.form.get('acrobatics'),
+    skills.Animal_Handling = request.form.get('animalhandling'),
+    skills.Arcana = request.form.get('arcana'),
+    skills.Athletics = request.form.get('athletics'),
+    skills.Deception = request.form.get('deception'),
+    skills.History = request.form.get('history'),
+    skills.Insight = request.form.get('insight'),
+    skills.Intimidation = request.form.get('intimidation'),
+    skills.Investigation = request.form.get('investigation'),
+    skills.Medicine = request.form.get('medicine'),
+    skills.Nature = request.form.get('nature'),
+    skills.Perception = request.form.get('perception'),
+    skills.Performance = request.form.get('performance'),
+    skills.Persuasion = request.form.get('persuasion'),
+    skills.Religion = request.form.get('religion'),
+    skills.Sleight_of_Hand = request.form.get('sleightofhand'),
+    skills.Stealth = request.form.get('stealth'),
+    skills.Survival = request.form.get('survival'),   
+
+    #expert edit
+    skills.Acrobatics_expert = request.form.get('acrobatics_expert'),
+    skills.Animal_Handling_expert = request.form.get('animalhandling_expert'),
+    skills.Arcana_expert = request.form.get('arcana_expert'),
+    skills.Athletics_expert = request.form.get('athletics_expert'),
+    skills.Deception_expert = request.form.get('deception_expert'),
+    skills.History_expert = request.form.get('history_expert'),
+    skills.Insight_expert = request.form.get('insight_expert'),
+    skills.Intimidation_expert = request.form.get('intimidation_expert'),
+    skills.Investigation_expert = request.form.get('investigation_expert'),
+    skills.Medicine_expert = request.form.get('medicine_expert'),
+    skills.Nature_expert = request.form.get('nature_expert'),
+    skills.Perception_expert = request.form.get('perception_expert'),
+    skills.Performance_expert = request.form.get('performance_expert'),
+    skills.Persuasion_expert = request.form.get('persuasion_expert'),
+    skills.Religion_expert = request.form.get('religion_expert'),
+    skills.Sleight_of_Hand_expert = request.form.get('sleightofhand_expert'),
+    skills.Stealth_expert = request.form.get('stealth_expert'),
+    skills.Survival_expert = request.form.get('survival_expert'),
 
 @app.route('/spell_edit/<name>', methods=['POST', 'GET'])
 @flask_login.login_required
