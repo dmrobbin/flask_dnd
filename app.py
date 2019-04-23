@@ -82,6 +82,7 @@ admins={2}
 
 ###Create sub job dictionary###
 sub_job_dict={}
+option_sub_dict={}
 
 jobs=session.query(my_feat).all()
 
@@ -93,10 +94,16 @@ for job in jobs:
     subs = get_subs(job.JOB)
 
     sub_list = []
+    option_sub_string=""
     for sub in subs:
         sub_list.append(sub.SUB_JOB)
 
+        option_sub_string+=('<option value = " '+sub.SUB_JOB + ' "> '+sub.SUB_JOB+'</option>')
+
     sub_job_dict[job.JOB]=sub_list
+    option_sub_dict[job.JOB]=option_sub_string
+
+print(option_sub_dict['Warlock'])
 ###End create sub job dictiionary###
 
 class User(flask_login.UserMixin):
@@ -953,7 +960,7 @@ def character_edit(ida):
         return redirect(url_for('character_info',ida=character.id))
 
     return render_template('character_edit.html', character=character, skills=skills, multi=multi, races=races, subs=subs, multi_subs=multi_subs,
-        sub_job_dict=sub_job_dict, multi_bool=multi_bool)
+        sub_job_dict=sub_job_dict, multi_bool=multi_bool, option_sub_dict=option_sub_dict)
 
 @app.route('/spell_edit/<name>', methods=['POST', 'GET'])
 @flask_login.login_required
