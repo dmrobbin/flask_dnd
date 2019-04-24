@@ -837,7 +837,9 @@ def character_edit(ida):
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
     multi = session.query(my_multi).filter(my_multi.CHARACTER_ID==character.id).first()
+
     multi_bool = False
+
     if multi:
         multi_subs=session.query(my_sub).filter(my_sub.JOB==multi.JOB).all()
         multi_bool=True
