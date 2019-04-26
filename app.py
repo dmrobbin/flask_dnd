@@ -16,6 +16,9 @@ import pymysql
 from flask_login import LoginManager
 import flask_login
 import flask
+import class_table_scraper
+import class_features_scraper
+import re
 
 app=Flask(__name__)
 app.secret_key = 'burn my dread'
@@ -57,11 +60,17 @@ my_race=Base.classes.DND_5E_RACES
 my_sub=Base.classes.DND_5E_SUB
 my_features=Base.classes.DND_5E_FEATURES
 my_features_known=Base.classes.DND_5E_FEATURES_KNOWN
+temp_tables=Base.classes.DND_CLASS_TABLES
+temp_features=Base.classes.DND_CLASS_FEATURES
 
 current_user = User()
 this_char = 0
 
 bpar = "When I was a young boy My father took me into the city To see a marching band He said, son, when you grow up Would you be the savior of the broken The beaten, and the damned? He said, will you defeat them Your demons and all the non-believers? The plans that they have made? Because one day Ill leave you A phantom to lead you in the summer To join the black parade When I was a young boy My father took me into the city To see a marching band He said, son, when you grow up You will be the savior of the broken The beaten, and the damned?"
+
+list_of_classes=["Bard", "Barbarian", "Cleric", "Druid", "Fighter", "Monk", "Ranger", "Rogue", "Paladin", "Sorcerer", "Wizard", "Warlock"]
+class_table=class_table_scraper.get_tables()
+feature_table=class_features_scraper.get_tables()
 
 def hashbrowns(password):
     password = password + bpar
@@ -540,7 +549,7 @@ def character_info(ida):
         for feat in features:
             features_known.append(session.query(my_features).filter(feat.feature_id==my_features.id).one_or_none())
 
-    if character.SUB and character.SUB!='':
+    if character.SUB and character.SUB!='' and character.SUB!='None':
         sub=session.query(my_sub).filter(character.SUB==my_sub.SUB_JOB).one_or_none()
         sub_dict=dict((col,getattr(sub,col)) for col in my_sub.__table__.columns.keys())
         del sub_dict["SUB_JOB"]
@@ -562,7 +571,7 @@ def character_info(ida):
         format_dict(multi_slots_dict)
         format_dict(multi_known_dict)
 
-        if multi.SUB and multi.SUB!='':
+        if multi.SUB and multi.SUB!='' and multi.SUB!='None':
             sub=session.query(my_sub).filter(multi.SUB==my_sub.SUB_JOB).one_or_none()
             multi_sub_dict=dict((col,getattr(sub,col)) for col in my_sub.__table__.columns.keys())
             del multi_sub_dict["SUB_JOB"]
@@ -875,11 +884,18 @@ def character_edit(ida):
                 character.NAME=request.form['name']
             if request.form['job'] !='':
                 character.JOB=request.form['job']
-            if request.form['sub']!='Remove':
-                if request.form['sub'] != '':
-                    character.SUB=request.form['sub']
-            else:
                 character.SUB=''
+            try:
+                if request.form['sub']!='Remove':
+                    if request.form['sub'] != '':
+                        character.SUB=request.form['sub']
+                    else:
+                        character.SUB=''
+                else:
+                    character.SUB=''
+            except:
+                session.rollback()
+                errors.append("Error reading subclass information")
             if request.form['race'] !='':
                 subtract_racial(character)
                 character.RACE=request.form['race']
@@ -903,7 +919,7 @@ def character_edit(ida):
                     if request.form.get('job_multi')!= 'None':
                         multi.JOB = request.form.get('job_multi'),
                     if request.form.get('level_multi')!='':
-                        if request.form['level_multi']>20 or request.form['level_multi']<1:
+                        if int(request.form['level_multi'])>20 or int(request.form['level_multi'])<1:
                             errors.append("Invalid multi class level")
                         else:
                             multi.LEVEL = request.form.get('level_multi'),
@@ -914,11 +930,13 @@ def character_edit(ida):
                 if request.form['multi_sub']!='Remove':
                     if request.form['multi_sub'] != '':
                         multi.SUB=request.form['multi_sub'],
+                    else:
+                        multi.SUB=''
                 else:
                     multi.SUB=''
             else:
                 if request.form.get('job_multi')!= '' and request.form.get('level_multi')!='':
-                    if request.form['level_multi']>20 or request.form['level_multi']<1:
+                    if int(request.form['level_multi'])<=20 or int(request.form['level_multi'])>=1:
                         session.add(my_multi(
                             JOB = request.form.get('job_multi'),
                             LEVEL=request.form.get('level_multi'),
@@ -1110,11 +1128,17 @@ def class_details(job):
 
     subs=session.query(my_sub).filter(my_sub.JOB==job).all()
 
+    this_class_table=class_table[job][0]
+    this_feature_table=feature_table[job]
+
+    print(len(this_feature_table))
+
     format_dict(slots_dict)
     format_dict(feats_dict)
     format_dict(known_dict)
 
-    return render_template('class_details.html', feats_dict=feats_dict, slots_dict=slots_dict, job=job, known_dict=known_dict, subs=subs)
+    return render_template('class_details.html', feats_dict=feats_dict, slots_dict=slots_dict, job=job, known_dict=known_dict,
+     subs=subs, this_class_table=this_class_table, this_feature_table=this_feature_table)
 
 @app.route('/create', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -1335,4 +1359,4 @@ def bug_report():
         return render_template('bug_report.html')
 
 if __name__ == '__main__':
-   app.run()
+   app.run(debug=True)

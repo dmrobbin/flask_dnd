@@ -17,7 +17,7 @@
 	<textarea name = "description" cols="80" rows="10" class="formcontrol">{{item.DESCRIPTION}}</textarea>
 	</center>
 		<input type ="hidden" name="edit" value="1">
-		<button type="submit" value="Edit item" class="btn btn-primary">Edit item</button></input>
+		<button type="submit" value="Edit item" class="btn btn-outline-success">Edit item</button></input>
 
 	</form>
 
@@ -25,7 +25,7 @@
 
 	<form action = "/item_remover/{{item.NAME}}" method= "POST">
 		<input type="hidden" name="remove" value="1">
-		<button class="btn btn-primary" type="submit" value="Remove item">Delete item </button></input>
+		<button class="btn btn-outline-success" type="submit" value="Remove item">Delete item </button></input>
 	</form>
 
 

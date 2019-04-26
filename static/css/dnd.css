@@ -1,14 +1,31 @@
    
     body{
         padding: 0;
+        background-color: #000;
     }
 
 
     h1 a, h2 a, h3 a {
-        color: #C25100;
+        color: #88e291;
         font-family: 'Open Sans', sans-serif;
         
         
+    }
+
+    tr a {
+      color: #88e291;
+    }
+
+    div a {
+      color: #88e291;
+    }
+
+    tr a:hover {
+      color: #fff;
+    }
+
+    div a:hover {
+      color: #fff;
     }
 
     body {
@@ -16,35 +33,37 @@
         padding-right: 15px;
         font-family: 'Open Sans', sans-serif;
     }
-    #btnsucc{
-      font-size: 10;
-      padding: 10px;
-    }
+
     .unity{
-        background-color:#fff;
         font-family: 'Open Sans', sans-serif;
-
     }
 
+    .card-body{
+      background-color: #121820;
+    }
+    .card-img-top{
+      background-color: #121820;
+    }
 
     .card{
       margin:15px;
       float:left;
       width:300px;
       height:400px;
-      background-color:#000;
+      box-shadow: 10px 10px #04470b;
       
     }
 
     .page-header {
-        background-color: #017611;
+        background-color: #06560e;
         color: #ffffff;
         margin-top: 0;
         padding: 20px 20px 20px 40px;
+        border-radius: 0px 0px 25px 25px;
     }
 
     .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
-        color: #ffffff;
+        color: #fff;
         font-size: 36pt;
         text-decoration: none;
         margin-top:0;

@@ -8,6 +8,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One|Marck+Script" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Titillium+Web:900" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script>
           (adsbygoogle = window.adsbygoogle || []).push({
@@ -17,23 +19,31 @@
         </script>
     </head>
     <style> 
-    #btnsucc{
-      font-size: 10;
-      padding: 10px;
+
+    body{
+       background-image: linear-gradient(#272827, #4b4c4b);
+      color:#fff;
     }
+
   </style>
+  <script>
+    function myReveal(){
+      document.getElementById('title').fadeIn(1000);
+    }
+
+  </script>
 	<body>
 
 		<div class="page-header"  style="margin-top: 0">
-			<center><h1><a href="/">DND PROFILE</a></h1></center>
+			<center id = "title" onload="myReveal()"><h1><a href="/">DND PR <i class="fas fa-dice-d20" style="height:"></i> FILE</a></h1></center>
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-radius:25px;">
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
+                <ul class="navbar-nav" >
+                  <li class="nav-item" >
                     <a href ="/" class="nav-link">Home</a>
                   </li>
                   <li class="nav-item dropdown">

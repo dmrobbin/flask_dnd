@@ -69,7 +69,7 @@
 	<div class="form-group">
 
 		<select name="sub" class="form-control" id="sub_job">
-			<option value="">Please Select</option>
+			<option value="Remove">Please Select</option>
 			<!-- {%for sub in sub_job_dict[job]%}
 					option value = "{{sub}}"> {{sub}}</option>
 			     {%endfor%}
@@ -288,7 +288,7 @@
 	<br><br>
 
 		<input type="hidden" name="edit" value="1">
-		<button type="submit" value="Edit Character" href="/info/{{character.id}}" class="btn btn-success" id="btnsucc">Save Character</button>
+		<button type="submit" value="Edit Character" href="/info/{{character.id}}" class="btn btn-outline-success" id="btnsucc">Save Character</button>
 	</form>
 
 {%if multi%}
@@ -363,7 +363,7 @@
 		
 		console.log(len)
 		console.log(list)	
-		document.getElementById("multi_sub").options[0]=new Option("Please Select","None");
+		document.getElementById("multi_sub").options[0]=new Option("Please Select","");
 		for(i=1;i<len;i++)
 		{
 		document.getElementById("multi_sub").options[i]=new Option(list[i], list[i]);
@@ -449,7 +449,7 @@
 		
 		console.log(len)
 		console.log(list)	
-		document.getElementById("sub_job").options[0]=new Option("Please Select","None");
+		document.getElementById("sub_job").options[0]=new Option("Please Select","");
 		for(i=1;i<len;i++)
 		{
 		document.getElementById("sub_job").options[i]=new Option(list[i], list[i]);

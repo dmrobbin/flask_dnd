@@ -4,41 +4,43 @@
 {%if job=='Ranger'%}
 <p>Note * Using Ranger revised</p>
 {%endif%}
-<table class="table table-sm">
-	<tr class="bg-warning">
-		<th colspan="2"><h2><center>{{job}} class features</center></h2></th>
-		{% if job == "Warlock" or job == "Sorcerer" or job == "Bard" or job == "Ranger" %}
-				<th>Spells known</th>
-				{% endif %}
-			{% if job == "Warlock" or job == "Sorcerer" or job == "Bard" or job == "Ranger" or job == "Paladin" or job == "Wizard" or job == "Cleric" or job == "Druid"   %}
-				<th> Spell Slots</th>
-				{%endif %}</th>
+<style>
+	container{float:right;}
+	.mw-headline{color:#88e291;}
+	p{color:white;}
+	ul{color:white;}
 
-		{% for i in range(1, 21) %}
-		<tr>
-		<td>{{i}}</td> 
-		<td>{{feats_dict[i]}}</td>
-		{% if job == "Warlock" or job == "Sorcerer" or job == "Bard" or job == "Ranger" %}
-
-		<td>{{known_dict[i]}}</td>
-		{% endif %}
-		{% if job == "Warlock" or job == "Sorcerer" or job == "Bard" or job == "Ranger" or job == "Paladin" or job == "Wizard" or job == "Cleric" or job == "Druid"   %}
-		<td>{{slots_dict[i]}}</td>
-		{%endif %}
-		</tr>
-		{% endfor %}
+</style>
+<table class="table table-sm" id="table">
+	{%for i in range(0,21)%}
+		{{this_class_table[i]|safe}}
+	{%endfor%}
 </table>
+
 <table class="table table-sm">
-<tr class="bg-success">
-	<th colspan="42"><center><h2>Sub Classes</h2></center></th>
-</tr>
-{%for sub in subs%}
-	<td>{{sub.SUB_JOB}}</td>
-{%endfor%}
-	</table>
+	<tr class="bg-success">
+		<th colspan="42"><center><h2>Sub Classes</h2></center></th>
+	</tr>
+	{%for sub in subs%}
+		<td>{{sub.SUB_JOB}}</td>
+	{%endfor%}
+</table>
+<container>
+	{{this_feature_table[0]|safe}}
+</container>
 
 <br><br>
 	
+<script>
 
+</script>
 
+<script>
+	window.onload=function()
+	{
+		document.getElementById("{{job}}_Leveling_Table").innerHTML=""
+				
+	}
+</script>
 {% endblock %}
+

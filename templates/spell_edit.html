@@ -19,7 +19,7 @@
 	<textarea name = "description" cols="80" rows="10" class="formcontrol">{{spell.DESCRIPTION}}</textarea>
 	</center>
 		<input type ="hidden" name="edit" value="1">
-		<button type="submit" value="Edit spell" class="btn btn-primary">Edit spell</button></input>
+		<button type="submit" value="Edit spell" class="btn btn-outline-success">Edit spell</button></input>
 
 	</form>
 
@@ -27,7 +27,7 @@
 
 	<form action = "/spell_remover/{{spell.NAME}}" method= "POST">
 		<input type="hidden" name="remove" value="1">
-		<button class="btn btn-primary" type="submit" value="Remove Spell">Delete Spell </button></input>
+		<button class="btn btn-outline-success" type="submit" value="Delete Spell">Delete Spell </button></input>
 	</form>
 
 

@@ -7,12 +7,12 @@
 <div style="float:right; padding-right: 12">
 	<form action="" method="post">
 		<input type="hidden" name="remove" value="1">
-		<button class="btn btn-success" id="btnsucc" type="submit" value="Remove Character" onclick= "getConfirmation();" >Delete {{character.NAME}}.  </button>
+		<button class="btn btn-outline-success" id="btnsucc" type="submit" value="Remove Character" onclick= "getConfirmation();" >Delete {{character.NAME}}.  </button>
 	</form>
-	<a  href="/edit/{{character.id}}" class="btn btn-success" id="btnsucc">Edit {{character.NAME}}</a>
-	<a  href="/add_to_features_known/{{character.id}}" class="btn btn-success" id="btnsucc">Add Feat</a>
+	<a  href="/edit/{{character.id}}" class="btn btn-outline-success" id="btnsucc">Edit {{character.NAME}}</a>
+	<a  href="/add_to_features_known/{{character.id}}" class="btn btn-outline-success" id="btnsucc">Add Feat</a>
 	{%if has_features%}
-	<a href="/remove_from_features_known/{{character.id}}" class = "btn btn-success" id ="btnsucc">Remove Feat </a>
+	<a href="/remove_from_features_known/{{character.id}}" class = "btn btn-outline-success" id ="btnsucc">Remove Feat</a>
 	{%endif%}
 </div>
 	<h3>{{character.RACE}}
@@ -20,16 +20,14 @@
 
 	{%if character.SUB%}
 		{%if character.JOB != 'Rogue' and character.JOB != 'Fighter' and character.JOB != 'Ranger'%}
-			<u>{{character.JOB}}</u>
+			{{character.JOB}}
 		{%endif%}
 	{%else%}
-		<u>{{character.JOB}}</u>
+		{{character.JOB}}
 	{%endif%}
 
-
-
 	{%if multi%}
-	Level {{multi.LEVEL}} {%if multi.SUB%} {{multi.SUB}} {%endif%} <u><a href="/class_details/{{multi.JOB}}">{{multi.JOB}}</a></u></h3>
+	Level {{multi.LEVEL}} {%if multi.SUB%} {{multi.SUB}} {%endif%} {{multi.JOB}}</h3>
 	Proficency Bonus: <span id="profMult"></span>
 	{%else%}
 	Proficency Bonus: <span id="prof"></span>
@@ -52,12 +50,12 @@
 
 		<form action = "/uploader/{{character.id}}" method = "POST" enctype = "multipart/form-data">
 
-			<div class="custom-file"">
+			<div class="custom-file">
 				<input type="file"  name ="file" class="custom-file-input" accept="image/*">
-				<label class="custom-file-label" for="customFile">Character Portrait</label>
+				<label class="custom-file-label" for="customFile">Image</label>
 
 			</div>
-			<input type = "submit" class="btn btn-success" id="btnsucc"/>
+			<input type = "submit" class="btn btn-outline-success" id="btnsucc"/>
 		</form>
 
 
@@ -70,37 +68,38 @@
 	</p>
 		<table class="table table-sm">
 			<tr class="bg-success">
+
 				<th scope="col"> Attribute</th>
 				<th cope="col"> Abilty Score</th>
 				<th cope="col"> Ability Modifier </th>
 			</tr>
 			<tr  onclick="rollAttribute('Strength')">
-				<td><u>STR</u></td> 
-				<td>{{character.STRENGTH}}</td> 
+				<td><i class="fas fa-dice-d20"></i> STR </td> 
+				<td>{{character.STRENGTH}}</td>  
 				<td><span id="str"></span> </td>
 			</tr>
 			<tr onclick="rollAttribute('Dexterity')">
-				<td><u>DEX</u></td>
+				<td><i class="fas fa-dice-d20"></i> DEX</td>
 				<td>{{character.DEXTERITY}}</td>
 				<td> <span id="dex"></span></td>
 			</tr>
 			<tr onclick="rollAttribute('Constitution')">
-				<td><u>CON</u></td>
+				<td><i class="fas fa-dice-d20"></i> CON</td>
 				<td>{{character.CONSTITUTION}}</td>
 				<td> <span id="con"></span></td>
 			</tr>
 			<tr onclick="rollAttribute('Intelligence')">
-				<td><u>INT</u></td>
+				<td><i class="fas fa-dice-d20"></i> INT</td>
 				<td>{{character.INTELLIGENCE}}</td>
 				<td> <span id="int"></span></td>
 			</tr>
 			<tr onclick="rollAttribute('Wisdom')">
-				<td><u>WIS</u></td>
+				<td><i class="fas fa-dice-d20"></i> WIS</td>
 				<td>{{character.WISDOM }}</td>
 				<td> <span id="wis"></span></td>
 			</tr>
 			<tr onclick="rollAttribute('Charisma')">
-				<td><u>CHA</u></td>
+				<td><i class="fas fa-dice-d20"></i> CHA</td>
 				<td> {{character.CHARISMA}}</td>
 				<td> <span id="cha"></span></td>
 			</tr>
@@ -111,7 +110,7 @@
 				<th scope="col" colspan="6"><center>(⭐ = Expertise)</center></th>
 			</tr>
 			<tr>
-				<td onclick="rollSkill('Acrobatics',{{skills.Acrobatics_expert}},{{skills.Acrobatics}})"><u>Acrobatics</u></td> 
+				<td onclick="rollSkill('Acrobatics',{{skills.Acrobatics_expert}},{{skills.Acrobatics}})"><i class="fas fa-dice-d20"></i> Acrobatics</td> 
 				<td>
 				{% if skills.Acrobatics_expert == 1 %}
 				⭐
@@ -121,7 +120,7 @@
 				x
 				{% endif %}
 				</td> 
-				<td onclick="rollSkill('Insight',{{skills.Insight_expert}},{{skills.Insight}})"><u>Insight</u></td>
+				<td onclick="rollSkill('Insight',{{skills.Insight_expert}},{{skills.Insight}})"><i class="fas fa-dice-d20"></i> Insight</td>
 				<td>
 				{% if skills.Insight_expert == 1 %}
 				⭐
@@ -131,7 +130,7 @@
 				x
 				{% endif %}
 				</td>
-				<td onclick="rollSkill('Performance',{{skills.Performance_expert}},{{skills.Performance}})"><u>Performance</u></td>
+				<td onclick="rollSkill('Performance',{{skills.Performance_expert}},{{skills.Performance}})"><i class="fas fa-dice-d20"></i> Performance</td>
 				<td>
 				{% if skills.Performance_expert == 1 %}
 				⭐
@@ -143,7 +142,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td onclick="rollSkill('Athletics',{{skills.Athletics_expert}},{{skills.Athletics}})"><u>Athletics</u></td>
+				<td onclick="rollSkill('Athletics',{{skills.Athletics_expert}},{{skills.Athletics}})"><i class="fas fa-dice-d20"></i> Athletics</td>
 				<td>
 				{% if skills.Athletics_expert == 1 %}
 				⭐
@@ -153,7 +152,7 @@
 				x
 				{% endif %}
 				</td>
-				<td onclick="rollSkill('Intimidation',{{skills.Intimidation_expert}},{{skills.Intimidation}})"><u>Intimidation</u></td>
+				<td onclick="rollSkill('Intimidation',{{skills.Intimidation_expert}},{{skills.Intimidation}})"><i class="fas fa-dice-d20"></i> Intimidation</td>
 				<td>
 				{% if skills.Intimidation_expert == 1 %}
 				⭐
@@ -163,7 +162,7 @@
 				x
 				{% endif %}
 				</td>
-				<td onclick="rollSkill('Persuasion',{{skills.Persuasion_expert}},{{skills.Persuasion}})"><u>Persuasion</u></td>
+				<td onclick="rollSkill('Persuasion',{{skills.Persuasion_expert}},{{skills.Persuasion}})"><i class="fas fa-dice-d20"></i> Persuasion</td>
 				<td>
 				{% if skills.Persuasion_expert == 1 %}
 				⭐
@@ -175,7 +174,7 @@
 			</td>
 			</tr>
 			<tr>
-				<td onclick="rollSkill('Animal Handling',{{skills.Animal_Handling_expert}},{{skills.Animal_Handling}})"><u>Animal Handling</u></td>
+				<td onclick="rollSkill('Animal Handling',{{skills.Animal_Handling_expert}},{{skills.Animal_Handling}})"><i class="fas fa-dice-d20"></i> Animal Handling</td>
 				<td>
 				{% if skills.Animal_Handling_expert == 1 %}
 				⭐
@@ -185,7 +184,7 @@
 				x
 				{% endif %}
 			</td>
-				<td onclick="rollSkill('Investigation',{{skills.Investigation_expert}},{{skills.Investigation}})"><u>Investigation</u></td>
+				<td onclick="rollSkill('Investigation',{{skills.Investigation_expert}},{{skills.Investigation}})"><i class="fas fa-dice-d20"></i> Investigation</td>
 				<td>
 				{% if skills.Investigation_expert == 1 %}
 				⭐
@@ -194,7 +193,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollSkill('Religion',{{skills.Religion_expert}},{{skills.Religion}})"><u>Religion</u></td>
+				<td onclick="rollSkill('Religion',{{skills.Religion_expert}},{{skills.Religion}})"><i class="fas fa-dice-d20"></i> Religion</td>
 				<td>
 				{% if skills.Religion_expert == 1 %}
 				⭐
@@ -206,7 +205,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td onclick="rollSkill('Arcana',{{skills.Arcana_expert}},{{skills.Arcana}})"><u>Arcana</u></td>
+				<td onclick="rollSkill('Arcana',{{skills.Arcana_expert}},{{skills.Arcana}})"><i class="fas fa-dice-d20"></i> Arcana</td>
 				<td>
 				{% if skills.Arcana_expert == 1 %}
 				⭐
@@ -215,7 +214,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollSkill('Medicine',{{skills.Medicine_expert}},{{skills.Medicine}})"><u>Medicine</u></td>
+				<td onclick="rollSkill('Medicine',{{skills.Medicine_expert}},{{skills.Medicine}})"><i class="fas fa-dice-d20"></i> Medicine</td>
 				<td>
 				{% if skills.Medicine_expert == 1 %}
 				⭐
@@ -224,7 +223,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollSkill('Sleight of Hand',{{skills.Sleight_of_Hand_expert}},{{skills.Sleight_of_Hand_expert}})"><u>Sleight of Hand</u></td>
+				<td onclick="rollSkill('Sleight of Hand',{{skills.Sleight_of_Hand_expert}},{{skills.Sleight_of_Hand_expert}})"><i class="fas fa-dice-d20"></i> Sleight of Hand</td>
 				<td>
 				{% if skills.Sleight_of_Hand_expert == 1 %}
 				⭐
@@ -235,7 +234,7 @@
 				{% endif %}</td>
 			</tr>
 			<tr>
-				<td onclick="rollSkill('Deception',{{skills.Deception_expert}},{{skills.Deception}})"><u>Deception</u></td>
+				<td onclick="rollSkill('Deception',{{skills.Deception_expert}},{{skills.Deception}})"><i class="fas fa-dice-d20"></i> Deception</td>
 				<td>
 				{% if skills.Deception_expert == 1 %}
 				⭐
@@ -244,7 +243,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollSkill('Nature',{{skills.Nature_expert}},{{skills.Nature}})"><u>Nature</u></td>
+				<td onclick="rollSkill('Nature',{{skills.Nature_expert}},{{skills.Nature}})"><i class="fas fa-dice-d20"></i> Nature</td>
 				<td>
 				{% if skills.Nature_expert == 1 %}
 				⭐
@@ -253,7 +252,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollSkill('Stealth',{{skills.Stealth_expert}},{{skills.Stealth}})"><u>Stealth</u></td>
+				<td onclick="rollSkill('Stealth',{{skills.Stealth_expert}},{{skills.Stealth}})"><i class="fas fa-dice-d20"></i> Stealth</td>
 				<td>
 				{% if skills.Stealth_expert == 1 %}
 				⭐
@@ -264,7 +263,7 @@
 				{% endif %}</td>
 			</tr>
 			<tr>
-				<td onclick="rollSkill('History',{{skills.History_expert}},{{skills.History}})"><u>History</u></td>
+				<td onclick="rollSkill('History',{{skills.History_expert}},{{skills.History}})"><i class="fas fa-dice-d20"></i> History</td>
 				<td>
 				{% if skills.History_expert == 1 %}
 				⭐
@@ -273,7 +272,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollSkill('Perception',{{skills.Perception_expert}},{{skills.Perception}})"><u>Perception</u></td>
+				<td onclick="rollSkill('Perception',{{skills.Perception_expert}},{{skills.Perception}})"><i class="fas fa-dice-d20"></i> Perception</td>
 				<td>
 				{% if skills.Perception_expert == 1 %}
 				⭐
@@ -282,7 +281,7 @@
 				{% else%}
 				x
 				{% endif %}</td>
-				<td onclick="rollSkill('Survival',{{skills.Survival_expert}},{{skills.Survival}})"><u>Survival</u></td>
+				<td onclick="rollSkill('Survival',{{skills.Survival_expert}},{{skills.Survival}})"><i class="fas fa-dice-d20"></i> Survival</td>
 				<td>
 				{% if skills.Survival_expert == 1 %}
 				⭐
@@ -294,7 +293,7 @@
 			</tr>
 		</table>
 
-		<h3><center>Inventory <a href = "/{{character.id}}/add_item">➕</a></center></h3>
+		<h3><center>Inventory <a href = "/{{character.id}}/add_item" style="font-size: 30; font-family: 'Titillium Web', sans-serif;">+</a></center></h3>
 		<table class="table table-sm">
 			<tr class="bg-success">
 				<th>Item</th>
@@ -326,7 +325,7 @@
 		<tr>
 		<td>{{i}}</td>
 		{%if sub_dict[i]%}
-			<td>{{feats_dict[i]}} <strong style="color:red">{{character.SUB}}<strong> - {{sub_dict[i]}}
+			<td>{{feats_dict[i]}} <strong style="color:#88e291">{{character.SUB}}<strong> - {{sub_dict[i]}}
 		{%else%}
 			<td>{{feats_dict[i]}}</td>
 		
@@ -384,7 +383,7 @@
 
 		{%endif%}
 
-		<h3><center> Spells known <a href = "/{{character.id}}/add_spell">➕</a></center></h3>
+		<h3><center> Spells known <a href = "/{{character.id}}/add_spell" style="font-size: 30; font-family: 'Titillium Web', sans-serif;">+</a></center></h3>
 		<table class="table table-sm">
 			<tr class="bg-success">
 				<th>Spell name</th>
