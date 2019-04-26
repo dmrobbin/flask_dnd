@@ -1359,4 +1359,4 @@ def bug_report():
         return render_template('bug_report.html')
 
 if __name__ == '__main__':
-   app.run(debug=True)
+   app.run()
