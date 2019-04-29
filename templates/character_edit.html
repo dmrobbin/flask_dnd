@@ -69,14 +69,12 @@
 	<div class="form-group">
 
 		<select name="sub" class="form-control" id="sub_job">
-			<option value="Remove">Please Select</option>
-			<!-- {%for sub in sub_job_dict[job]%}
-					option value = "{{sub}}"> {{sub}}</option>
-			     {%endfor%}
-				/-->
+			<option value="Remove" selected> Please Select</option>
+
 			{%for sub in subs%} 
 				<option value="{{sub.SUB_JOB}}">{{sub.SUB_JOB}}</option>
 			{%endfor%}
+
 			<option value="Remove">Remove Sub class</option>
 		</select>
 	</div>
@@ -292,6 +290,7 @@
 	</form>
 
 {%if multi%}
+
 	<script>
 		document.getElementById("multi_sub").value="{{multi.SUB}}";
 		document.getElementById("job_multi").value="{{multi.JOB}}";
@@ -375,12 +374,16 @@
 
 	</script>
 {%endif%}
-
+{%if character.SUB%}
+<script>
+	document.getElementById("sub_job").value = "{{character.SUB}}";
+</script>
+{%endif%}
 <script>
 	document.getElementById("level").value= "{{character.LEVEL}}";
 	document.getElementById("job").value = "{{character.JOB}}";
 	document.getElementById("race").value = "{{character.RACE}}";
-	document.getElementById("sub_job").value = "{{character.SUB}}";
+	
 	
 	
 
