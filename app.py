@@ -82,6 +82,7 @@ class_table=class_table_scraper.get_tables()
 feature_table=class_features_scraper.get_tables()
 
 def hashbrowns(password):
+
     password = password + bpar
     h= hashlib.md5(password.encode())
     return h.hexdigest()
@@ -105,6 +106,7 @@ option_sub_dict={}
 jobs=session.query(my_feat).all()
 
 def get_subs(job_name):
+
     return session.query(my_sub).filter(my_sub.JOB==job_name).all() 
     
 for job in jobs:
@@ -126,7 +128,6 @@ for job in jobs:
 class User(flask_login.UserMixin):
     pass
 
-
 def re_run_users():
     user = session.query(my_user).all()
 
@@ -138,6 +139,7 @@ def re_run_users():
 
 @login_manager.user_loader
 def user_loader(user_name):
+
     if user_name not in users:
         return
 
@@ -147,6 +149,7 @@ def user_loader(user_name):
 
 @login_manager.request_loader
 def request_loader(request):
+
     user_name = request.form.get('user_name')
     if user_name not in users:
         return
@@ -154,8 +157,6 @@ def request_loader(request):
     user = User()
     user.id = user_name
 
-    # DO NOT ever store passwords in plaintext and always compare password
-    # hashes using constant-time comparison!
     try:
         user.is_authenticated = request.form['password'] == users[user_name]
     except:
@@ -165,8 +166,8 @@ def request_loader(request):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     errors = []
-    user = None
 
     re_run_users()
 
@@ -184,10 +185,8 @@ def login():
                 user.id = user_name
                 flask_login.login_user(user)
                 return redirect('/')
-
             else: 
                 errors.append('Invalid Username or Password')
-
         else:
             errors.append('Username not found')
 
@@ -195,11 +194,13 @@ def login():
 
 @app.route('/logout')
 def logout():
+
     flask_login.logout_user()
     return redirect('/login')
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
+
     return redirect('/login')
 
 @app.route('/')
@@ -231,7 +232,8 @@ def admin_list():
 
     this_char=0
     characters = session.query(my_char).all()
-    return render_template('character_list.html', characters= characters)
+    users=session.query(my_user).all()
+    return render_template('all_characters.html', characters= characters, users=users)
 
 @app.route('/command')
 @flask_login.login_required
@@ -309,9 +311,6 @@ def add_race():
         return redirect('/')
 
     if request.method == 'POST':
-        #future frebreezing
-        race_dict={'RACE':'race','STR_BONUS':'str_bonus', 'DEX_BONUS':'dex_bonus', 'CON_BONUS':'con_bonus', 
-        'INT_BONUS':'int_bonus', 'WIS_BONUS':'wis_bonus', 'CHA_BONUS':'cha_bonus'}
 
         session.add(my_race(
             RACE=request.form['race'],
@@ -422,6 +421,7 @@ def edit_sub(sub):
 @app.route('/sub_remover/<sub>', methods = ['GET', 'POST'])
 @flask_login.login_required
 def remove_sub(sub):
+
     if ids[flask_login.current_user.id] not in admins:
         return redirect('/')
 
@@ -440,6 +440,7 @@ def remove_sub(sub):
 @app.route('/edit_race/<race>', methods=['POST', 'GET'])
 @flask_login.login_required
 def edit_race(race):
+
     if ids[flask_login.current_user.id] not in admins:
         return redirect('/')
 
@@ -464,6 +465,7 @@ def edit_race(race):
 @app.route('/race_remover/<race>', methods = ['GET', 'POST'])
 @flask_login.login_required
 def remove_race(race):
+
     if ids[flask_login.current_user.id] not in admins:
         return redirect('/')
 
@@ -479,10 +481,10 @@ def remove_race(race):
 
         return redirect('/command')
 
-
 @app.route('/bugs', methods =['GET', 'POST'])    
 @flask_login.login_required
 def bug_list():
+
     if ids[flask_login.current_user.id] in admins:
         bugs = session.query(my_bugs).all()
         return render_template('bugs_list.html', bugs= bugs)
@@ -492,6 +494,7 @@ def bug_list():
 @app.route('/bug_remover/<ida>', methods=['GET','POST'])
 @flask_login.login_required
 def bug_remover(ida):
+
     if ids[flask_login.current_user.id] not in admins:
         return redirect('/')
 
@@ -508,8 +511,6 @@ def bug_remover(ida):
 #######################
 ###END ADMIN POWERS####
 #######################
-
-
 
 @app.route('/info/<ida>', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -667,7 +668,6 @@ def remove_from_features_known(ida):
 
     return render_template('remove_from_features_known.html', final_features=final_features)
 
-
 @app.route('/account', methods=['POST', 'GET'])
 @flask_login.login_required
 def account_info():
@@ -696,6 +696,7 @@ def account_info():
     return render_template('account_info.html', account=account, characters=characters)
 
 def format_dict(dict):
+
     del dict["id"]
     del dict["JOB"]
     dict[1] = dict.pop("LEVEL_1")
@@ -722,6 +723,7 @@ def format_dict(dict):
 @app.route('/<ida>/add_spell', methods=['POST', 'GET'])
 @flask_login.login_required
 def spell_add(ida):
+
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
     if request.method == 'POST':
@@ -741,10 +743,10 @@ def spell_add(ida):
     else:
         return render_template('add_spell.html')
 
-
 @app.route('/add', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_add():
+
     errors=[]
     races = session.query(my_race).all()
 
@@ -766,7 +768,6 @@ def character_add():
 
             if y>174 or y<6:
                 valid_stat=False
-
 
             if int(request.form['level'])<20 and int(request.form['level'])>0:
                 if int(request.form['hp'])>min_hp and int(request.form['hp'])<max_hp:
@@ -850,7 +851,6 @@ def character_add():
                     errors.append("Invalid HP value")
             else:
                 errors.append("Invalid level")
- 
         except:
             errors.append("Invalid field value")
 
@@ -863,6 +863,7 @@ def character_add():
     return render_template('character_add.html', races=races, errors=errors)
 
 def multi_edit(multi):
+
     if request.form.get('job_multi')!='Remove' or request.form.get('job_multi')!= 'None':
         multi.JOB = request.form.get('job_multi'),
 
@@ -882,6 +883,7 @@ def multi_edit(multi):
 @app.route('/edit/<ida>', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_edit(ida):
+
     races = session.query(my_race).all()
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
@@ -959,7 +961,6 @@ def character_edit(ida):
     return render_template('character_edit.html', character=character, skills=skills, multi=multi, races=races, subs=subs, multi_subs=multi_subs,
         sub_job_dict=sub_job_dict, multi_bool=multi_bool, option_sub_dict=option_sub_dict, errors=errors)
 
-
 def set_attribute(character):
 
     int_attributes={'STRENGTH': 'STRENGTH', 'DEXTERITY': 'DEXTERITY', 'CONSTITUTION':'CONSTITUTION', 'INTELLIGENCE': 'INTELLIGENCE', 'WISDOM': 'WISDOM', 'CHARISMA': 'CHARISMA',
@@ -976,6 +977,7 @@ def set_attribute(character):
         setattr(character, key, temp)
 
 def skills_edit(character):
+
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
 
@@ -991,7 +993,6 @@ def skills_edit(character):
     for key, value in skill_values.items():
         temp=request.form.get(value)
         setattr(skills, key, temp)
-
 
 @app.route('/spell_edit/<name>', methods=['POST', 'GET'])
 @flask_login.login_required
@@ -1097,9 +1098,9 @@ def remove_item(name):
 
         return redirect(url_for('character_info',ida=item.CHARACTER_ID))
 
-
 @app.route('/view_races', methods=['GET'])
 def view_races():
+
     races=session.query(my_race).all()
 
     return render_template('view_races.html', races=races)
@@ -1131,6 +1132,7 @@ def class_details(job):
 @app.route('/create', methods=['POST', 'GET'])
 @flask_login.login_required
 def character_create():
+
     x=0
     errors=[]
     rolls=[]
@@ -1241,10 +1243,9 @@ def character_create():
                     Sleight_of_Hand_expert = request.form.get('sleightofhand_expert'),
                     Stealth_expert = request.form.get('stealth_expert'),
                     Survival_expert = request.form.get('survival_expert'),
-
                 ))
-                try:
-                    
+
+                try:  
                     session.commit()
                 except:
                     session.rollback()
@@ -1282,16 +1283,19 @@ def subtract_racial(character):
 
 @app.route('/class_features', methods =['GET'])
 def class_features():
+
     features = session.query(my_feat).all()
     return render_template('class_features.html', features= features)
 
 @app.route('/view_features', methods =['GET'])
 def view_features():
+
     features = session.query(my_features).all()
     return render_template('view_features.html', features= features)
 
 @app.route('/registration', methods =['GET', 'POST'])
 def registration():
+
     errors =[]
 
     if request.method== 'POST':
@@ -1324,6 +1328,7 @@ def registration():
                 for item in user:
                     ids[str(item.USER_NAME)] = item.id
                 return redirect('/login')
+
             except:
                 session.rollback()
                 errors.append("Invalid user_name or password entry")
@@ -1332,6 +1337,7 @@ def registration():
 
 
 def allowed_file(filename):
+
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -1339,7 +1345,6 @@ def allowed_file(filename):
 @flask_login.login_required
 def upload_files(ida):
     
-
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
     if request.method == 'POST':
@@ -1358,6 +1363,7 @@ def upload_files(ida):
 @app.route('/bug_report', methods = ['GET', 'POST'])
 @flask_login.login_required
 def bug_report():
+
     if request.method == 'POST':
         session.add(my_bugs(
             USER_ID=ids[flask_login.current_user.id],

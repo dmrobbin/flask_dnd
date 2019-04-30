@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<center><h3>USERS</h3></center>
+<table class="table table-sm">
+	<tr class="bg-success">
+		<th>
+			Users Name - id
+		</th>
+		<th>
+			character Name - id
+		</th>
+	</tr>
+	{%for user in users %}
+		<tr>
+			<td>{{user.USER_NAME}} - {{user.id}}</td><td></td>
+		</tr>
+		{%for character in characters%}
+			{%if character.user_id == user.id%}
+				<tr>
+					<td></td>
+					<td><a href=/info/{{character.id}}> {{character.NAME}} - {{character.user_id}}</a></td>	
+				</tr>	
+			{%endif%}
+		{%else%}
+		<tr>
+			<td></td>
+			<td>No characters found</td>	
+		</tr>
+		{%endfor%}
+	{%endfor%}
+</table>
+
+
+{% endblock %}
