@@ -291,8 +291,12 @@
 
 {%if multi%}
 
+{%if multi.SUB%}
+<script>
+	document.getElementById("multi_sub").value="{{multi.SUB}}";
+</script>
+{%endif%}
 	<script>
-		document.getElementById("multi_sub").value="{{multi.SUB}}";
 		document.getElementById("job_multi").value="{{multi.JOB}}";
 		document.getElementById("multi_level").value="{{multi.LEVEL}}";
 
@@ -356,7 +360,6 @@
 				var list = {{sub_job_dict["Wizard"]|safe}};
 				len = {{sub_job_dict["Wizard"]|safe}}.length;
 				break;
-	
 		}	
 		
 		
@@ -367,11 +370,8 @@
 		{
 		document.getElementById("multi_sub").options[i]=new Option(list[i], list[i]);
 		}
-		//document.getElementById("sub_job").innerHTML=
-		
+		//document.getElementById("sub_job").innerHTML=		
 	}
-
-
 	</script>
 {%endif%}
 {%if character.SUB%}

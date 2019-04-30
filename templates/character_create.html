@@ -7,6 +7,11 @@
 <form method="post" action="">
 
 	<div style="float:left">
+		<center>
+			{%for error in errors%}
+				<h3 style="color:red">{{error}}</h3>
+			{%endfor%}
+		</center>
 
 			<h4>Name</h4>
 
