@@ -77,7 +77,25 @@ min_stat=1
 
 bpar = "When I was a young boy My father took me into the city To see a marching band He said, son, when you grow up Would you be the savior of the broken The beaten, and the damned? He said, will you defeat them Your demons and all the non-believers? The plans that they have made? Because one day Ill leave you A phantom to lead you in the summer To join the black parade When I was a young boy My father took me into the city To see a marching band He said, son, when you grow up You will be the savior of the broken The beaten, and the damned?"
 
+SKILL_VALUES ={'Acrobatics' :'acrobatics', 'Animal_Handling': 'animalhandling', 'Arcana':'arcana', 'Athletics': 'athletics',
+    'Deception':'deception', 'History':'history', 'Insight': 'insight', 'Intimidation': 'intimidation','Investigation':'investigation',
+    'Medicine':'medicine', 'Nature':'nature','Perception':'perception', 'Performance': 'performance', 'Persuasion': 'persuasion',
+    'Religion': 'religion', 'Sleight_of_Hand': 'sleightofhand', 'Stealth': 'stealth', 'Survival': 'survival',
+    'Acrobatics_expert' :'acrobatics_expert', 'Animal_Handling_expert': 'animalhandling_expert', 'Arcana_expert':'arcana_expert', 'Athletics_expert': 'athletics_expert',
+    'Deception_expert':'deception_expert', 'History_expert':'history_expert', 'Insight_expert': 'insight_expert', 'Intimidation_expert': 'intimidation_expert','Investigation_expert':'investigation_expert',
+    'Medicine':'medicine', 'Nature':'nature','Perception':'perception', 'Performance': 'performance', 'Persuasion': 'persuasion',
+    'Religion_expert': 'religion_expert', 'Sleight_of_Hand_expert': 'sleightofhand_expert', 'Stealth_expert': 'stealth_expert', 'Survival_expert': 'survival_expert'}
+
+FEAT_LEVELS = ['LEVEL_1', 'LEVEL_2', 'LEVEL_3', 'LEVEL_4', 'LEVEL_5','LEVEL_6','LEVEL_7','LEVEL_8','LEVEL_9','LEVEL_10',
+    'LEVEL_11', 'LEVEL_12', 'LEVEL_13', 'LEVEL_14', 'LEVEL_15','LEVEL_16','LEVEL_17','LEVEL_18','LEVEL_19','LEVEL_20',]
+
 list_of_classes=["Bard", "Barbarian", "Cleric", "Druid", "Fighter", "Monk", "Ranger", "Rogue", "Paladin", "Sorcerer", "Wizard", "Warlock"]
+
+INT_ATTRIBUTES={'STRENGTH': 'STRENGTH', 'DEXTERITY': 'DEXTERITY', 'CONSTITUTION':'CONSTITUTION', 'INTELLIGENCE': 'INTELLIGENCE', 'WISDOM': 'WISDOM', 'CHARISMA': 'CHARISMA',
+'LEVEL': 'level', 'EXP': 'exp', 'HP':'hp', 'AC': 'ac'}
+
+OTHER_ATTRIBUTES={'RACE':'race', 'description': 'description', 'NAME':'name', 'JOB':'job'}
+
 class_table=class_table_scraper.get_tables()
 feature_table=class_features_scraper.get_tables()
 
@@ -203,7 +221,7 @@ def unauthorized_handler():
 
     return redirect('/login')
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 @flask_login.login_required
 def character_list():
 
@@ -263,12 +281,9 @@ def edit_class(job):
 
     format_dict(feats_dict)
 
-    feat_levels = ['LEVEL_1', 'LEVEL_2', 'LEVEL_3', 'LEVEL_4', 'LEVEL_5','LEVEL_6','LEVEL_7','LEVEL_8','LEVEL_9','LEVEL_10',
-    'LEVEL_11', 'LEVEL_12', 'LEVEL_13', 'LEVEL_14', 'LEVEL_15','LEVEL_16','LEVEL_17','LEVEL_18','LEVEL_19','LEVEL_20',]
-
     if request.method == 'POST' and request.form['edit'] == '1':
 
-        for level in feat_levels:
+        for level in FEAT_LEVELS:
             temp=request.form[level]
             setattr(feats, level, temp)
 
@@ -910,14 +925,10 @@ def character_edit(ida):
 
     if request.method == 'POST' and request.form['edit'] == '1':
         
-        if int(request.form['level'])<20 and int(request.form['level'])>0:
-            ###NOT FUNCTIONAL
-            ##loop through attributes to set
-            if request.form['race']!='':
-                addR=1
-                subtract_racial(character)
+        if int(request.form['level'])<=20 and int(request.form['level'])>0:
 
             set_attribute(character)
+            subtract_racial(character)
 
             try:
                 if request.form['sub']!='Remove':
@@ -928,10 +939,9 @@ def character_edit(ida):
                 session.rollback()
                 errors.append("Error reading subclass information")
 
-            #skills edit
+            saves_edit(character)
             skills_edit(character)
             
-            #if multi exists
             if multi:
                 multi_edit(multi)
                 
@@ -948,13 +958,13 @@ def character_edit(ida):
 
             try:
                 session.commit()
-                if addR==1:
-                    add_racial(character)
+
+                add_racial(character)
+
                 session.commit()
                 return redirect(url_for('character_info',ida=character.id))
             except:
                 session.rollback()
-
         else:
             errors.append("Invalid character Level")
 
@@ -963,34 +973,27 @@ def character_edit(ida):
 
 def set_attribute(character):
 
-    int_attributes={'STRENGTH': 'STRENGTH', 'DEXTERITY': 'DEXTERITY', 'CONSTITUTION':'CONSTITUTION', 'INTELLIGENCE': 'INTELLIGENCE', 'WISDOM': 'WISDOM', 'CHARISMA': 'CHARISMA',
-    'LEVEL': 'level', 'EXP': 'exp', 'HP':'hp', 'AC': 'ac'}
-
-    other_attributes={'RACE':'race', 'description': 'description', 'NAME':'name', 'JOB':'job'}
-
-    for key, value in int_attributes.items():
+    for key, value in INT_ATTRIBUTES.items():
         temp=int(request.form.get(value))
         setattr(character, key, temp)
 
-    for key, value in other_attributes.items():
+    for key, value in OTHER_ATTRIBUTES.items():
         temp=request.form.get(value)
         setattr(character, key, temp)
+
+def saves_edit(character):
+    attribute_values=['STR_SAVE', 'DEX_SAVE', 'CON_SAVE', 'INT_SAVE', 'WIS_SAVE', 'CHA_SAVE']
+
+    for value in attribute_values:
+        temp=request.form.get(value)
+        setattr(character, value, temp)
 
 def skills_edit(character):
 
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
 
-    skill_values ={'Acrobatics' :'acrobatics', 'Animal_Handling': 'animalhandling', 'Arcana':'arcana', 'Athletics': 'athletics',
-    'Deception':'deception', 'History':'history', 'Insight': 'insight', 'Intimidation': 'intimidation','Investigation':'investigation',
-    'Medicine':'medicine', 'Nature':'nature','Perception':'perception', 'Performance': 'performance', 'Persuasion': 'persuasion',
-    'Religion': 'religion', 'Sleight_of_Hand': 'sleightofhand', 'Stealth': 'stealth', 'Survival': 'survival',
-    'Acrobatics_expert' :'acrobatics_expert', 'Animal_Handling_expert': 'animalhandling_expert', 'Arcana_expert':'arcana_expert', 'Athletics_expert': 'athletics_expert',
-    'Deception_expert':'deception_expert', 'History_expert':'history_expert', 'Insight_expert': 'insight_expert', 'Intimidation_expert': 'intimidation_expert','Investigation_expert':'investigation_expert',
-    'Medicine':'medicine', 'Nature':'nature','Perception':'perception', 'Performance': 'performance', 'Persuasion': 'persuasion',
-    'Religion_expert': 'religion_expert', 'Sleight_of_Hand_expert': 'sleightofhand_expert', 'Stealth_expert': 'stealth_expert', 'Survival_expert': 'survival_expert'}
-
-    for key, value in skill_values.items():
+    for key, value in SKILL_VALUES.items():
         temp=request.form.get(value)
         setattr(skills, key, temp)
 
@@ -1260,7 +1263,7 @@ def character_create():
     return render_template('character_create.html', rolls=rolls, races=races, errors=errors)
 
 def add_racial(character):
-
+    print("Adding racials")
     race=session.query(my_race).filter(my_race.RACE==character.RACE).one_or_none()
 
     character.STRENGTH+=race.STR_BONUS

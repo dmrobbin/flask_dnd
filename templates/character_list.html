@@ -2,15 +2,39 @@
 
 {% block content %}
 	<div>
-		<center><h3 style="padding-top: 30"> Current Characters: </h3></center>
+		<center><h3 style="padding-top: 30"> Current Characters: </h3>
+		<form action ="/" method="get">
+			<h5>Sort By </h5>
+
+		<select name="sort_on" id="sort">
+			<h4>
+				<option value='id'>Oldest to Newest</option>
+				<option value='NAME'> Character Name (A-Z)</option>
+				<option value='RACE'> Character Race (A-Z)</option>
+				<option value='JOB'> Character Class (A-Z)</option>
+			</h4>
+		</select>
+
+		<br>Reverse Order? <input type="checkbox"  id = "is_reverse" name="is_reverse" value="True">
+		<br>
+			<input type="submit" class="btn btn-outline-success" value="Submit">
+		</form>
+
+		</center>
 		{%if admin%}
 		<h5><a href="/command">Admin Console</a></h5>
 		{%endif%}
-		
 
 	<div>
+	{% set sort_on = request.args.sort_on|default('id')%}
 
-		{% for character in characters %}
+	{% if request.args.is_reverse!='True' %}
+		{% set is_reverse=False%} 
+	{%else%}
+		{% set is_reverse = True%} 
+	{%endif%}
+
+	{% for character in characters|sort(attribute=sort_on, reverse=is_reverse) %}
 
 	  <div class="card">
 	    <a href="info/{{character.id}}"><img class="card-img-top" src="/static/images/{{character.image}}" height = "230" width="100" alt="Card image cap"></a>
@@ -48,6 +72,23 @@
 		{% endfor %}	  
 
 	</div>
+	<script>
+		var vari=getUrlVars()
 
+		document.getElementById("sort").value = vari['sort_on'];
+
+		if (vari['is_reverse']=="True"){
+			document.getElementById('is_reverse').checked = true;
+		}
+
+		function getUrlVars() {
+		    var vars = {};
+		    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+		        vars[key] = value;
+		    });
+		    return vars;
+		}
+
+	</script>
 {% endblock %}
 

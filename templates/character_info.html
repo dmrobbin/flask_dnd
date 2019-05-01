@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<center><h1>{{character.NAME}}</h1></center>
+<center><h1>{{character.NAME}} <i onclick="d20Roll()" class="fas fa-dice-d20"></i></h1></center>
 <div>
 	<h2>HP {{character.HP}} AC {{character.AC}}</h2>
 <div style="float:right; padding-right: 12">
@@ -70,38 +70,45 @@
 			<tr class="bg-success">
 
 				<th scope="col"> Attribute</th>
-				<th cope="col"> Abilty Score</th>
-				<th cope="col"> Ability Modifier </th>
+				<th scope="col"> Abilty Score</th>
+				<th scope="col"> Ability Modifier </th>
+				<th scope="col"> Saving Throw </th>
 			</tr>
-			<tr  onclick="rollAttribute('Strength')">
-				<td><i class="fas fa-dice-d20"></i> STR </td> 
+			<tr>
+				<td  onclick="rollAttribute('Strength')"><i class="fas fa-dice-d20"></i> STR </td> 
 				<td>{{character.STRENGTH}}</td>  
 				<td><span id="str"></span> </td>
+				<td  onclick="rollSave('Strength')"><i class="fas fa-dice-d20"></i>{% if character.STR_SAVE == 1%} ✓ {%else%} x {% endif %} </td>
 			</tr>
-			<tr onclick="rollAttribute('Dexterity')">
-				<td><i class="fas fa-dice-d20"></i> DEX</td>
+			<tr>
+				<td onclick="rollAttribute('Dexterity')"><i class="fas fa-dice-d20"></i> DEX</td>
 				<td>{{character.DEXTERITY}}</td>
 				<td> <span id="dex"></span></td>
+				<td  onclick="rollSave('Dexterity')"><i class="fas fa-dice-d20"></i>{% if character.DEX_SAVE == 1%} ✓ {%else%} x {% endif %} </td>
 			</tr>
-			<tr onclick="rollAttribute('Constitution')">
-				<td><i class="fas fa-dice-d20"></i> CON</td>
+			<tr>
+				<td onclick="rollAttribute('Constitution')"><i class="fas fa-dice-d20"></i> CON</td>
 				<td>{{character.CONSTITUTION}}</td>
 				<td> <span id="con"></span></td>
+				<td  onclick="rollSave('Constitution')"><i class="fas fa-dice-d20"></i>{% if character.CON_SAVE == 1%} ✓ {%else%} x {% endif %} </td>
 			</tr>
-			<tr onclick="rollAttribute('Intelligence')">
-				<td><i class="fas fa-dice-d20"></i> INT</td>
+			<tr>
+				<td onclick="rollAttribute('Intelligence')"><i class="fas fa-dice-d20"></i> INT</td>
 				<td>{{character.INTELLIGENCE}}</td>
 				<td> <span id="int"></span></td>
+				<td  onclick="rollSave('Intelligence')"><i class="fas fa-dice-d20"></i>{% if character.INT_SAVE == 1%} ✓ {%else%} x {% endif %} </td>
 			</tr>
-			<tr onclick="rollAttribute('Wisdom')">
-				<td><i class="fas fa-dice-d20"></i> WIS</td>
+			<tr>
+				<td onclick="rollAttribute('Wisdom')"><i class="fas fa-dice-d20"></i> WIS</td>
 				<td>{{character.WISDOM }}</td>
 				<td> <span id="wis"></span></td>
+				<td  onclick="rollSave('Wisdom')"><i class="fas fa-dice-d20"></i>{% if character.WIS_SAVE == 1%} ✓ {%else%} x {% endif %} </td>
 			</tr>
-			<tr onclick="rollAttribute('Charisma')">
-				<td><i class="fas fa-dice-d20"></i> CHA</td>
+			<tr>
+				<td onclick="rollAttribute('Charisma')"><i class="fas fa-dice-d20"></i> CHA</td>
 				<td> {{character.CHARISMA}}</td>
 				<td> <span id="cha"></span></td>
+				<td  onclick="rollSave('Charisma')"><i class="fas fa-dice-d20"></i>{% if character.CHA_SAVE == 1%} ✓ {%else%} x {% endif %} </td>
 			</tr>
 		</table>
 		<h3><center>Skills</center></h3>
@@ -439,6 +446,10 @@
 </script>
 {%endif%}
 <script>
+	function d20Roll(){
+		var roll=Math.floor(Math.random() * 20)+1;
+		alert("D20 ROLL! \nYou rolled a: "+roll + "!");
+	}
 
     function getConfirmation() {
        var retVal = confirm("All information about this character will be lost.\n Delete?");
@@ -494,6 +505,46 @@
 		
 		var total=roll+mods[ATTRIBUTE];
 		alert(attribute_name+" ROLL! \nYou rolled a: "+roll + " plus your "+ attribute_name +" MOD of: " +mods[ATTRIBUTE]+ " your total is: " +total+"!");
+	}
+
+	function rollSave(attribute_name){
+		var roll=Math.floor(Math.random() * 20)+1;
+		var ATTRIBUTE = 0;
+		var save=0;
+		switch(attribute_name){
+			case "Strength":
+				ATTRIBUTE = {{character.STRENGTH}};
+				save={{character.STR_SAVE}};
+				break;
+			case "Dexterity":
+				ATTRIBUTE = {{character.DEXTERITY}};
+				save={{character.DEX_SAVE}};
+				break;
+			case "Constitution":
+				ATTRIBUTE = {{character.CONSTITUTION}};
+				save={{character.CON_SAVE}};
+				break;
+			case "Intelligence":
+				ATTRIBUTE = {{character.INTELLIGENCE}};
+				save={{character.INT_SAVE}};
+			case "Wisdom":
+				ATTRIBUTE = {{character.WISDOM}};
+				save={{character.WIS_SAVE}};
+				break;
+			case "Charisma":
+				ATTRIBUTE = {{character.CHARISMA}};
+				save={{character.CHA_SAVE}};
+				break;
+		}
+		if (save>0){
+			save=prof;
+			var total=save+roll+mods[ATTRIBUTE];
+			alert(attribute_name+" ROLL! \nYou rolled a: "+roll + " plus your "+ attribute_name +" MOD of: " +mods[ATTRIBUTE]+" plus your Proficency mod of "+save+ " your total is: " +total+"!");
+		}else{
+			var total=save+roll+mods[ATTRIBUTE];
+			alert(attribute_name+" ROLL! \nYou rolled a: "+roll + " plus your "+ attribute_name +" MOD of: " +mods[ATTRIBUTE]+ " your total is: " +total+"!");
+		}
+		
 	}
 
 	var prof=2;

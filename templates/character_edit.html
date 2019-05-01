@@ -139,38 +139,44 @@
 	<table class="table table-sm">
 			<tr class="bg-success">
 				<th scope="col"> Attribute</th>
-				<th cope="col"> Abilty Score</th>
-
+				<th scope="col"> Abilty Score</th>
+				<th scope="col"> Saving Throw </th>
 			</tr>
 			<tr class=> 
 				<td>STR</td> 
 
 				<td><input type="text" name="STRENGTH" value={{character.STRENGTH}}> </td>
+				<td><input type="checkbox" name="STR_SAVE" id="STR_SAVE" value=1></td> 
 			</tr>
 			<tr>
 				<td>DEX</td>
 
 				<td> <input type="text" name="DEXTERITY" value={{character.DEXTERITY}}></td>
+				<td><input type="checkbox" name="DEX_SAVE" id="DEX_SAVE" value=1></td> 
 			</tr>
 			<tr>
 				<td>CON</td>
 
 				<td> <input type="text" name="CONSTITUTION" value={{character.CONSTITUTION}}></td>
+				<td><input type="checkbox" name="CON_SAVE" id="CON_SAVE" value=1></td> 
 			</tr>
 			<tr>
 				<td>INT</td>
 
 				<td> <input type="text" name="INTELLIGENCE" value={{character.INTELLIGENCE}}></td>
+				<td><input type="checkbox" name="INT_SAVE" id="INT_SAVE" value=1></td> 
 			</tr>
 			<tr>
 				<td>WIS</td>
 
 				<td> <input type="text" name="WISDOM" value={{character.WISDOM}}></td>
+				<td><input type="checkbox" name="WIS_SAVE" id="WIS_SAVE" value=1></td> 
 			</tr>
 			<tr>
 				<td>CHA</td>
 
 				<td> <input type="text" name="CHARISMA" value={{character.CHARISMA}}></td>
+				<td><input type="checkbox" name="CHA_SAVE" id="CHA_SAVE" value=1></td> 
 			</tr>
 		</table>
 		<h5 style="color:red"><strong>*NOTE:</strong> If switching to Half Elf or Warforged Envoy add your two stat +1 bonus manually</h5>
@@ -570,6 +576,24 @@
 	}
 	if({{skills.Perception_expert}}==1){
 		document.getElementById("perception_expert").checked = true;
+	}
+	if({{character.STR_SAVE}}==1){
+		document.getElementById("STR_SAVE").checked= true;
+	}
+	if({{character.DEX_SAVE}}==1){
+		document.getElementById("DEX_SAVE").checked= true;
+	}
+	if({{character.CON_SAVE}}==1){
+		document.getElementById("CON_SAVE").checked= true;
+	}
+	if({{character.INT_SAVE}}==1){
+		document.getElementById("INT_SAVE").checked= true;
+	}
+	if({{character.WIS_SAVE}}==1){
+		document.getElementById("WIS_SAVE").checked= true;
+	}
+	if({{character.CHA_SAVE}}==1){
+		document.getElementById("CHA_SAVE").checked= true;
 	}
 </script>
 <br><br>
