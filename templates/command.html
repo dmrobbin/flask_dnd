@@ -8,6 +8,12 @@
       width:auto;
       height:auto;
 	}
+	.card-body{
+      background-color: #121820;
+    }
+    .card-img-top{
+      background-color: #121820;
+    }
 	div{
 		padding: 10
 	}
@@ -21,7 +27,7 @@
 <div style="float:left;">
 
 <p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="false" aria-controls="collapseUsers">
+  <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#collapseUsers" aria-expanded="false" aria-controls="collapseUsers">
     Users
   </button>
 </p>
@@ -37,7 +43,7 @@
 			</th>
 		</tr>
 	{% for user in users %}
-	<tr style="color:black">
+	<tr>
 		<td>{{user.USER_NAME}}</td>
 		<td>{{user.id}}</td>
 	</tr>
@@ -51,7 +57,7 @@
 <div style="float:left;">
 
 <p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseClasses" aria-expanded="false" aria-controls="collapseClasses">
+  <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#collapseClasses" aria-expanded="false" aria-controls="collapseClasses">
     Classes
   </button>
 </p>
@@ -72,7 +78,7 @@
 <div style="float:left;">
 
 <p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSubClasses" aria-expanded="false" aria-controls="collapseSubClasses">
+  <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#collapseSubClasses" aria-expanded="false" aria-controls="collapseSubClasses">
     Sub Classes
   </button>
 </p>
@@ -106,7 +112,7 @@
 <div style="float:left;">
 
 <p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseRace" aria-expanded="false" aria-controls="collapseRace">
+  <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#collapseRace" aria-expanded="false" aria-controls="collapseRace">
     Race
   </button>
 </p>

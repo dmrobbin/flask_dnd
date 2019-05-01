@@ -18,8 +18,8 @@
 		{%for character in characters%}
 			{%if character.user_id == user.id%}
 				<tr>
-					<td></td>
-					<td><a href=/info/{{character.id}}> {{character.NAME}} - {{character.user_id}}</a></td>	
+					<td>|</td>
+					<td><a href=/info/{{character.id}}> {{character.NAME}} - {{character.id}}</a></td>	
 				</tr>	
 			{%endif%}
 		{%else%}
