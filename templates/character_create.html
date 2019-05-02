@@ -62,6 +62,7 @@
 			<tr class="bg-success">
 				<th scope="col"> Attribute</th>
 				<th scope="col">Abilty Score</th>
+				<th scope="col"> Saving throw proficiency</th>
 				<th> Half Elf Racial choice </th>
 
 			</tr>
@@ -75,6 +76,9 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				
+				<td><input type="checkbox" name="STR_SAVE" id="STR_SAVE" value=1></td> 
+				<input type="hidden" name="STR_SAVE" id ="STR_SAVE_HIDDEN" value=0>
 				<td><input type="checkbox" name="H_E_Strength" value=1></td>
 			</tr>
 			<tr>
@@ -87,6 +91,9 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				
+				<td><input type="checkbox" name="DEX_SAVE" id="DEX_SAVE" value=1></td> 
+				<input type="hidden" name="DEX_SAVE" id ="DEX_SAVE_HIDDEN" value=0>
 				<td><input type="checkbox" name="H_E_Dexterity" value=1></td> 
 			</tr>
 			<tr>
@@ -99,6 +106,8 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				<td><input type="checkbox" name="CON_SAVE" id="CON_SAVE" value=1></td> 
+				<input type="hidden" name="CON_SAVE" value=0>
 				<td><input type="checkbox" name="H_E_Constitution" value=1></td> 
 			</tr>
 			<tr>
@@ -111,6 +120,8 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				<td><input type="checkbox" name="INT_SAVE" id="INT_SAVE" value=1></td> 
+				<input type="hidden" name="INT_SAVE" value=0>
 				<td><input type="checkbox" name="H_E_Intelligence" value=1></td> 
 			</tr>
 			<tr>
@@ -123,6 +134,8 @@
 					<option value={{rolls[4]}} selected="selected">{{rolls[4]}}</option>
 					<option value={{rolls[5]}}>{{rolls[5]}}</option>
 				</select></td>
+				<td><input type="checkbox" name="WIS_SAVE" id="WIS_SAVE" value=1></td> 
+				<input type="hidden" name="WIS_SAVE" value=0>
 				<td><input type="checkbox" name="H_E_Wisdom" value=1></td>
 			</tr>
 			<tr>
@@ -135,6 +148,8 @@
 					<option value={{rolls[4]}}>{{rolls[4]}}</option>
 					<option value={{rolls[5]}} selected="selected">{{rolls[5]}}</option>
 				</select></td>
+				<td><input type="checkbox" name="CHA_SAVE" id="CHA_SAVE" value=1></td> 
+				<input type="hidden" name="CHA_SAVE" value=0>
 				<td><input type="checkbox" name="H_E_Charisma" value=1></td>
 			</tr>
 		  

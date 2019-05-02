@@ -28,10 +28,10 @@
 	<div>
 	{% set sort_on = request.args.sort_on|default('id')%}
 
-	{% if request.args.is_reverse!='True' %}
-		{% set is_reverse=False%} 
+	{% if request.args.is_reverse%}
+		{% set is_reverse=True%} 
 	{%else%}
-		{% set is_reverse = True%} 
+		{% set is_reverse = False%} 
 	{%endif%}
 
 	{% for character in characters|sort(attribute=sort_on, reverse=is_reverse) %}

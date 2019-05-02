@@ -202,7 +202,7 @@ def login():
                 user = User()
                 user.id = user_name
                 flask_login.login_user(user)
-                return redirect('/')
+                return redirect('/?sort_on=id&is_reverse=True')
             else: 
                 errors.append('Invalid Username or Password')
         else:
@@ -229,6 +229,10 @@ def character_list():
 
     this_char=0
     characters = session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).all()
+    characters.sort(key=lambda x: x.id, reverse=True)
+    for character in characters:
+        print (character.id)
+
     if len(characters)==1:
         character= session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
         return redirect(url_for('character_info',ida=character.id))
@@ -246,7 +250,7 @@ def character_list():
 def admin_list():
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     this_char=0
     characters = session.query(my_char).all()
@@ -265,7 +269,7 @@ def command():
     subs.sort(key=lambda x: x.JOB, reverse=False)
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     return render_template('command.html', users=users, feats=feats, races=races, subs=subs)
 
@@ -274,7 +278,7 @@ def command():
 def edit_class(job):
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     feats = session.query(my_feat).filter(my_feat.JOB == job).one_or_none()
     feats_dict = dict((col,getattr(feats, col)) for col in my_feat.__table__.columns.keys())
@@ -301,7 +305,7 @@ def edit_class(job):
 def add_features():
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     if request.method == 'POST':
 
@@ -323,7 +327,7 @@ def add_features():
 def add_race():
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     if request.method == 'POST':
 
@@ -350,7 +354,7 @@ def add_race():
 def add_sub():
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')   
+        return redirect('/?sort_on=id&is_reverse=True')   
 
     feats=session.query(my_feat).all()
     
@@ -392,7 +396,7 @@ def add_sub():
 def edit_sub(sub):
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     subs = session.query(my_sub).filter(my_sub.SUB_JOB == sub).one_or_none()
     subs_dict = dict((col,getattr(subs, col)) for col in my_sub.__table__.columns.keys())
@@ -438,7 +442,7 @@ def edit_sub(sub):
 def remove_sub(sub):
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     sub_query=session.query(my_sub).filter(my_sub.SUB_JOB == sub)
 
@@ -457,7 +461,7 @@ def remove_sub(sub):
 def edit_race(race):
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     this_race=session.query(my_race).filter(my_race.RACE==race).one_or_none()
 
@@ -482,7 +486,7 @@ def edit_race(race):
 def remove_race(race):
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     race_query=session.query(my_race).filter(my_race.RACE == race)
 
@@ -504,14 +508,14 @@ def bug_list():
         bugs = session.query(my_bugs).all()
         return render_template('bugs_list.html', bugs= bugs)
     else: 
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
 @app.route('/bug_remover/<ida>', methods=['GET','POST'])
 @flask_login.login_required
 def bug_remover(ida):
 
     if ids[flask_login.current_user.id] not in admins:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     bugs_query=session.query(my_bugs).filter(my_bugs.id==ida)
     bugs_query.delete()
@@ -535,7 +539,7 @@ def character_info(ida):
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
     if ids[flask_login.current_user.id] not in admins and ids[flask_login.current_user.id] != character.user_id:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none()
@@ -614,7 +618,7 @@ def character_info(ida):
             session.commit()
         except:
             session.rollback()
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     character = character_query.one_or_none()
 
@@ -632,7 +636,7 @@ def add_to_features_known(ida):
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
     if ids[flask_login.current_user.id] not in admins and ids[flask_login.current_user.id] != character.user_id:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     features=session.query(my_features).all()
 
@@ -803,12 +807,12 @@ def character_add():
                                 user_id = ids[flask_login.current_user.id],
                                 HP=request.form['hp'],
                                 AC=request.form['ac'],
-                                STR_SAVE=False,
-                                DEX_SAVE=False,
-                                CON_SAVE=False,
-                                INT_SAVE=False,
-                                WIS_SAVE=False,
-                                CHA_SAVE=False,
+                                STR_SAVE=request.form['STR_SAVE'],
+                                DEX_SAVE=request.form['DEX_SAVE'],
+                                CON_SAVE=request.form['CON_SAVE'],
+                                INT_SAVE=request.form['INT_SAVE'],
+                                WIS_SAVE=request.form['WIS_SAVE'],
+                                CHA_SAVE=request.form['CHA_SAVE'],
                             ))
                             try:
                                 session.commit()
@@ -927,7 +931,7 @@ def character_edit(ida):
     errors=[]
 
     if ids[flask_login.current_user.id] not in admins and ids[flask_login.current_user.id] != character.user_id:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     if request.method == 'POST' and request.form['edit'] == '1':
         
@@ -1050,7 +1054,7 @@ def item_add(ida):
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
 
     if ids[flask_login.current_user.id] != character.user_id:
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
 
     if request.method == 'POST':
 
@@ -1169,7 +1173,7 @@ def character_create():
         try:
             x+=int(request.form['hp'])
             x+=int(request.form['ac'])
-
+            
             if x<500 and x>2:
         
                 session.add(my_char(
@@ -1187,12 +1191,12 @@ def character_create():
                     user_id = ids[flask_login.current_user.id],
                     HP=request.form['hp'],
                     AC=request.form['ac'],
-                    STR_SAVE=False,
-                    DEX_SAVE=False,
-                    CON_SAVE=False,
-                    INT_SAVE=False,
-                    WIS_SAVE=False,
-                    CHA_SAVE=False,
+                    STR_SAVE=request.form.get('STR_SAVE'),
+                    DEX_SAVE=request.form.get('DEX_SAVE'),
+                    CON_SAVE=request.form.get('CON_SAVE'),
+                    INT_SAVE=request.form.get('INT_SAVE'),
+                    WIS_SAVE=request.form.get('WIS_SAVE'),
+                    CHA_SAVE=request.form.get('CHA_SAVE'),
 
                 ))
 
@@ -1375,7 +1379,7 @@ def upload_files(ida):
         except:
             session.rollback()
 
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
    
 @app.route('/bug_report', methods = ['GET', 'POST'])
 @flask_login.login_required
@@ -1391,7 +1395,7 @@ def bug_report():
         except:
             session.rollback()
 
-        return redirect('/')
+        return redirect('/?sort_on=id&is_reverse=True')
     else:
         return render_template('bug_report.html')
 
