@@ -803,6 +803,12 @@ def character_add():
                                 user_id = ids[flask_login.current_user.id],
                                 HP=request.form['hp'],
                                 AC=request.form['ac'],
+                                STR_SAVE=False,
+                                DEX_SAVE=False,
+                                CON_SAVE=False,
+                                INT_SAVE=False,
+                                WIS_SAVE=False,
+                                CHA_SAVE=False,
                             ))
                             try:
                                 session.commit()
@@ -1181,9 +1187,17 @@ def character_create():
                     user_id = ids[flask_login.current_user.id],
                     HP=request.form['hp'],
                     AC=request.form['ac'],
+                    STR_SAVE=False,
+                    DEX_SAVE=False,
+                    CON_SAVE=False,
+                    INT_SAVE=False,
+                    WIS_SAVE=False,
+                    CHA_SAVE=False,
+
                 ))
 
                 try:
+                    print("tried to commit")
                     session.commit()
                 except:
                     session.rollback()
