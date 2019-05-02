@@ -27,8 +27,20 @@
 
 	<form action = "/spell_remover/{{spell.NAME}}" method= "POST">
 		<input type="hidden" name="remove" value="1">
-		<button class="btn btn-outline-success" type="submit" value="Delete Spell">Delete Spell </button></input>
+		<button class="btn btn-outline-danger" type="submit" value="Delete Spell" onclick= "getConfirmation();">Delete Spell </button></input>
 	</form>
+	<script>
+	function getConfirmation() {
+       var retVal = confirm("Are you sure that you would like to delete this spell?");
+       if( retVal == true ) {
+          return true;
+       } else {
+          document.write ("Account not deleted");
+          location.reload();
+          return false;
+       }
+    }
+</script>
 
 
 {% endblock %}

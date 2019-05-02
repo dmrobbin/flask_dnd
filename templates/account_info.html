@@ -5,7 +5,7 @@
 <center>
 	<h2>{{account.USER_NAME}}</h2>
 	<h3> Id : {{account.id}}</h3>
-	<a href="/logout" class="btn btn-success" id="btnsucc">Logout </a>
+	<a href="/logout" class="btn btn-outline-success" id="btnsucc">Logout </a>
   <br><hl><br>
 <h3>Characters</h3>
 {%for character in characters%}
@@ -14,7 +14,7 @@
 
 <form action="" method="post">
   <input type="hidden" name="remove" value="1">
-  <button class="btn btn-success" type="submit" value="Remove user" id="btnsucc" onclick= "getConfirmation();" >Delete Account</button>
+  <button class="btn btn-outline-danger" type="submit" value="Remove user" id="btnsucc" onclick= "getConfirmation();" >Delete Account</button>
   </form>
 </center>
 <script>

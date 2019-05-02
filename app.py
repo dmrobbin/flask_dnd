@@ -230,8 +230,6 @@ def character_list():
     this_char=0
     characters = session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).all()
     characters.sort(key=lambda x: x.id, reverse=True)
-    for character in characters:
-        print (character.id)
 
     if len(characters)==1:
         character= session.query(my_char).filter(my_char.user_id==ids[flask_login.current_user.id]).one_or_none()

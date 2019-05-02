@@ -25,8 +25,19 @@
 
 	<form action = "/item_remover/{{item.NAME}}" method= "POST">
 		<input type="hidden" name="remove" value="1">
-		<button class="btn btn-outline-success" type="submit" value="Remove item">Delete item </button></input>
+		<button class="btn btn-outline-danger" type="submit" value="Remove item" onclick= "getConfirmation();">Delete item </button></input>
 	</form>
-
+<script>
+	function getConfirmation() {
+       var retVal = confirm("Are you sure that you would like to delete this item?");
+       if( retVal == true ) {
+          return true;
+       } else {
+          document.write ("Account not deleted");
+          location.reload();
+          return false;
+       }
+    }
+</script>
 
 {% endblock %}
