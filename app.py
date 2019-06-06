@@ -96,8 +96,9 @@ INT_ATTRIBUTES={'STRENGTH': 'STRENGTH', 'DEXTERITY': 'DEXTERITY', 'CONSTITUTION'
 
 OTHER_ATTRIBUTES={'RACE':'race', 'description': 'description', 'NAME':'name', 'JOB':'job'}
 
-class_table=class_table_scraper.get_tables()
-feature_table=class_features_scraper.get_tables()
+
+class_table= class_table_scraper.get_tables()
+feature_table= class_features_scraper.get_tables()
 
 def hashbrowns(password):
 
@@ -1398,4 +1399,4 @@ def bug_report():
         return render_template('bug_report.html')
 
 if __name__ == '__main__':
-   app.run()
+   app.run(debug = True)

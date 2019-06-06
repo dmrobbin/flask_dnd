@@ -1,0 +1,2 @@
+#class table reader
+#iterate through table files and read them into a dict of class tables= {'Barbarian': '[<tr><td>...]'}

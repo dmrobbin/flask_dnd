@@ -10,19 +10,15 @@ def get_tables():
 
 
 	for class_ in list_of_classes:
-			html = requests.get('https://dnd5e.fandom.com/wiki/'+class_).text
-
+			html = requests.get('http://darylsite.com/'+class_+'_features.html').text
 
 			soup = BeautifulSoup(html, 'html.parser')
 
-			content=soup.find('div', class_="mw-content-text")
+			content=soup.find('div')
 
-			for link in content.find_all('a'):
-			#link.replaceWithChildren()
-				link.replaceWithChildren()
-
-			table =content.table.extract()
-			nav=content.nav.extract()
+			# for link in content.find_all('a'):
+			# #link.replaceWithChildren()
+			# 	link.replaceWithChildren()
 			
 			class_table[class_]=[content]
 

@@ -9,12 +9,11 @@ def get_tables():
 	class_table={}
 	
 	for class_ in list_of_classes:
-		html = requests.get('https://dnd5e.fandom.com/wiki/'+class_).text
-
+		html = requests.get('http://darylsite.com/'+class_+'_table.html').text
 
 		soup = BeautifulSoup(html, 'html.parser')
 
-		content =soup.find("table", class_="wikitable")
+		content =soup.find("table")
 
 		for link in content.find_all('a'):
 			#link.replaceWithChildren()
