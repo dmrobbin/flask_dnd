@@ -83,7 +83,7 @@ SKILL_VALUES ={'Acrobatics' :'acrobatics', 'Animal_Handling': 'animalhandling', 
     'Religion': 'religion', 'Sleight_of_Hand': 'sleightofhand', 'Stealth': 'stealth', 'Survival': 'survival',
     'Acrobatics_expert' :'acrobatics_expert', 'Animal_Handling_expert': 'animalhandling_expert', 'Arcana_expert':'arcana_expert', 'Athletics_expert': 'athletics_expert',
     'Deception_expert':'deception_expert', 'History_expert':'history_expert', 'Insight_expert': 'insight_expert', 'Intimidation_expert': 'intimidation_expert','Investigation_expert':'investigation_expert',
-    'Medicine':'medicine', 'Nature':'nature','Perception':'perception', 'Performance': 'performance', 'Persuasion': 'persuasion',
+    'Medicine_expert':'medicine_expert', 'Nature_expert':'nature_expert','Perception_expert':'perception_expert', 'Performance_expert': 'performance_expert', 'Persuasion_expert': 'persuasion_expert',
     'Religion_expert': 'religion_expert', 'Sleight_of_Hand_expert': 'sleightofhand_expert', 'Stealth_expert': 'stealth_expert', 'Survival_expert': 'survival_expert'}
 
 FEAT_LEVELS = ['LEVEL_1', 'LEVEL_2', 'LEVEL_3', 'LEVEL_4', 'LEVEL_5','LEVEL_6','LEVEL_7','LEVEL_8','LEVEL_9','LEVEL_10',
@@ -998,7 +998,8 @@ def saves_edit(character):
         setattr(character, value, temp)
 
 def skills_edit(character):
-
+    import pdb
+    pdb.set_trace()
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
 
