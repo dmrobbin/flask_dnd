@@ -947,7 +947,7 @@ def character_edit(ida):
             except:
                 session.rollback()
                 errors.append("Error reading subclass information")
-
+            
             saves_edit(character)
             skills_edit(character)
             
@@ -969,7 +969,6 @@ def character_edit(ida):
                 session.commit()
 
                 add_racial(character)
-
                 session.commit()
                 return redirect(url_for('character_info',ida=character.id))
             except:
@@ -998,8 +997,6 @@ def saves_edit(character):
         setattr(character, value, temp)
 
 def skills_edit(character):
-    import pdb
-    pdb.set_trace()
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
 
