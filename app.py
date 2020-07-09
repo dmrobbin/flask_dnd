@@ -265,6 +265,8 @@ def command():
     users=session.query(my_user).all()
     subs=session.query(my_sub).all()
 
+
+    races.sort(key=lambda x: x.RACE, reverse=False)
     subs.sort(key=lambda x: x.JOB, reverse=False)
 
     if ids[flask_login.current_user.id] not in admins:
@@ -766,7 +768,8 @@ def spell_add(ida):
 def character_add():
 
     errors=[]
-    races = session.query(my_race).all()
+    races=session.query(my_race).all()
+    races.sort(key=lambda x: x.RACE, reverse=False)
 
     valid_stat=True
     x=0
@@ -908,7 +911,8 @@ def multi_edit(multi):
 @flask_login.login_required
 def character_edit(ida):
 
-    races = session.query(my_race).all()
+    races=session.query(my_race).all()
+    races.sort(key=lambda x: x.RACE, reverse=False)
     character = session.query(my_char).filter(my_char.id == ida and my_char.user_id==ids[flask_login.current_user.id]).one_or_none()
     skills_query = session.query(my_skills).filter(my_skills.character_id == character.id and my_skills.user_id==ids[flask_login.current_user.id])
     skills = skills_query.one_or_none() 
@@ -1112,7 +1116,7 @@ def remove_item(name):
 def view_races():
 
     races=session.query(my_race).all()
-
+    races.sort(key=lambda x: x.RACE, reverse=False)
     return render_template('view_races.html', races=races)
 
 @app.route('/class_details/<job>', methods=['GET'])
@@ -1164,8 +1168,8 @@ def character_create():
 
     rolls.sort(reverse=True)
 
-    races = session.query(my_race).all()
-
+    races=session.query(my_race).all()
+    races.sort(key=lambda x: x.RACE, reverse=False)
     if request.method == 'POST':
         try:
             x+=int(request.form['hp'])
